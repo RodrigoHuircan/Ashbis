@@ -1,61 +1,227 @@
-<ion-content class="ion-padding">
-  <h2 class="ion-text-center">Registro</h2>
+<!-- Fondo negro y padding nativo -->
+<ion-content class="ion-padding" style="--background:#000">
+  <ion-grid fixed>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="8" size-lg="5" size-xl="4" class="ion-text-center">
 
-  <form [formGroup]="datosForm" (ngSubmit)="registrarse()">
-    <ion-list lines="none">
+        <!-- Logo -->
+        <ion-img
+          src="assets/img/logo_ashbis.jpeg"
+          alt="ASHBIS"
+          style="width:120px;height:120px;margin:12px auto 8px;border-radius:20px;background:#fff;">
+        </ion-img>
 
-      <!-- Email -->
-      <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input type="email" formControlName="email" placeholder="Email">
-        </ion-input>
-      
-        <!-- Errores de email: AHORA SÍ dentro del ion-input -->
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          Este campo es <strong>requerido</strong>
-        </ion-note>
+        <!-- Título grande -->
+        <h1 style="color:#fff;margin:12px 0 24px;font-weight:800;">Registro</h1>
 
-        <ion-note color="danger" class="note-error"
-        *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          Ingresa un email <strong>válido</strong>
-        </ion-note>
-      </ion-item>
+        <!-- ============ FORM REACTIVO ============ -->
+        <form [formGroup]="datosForm" (ngSubmit)="registrarse()">
+          <ion-list lines="none" style="background:transparent;color:#fff">
 
-      
+            <!-- Nombre -->
+            <ion-item class="field-underline-red">
+              <ion-label position="stacked" color="medium">Nombre</ion-label>
+              <ion-input type="text" formControlName="nombre" placeholder="Tu nombre" color="light"></ion-input>
 
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('nombre')?.hasError('required') && datosForm.get('nombre')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+            </ion-item>
 
+            <!-- Apellido -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Apellido</ion-label>
+              <ion-input type="text" formControlName="apellido" placeholder="Tu apellido" color="light"></ion-input>
 
-      <!-- Password -->
-      <ion-item class="ion-margin-top">
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
-        </ion-input>
-      
-        <!-- Errores de contraseña -->
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          Este campo es <strong>requerido</strong>
-        </ion-note>
-      
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          La contraseña debe tener al menos 6 caracteres
-        </ion-note>
-      </ion-item>
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('apellido')?.hasError('required') && datosForm.get('apellido')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+            </ion-item>
 
-    </ion-list>
+            <!-- Teléfono -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Teléfono</ion-label>
+              <ion-input
+                type="tel"
+                inputmode="tel"
+                formControlName="telefono"
+                placeholder="+56 9 1234 5678"
+                maxlength="16"
+                color="light">
+              </ion-input>
 
-    <ion-button
-      type="submit"
-      expand="block"
-      class="ion-margin-top"
-      [disabled]="cargando || datosForm.invalid">
-      Registrarse
-    </ion-button>
-  </form>
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('telefono')?.hasError('required') && datosForm.get('telefono')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('telefono')?.hasError('pattern') && datosForm.get('telefono')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Formato de <strong>teléfono</strong> no válido
+              </ion-note>
+            </ion-item>
+
+            <!-- Dirección -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Dirección</ion-label>
+              <ion-input type="text" formControlName="direccion" placeholder="Calle, número, depto" color="light"></ion-input>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('direccion')?.hasError('required') && datosForm.get('direccion')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+            </ion-item>
+
+            <!-- Región -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Región</ion-label>
+              <ion-select formControlName="region" interface="popover" placeholder="Selecciona tu región">
+                <ion-select-option value="Arica y Parinacota">Arica y Parinacota</ion-select-option>
+                <ion-select-option value="Tarapacá">Tarapacá</ion-select-option>
+                <ion-select-option value="Antofagasta">Antofagasta</ion-select-option>
+                <ion-select-option value="Atacama">Atacama</ion-select-option>
+                <ion-select-option value="Coquimbo">Coquimbo</ion-select-option>
+                <ion-select-option value="Valparaíso">Valparaíso</ion-select-option>
+                <ion-select-option value="Metropolitana">Metropolitana</ion-select-option>
+                <ion-select-option value="O'Higgins">O'Higgins</ion-select-option>
+                <ion-select-option value="Maule">Maule</ion-select-option>
+                <ion-select-option value="Ñuble">Ñuble</ion-select-option>
+                <ion-select-option value="Biobío">Biobío</ion-select-option>
+                <ion-select-option value="La Araucanía">La Araucanía</ion-select-option>
+                <ion-select-option value="Los Ríos">Los Ríos</ion-select-option>
+                <ion-select-option value="Los Lagos">Los Lagos</ion-select-option>
+                <ion-select-option value="Aysén">Aysén</ion-select-option>
+                <ion-select-option value="Magallanes">Magallanes</ion-select-option>
+              </ion-select>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('region')?.hasError('required') && datosForm.get('region')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Selecciona una <strong>región</strong>
+              </ion-note>
+            </ion-item>
+
+            <!-- Email -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Email</ion-label>
+              <ion-input type="email" formControlName="email" placeholder="Email" color="light"></ion-input>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Ingresa un email <strong>válido</strong>
+              </ion-note>
+            </ion-item>
+
+            <!-- Password -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Contraseña</ion-label>
+              <ion-input
+                [type]="mostrarPass ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Mínimo 6 caracteres"
+                color="light">
+              </ion-input>
+
+              <ion-buttons slot="end">
+                <ion-button fill="clear" size="small" (click)="mostrarPass = !mostrarPass" color="medium">
+                  <ion-icon [name]="mostrarPass ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                La contraseña debe tener al menos 6 caracteres
+              </ion-note>
+            </ion-item>
+
+            <!-- Confirmar Password -->
+            <ion-item class="field-underline-red ion-margin-top">
+              <ion-label position="stacked" color="medium">Confirmar contraseña</ion-label>
+              <ion-input
+                [type]="mostrarPass2 ? 'text' : 'password'"
+                formControlName="confirmPassword"
+                placeholder="Repite la contraseña"
+                color="light">
+              </ion-input>
+
+              <ion-buttons slot="end">
+                <ion-button fill="clear" size="small" (click)="mostrarPass2 = !mostrarPass2" color="medium">
+                  <ion-icon [name]="mostrarPass2 ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('confirmPassword')?.hasError('required') && datosForm.get('confirmPassword')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+
+              <!-- Mismatch simple -->
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="
+                  datosForm.get('confirmPassword')?.touched &&
+                  datosForm.get('password')?.touched &&
+                  datosForm.get('confirmPassword')?.value &&
+                  (datosForm.get('confirmPassword')?.value !== datosForm.get('password')?.value)
+                ">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Las contraseñas <strong>no coinciden</strong>
+              </ion-note>
+            </ion-item>
+
+          </ion-list>
+
+          <!-- Botón blanco con texto rojo, redondo -->
+          <ion-button
+            type="submit"
+            expand="block"
+            shape="round"
+            class="ion-margin-top"
+            [disabled]="cargando || datosForm.invalid"
+            style="--background:#fff; --color:var(--ion-color-danger); --background-activated:#f2f2f2; height:48px; font-weight:700;">
+            REGISTRARSE
+          </ion-button>
+
+          <!-- Link volver a iniciar sesión -->
+          <ion-button fill="clear" size="small" color="medium" class="ion-margin-top" (click)="irALogin()">
+            Ya tengo cuenta
+          </ion-button>
+
+        </form>
+        <!-- ===================================== -->
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer style="--background:#000;">
+  <ion-toolbar style="--background:#000; --color:#c9c9c9;">
+    <ion-title size="small" class="ion-text-center">
+      <a href="https://www.ashbis.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">
+        www.ashbis.com
+      </a>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

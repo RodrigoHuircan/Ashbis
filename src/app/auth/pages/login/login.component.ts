@@ -67,4 +67,8 @@ export class LoginComponent  implements OnInit {
       this.cargando = false;
     }
   }
+
+  irARegistro(){
+    this.router.navigate(['/registro'], { replaceUrl: true });
+  }
 }

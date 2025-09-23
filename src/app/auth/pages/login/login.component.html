@@ -1,47 +1,106 @@
-<ion-content class="ion-padding">
-  <h2 class="ion-text-center">Login</h2>
+<!-- Fondo negro y padding nativo -->
+<ion-content class="ion-padding" style="--background:#000">
+  <ion-grid fixed>
+    <ion-row class="ion-justify-content-center">
+      <!-- ancho fluido por breakpoint sin clases extra -->
+      <ion-col size="12" size-md="8" size-lg="5" size-xl="4" class="ion-text-center">
 
-  <form [formGroup]="datosForm" (ngSubmit)="login()">
-    <ion-list lines="none">
-      <!-- Email -->
-      <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+        <!-- Logo -->
+        <ion-img
+          src="assets/img/logo_ashbis.jpeg"
+          alt="ASHBIS"
+          class="img-ashbis">
+        </ion-img>
 
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          Este campo es <strong>requerido</strong>
-        </ion-note>
+        <!-- Título grande -->
+        <h1 class="titulo">Bienvenido!</h1>
 
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          Ingresa un email <strong>válido</strong>
-        </ion-note>
-      </ion-item>
+        <!-- ============ TU FORM REACTIVO (sin cambios de lógica) ============ -->
+        <form [formGroup]="datosForm" (ngSubmit)="login()">
+          <ion-list lines="none" style="background:transparent;color:#fff">
 
-      <!-- Password -->
-      <ion-item class="ion-margin-top">
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"></ion-input>
+            <!-- Email -->
+            <ion-item class="input-login">
+              <ion-label position="stacked" color="medium">Nombre de usuario</ion-label>
+              <ion-input type="email" formControlName="email" placeholder="Email" color="light"></ion-input>
 
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          Este campo es <strong>requerido</strong>
-        </ion-note>
+              <!-- Validaciones -->
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
 
-        <ion-note color="danger" class="note-error"
-          *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
-          <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-          La contraseña debe tener al menos 6 caracteres
-        </ion-note>
-      </ion-item>
-    </ion-list>
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Ingresa un email <strong>válido</strong>
+              </ion-note>
+            </ion-item>
 
-    <ion-button type="submit" expand="block" class="ion-margin-top" [disabled]="cargando || datosForm.invalid">
-      Registrarse
-    </ion-button>
-  </form>
+            <!-- Password -->
+            <ion-item class="ion-margin-top input-login">
+              <ion-label position="stacked" color="medium">Contraseña</ion-label>
+              <ion-input type="password" formControlName="password" placeholder="Mínimo 6 caracteres" color="light"></ion-input>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                Este campo es <strong>requerido</strong>
+              </ion-note>
+
+              <ion-note color="danger" class="ion-text-start note-error"
+                *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
+                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
+                La contraseña debe tener al menos 6 caracteres
+              </ion-note>
+            </ion-item>
+          </ion-list>
+
+          <!-- Botón blanco con texto rojo, redondo -->
+          <ion-button
+            type="submit"
+            expand="block"
+            shape="round"
+            class="ion-margin-top btn-ingresar"
+            [disabled]="cargando || datosForm.invalid">
+            INGRESAR
+          </ion-button>
+
+          <!-- Olvidé contraseña (link gris) -->
+          <ion-button fill="clear" size="small" color="medium"  class="ion-margin-top">
+            Olvidé mi contraseña
+          </ion-button>
+
+          <!-- Botón rojo Crear -->
+          <ion-button
+            expand="block"
+            shape="round"
+            color="danger"
+            type="button"
+            (click)="irARegistro()"
+            class="ion-margin-top"
+            style="height:48px; font-weight:700;">
+            Crear
+          </ion-button>
+
+          <ion-text color="medium">
+            <div class="ion-text-center ion-margin-top">¿No tienes una cuenta?</div>
+          </ion-text>
+        </form>
+        <!-- ================================================================ -->
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer style="--background:#000;">
+  <ion-toolbar style="--background:#000; --color:#c9c9c9;">
+    <ion-title size="small" class="ion-text-center">
+      <a href="https://www.ashbis.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">
+        www.ashbis.com
+      </a>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

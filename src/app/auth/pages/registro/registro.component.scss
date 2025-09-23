@@ -1,7 +1,36 @@
+/* Reutiliza tus notas de error */
 .note-error {
-  display: flex;          
-  align-items: center;    
-  gap: 6px;               
-  line-height: 1.2;       
-  font-size: 0.7rem;     
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.2;
+  font-size: 0.7rem;
+  padding-bottom: 1vh;
+}
+
+/* Subrayado rojo y fondo transparente igual que en login */
+.field-underline-red {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-border-width: 0 0 2px 0; /* subrayado */
+  --border-color: var(--ion-color-danger);
+}
+/* Reutiliza tus notas de error */
+.note-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.2;
+  font-size: 0.7rem;
+  padding-bottom: 1vh;
+}
+
+/* Subrayado rojo y fondo transparente igual que en login */
+.field-underline-red {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-border-width: 0 0 2px 0; /* subrayado */
+  --border-color: var(--ion-color-danger);
 }
