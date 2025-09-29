@@ -32,7 +32,7 @@ export class LoginComponent  implements OnInit {
 
     this.authenticationService.authState.subscribe(user => {
       if (user) {
-        this.router.navigate(['/home'], { replaceUrl: true });
+        this.router.navigate(['tabs/home'], { replaceUrl: true });
       }
     });
   }

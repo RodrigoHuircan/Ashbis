@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { CanActivateFn, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/firebase/authentication';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.scss'],
+  standalone: true,
   imports: [CommonModule, IonicModule],
 })
 
