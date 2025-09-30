@@ -5,63 +5,6 @@
     <h1>¡Bienvenido!</h1>
   </ion-text>
 
-  <!-- ======= FORM REACTIVO ======= -->
-  <form [formGroup]="datosForm" (ngSubmit)="login()">
-    <ion-list lines="none">
-
-      <!-- Email -->
-      <ion-item>
-        <ion-label position="stacked">Nombre de usuario</ion-label>
-        <ion-input
-          type="email"
-          formControlName="email"
-          placeholder="Email">
-        </ion-input>
-      </ion-item>
-
-      <ion-note color="danger"
-        *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
-        Este campo es requerido
-      </ion-note>
-
-      <ion-note color="danger"
-        *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
-        Ingresa un email válido
-      </ion-note>
-
-      <!-- Password -->
-      <ion-item>
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input
-          type="password"
-          formControlName="password"
-          placeholder="Mínimo 6 caracteres">
-        </ion-input>
-      </ion-item>
-
-      <ion-note color="danger"
-        *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
-        Este campo es requerido
-      </ion-note>
-
-      <ion-note color="danger"
-        *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
-        La contraseña debe tener al menos 6 caracteres
-      </ion-note>
-    </ion-list>
-
-    <!-- Botones -->
-    <ion-button
-      type="submit"
-      expand="block"
-      [disabled]="cargando || datosForm.invalid">
-      Ingresar
-    </ion-button>
-
-    <ion-button fill="clear" size="small">
-      Olvidé mi contraseña
-    </ion-button>
-
     <ion-button
       expand="block"
       color="danger"
@@ -69,21 +12,3 @@
       (click)="irARegistro()">
       Crear
     </ion-button>
-
-    <ion-text>
-      <div>¿No tienes una cuenta?</div>
-    </ion-text>
-  </form>
-  <!-- ============================== -->
-
-</ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title size="small">
-      <a href="https://www.ashbis.com" target="_blank" rel="noopener">
-        www.ashbis.com
-      </a>
-    </ion-title>
-  </ion-toolbar>
-</ion-footer>
