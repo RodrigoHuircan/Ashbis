@@ -1,100 +1,86 @@
 <ion-content class="ion-padding">
-  <ion-grid fixed>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="8" size-lg="5" size-xl="4" class="ion-text-center">
 
-        <!-- Título -->
-        <ion-text color="primary">
-          <h1 class="ion-margin-top ion-margin-bottom">¡Bienvenido!</h1>
-        </ion-text>
+  <!-- Título -->
+  <ion-text>
+    <h1>¡Bienvenido!</h1>
+  </ion-text>
 
-        <!-- ======= FORM REACTIVO ======= -->
-        <form [formGroup]="datosForm" (ngSubmit)="login()">
-          <ion-list lines="none">
+  <!-- ======= FORM REACTIVO ======= -->
+  <form [formGroup]="datosForm" (ngSubmit)="login()">
+    <ion-list lines="none">
 
-            <!-- Email -->
-            <ion-item>
-              <ion-label position="stacked">Nombre de usuario</ion-label>
-              <ion-input
-                type="email"
-                formControlName="email"
-                placeholder="Email">
-              </ion-input>
+      <!-- Email -->
+      <ion-item>
+        <ion-label position="stacked">Nombre de usuario</ion-label>
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Email">
+        </ion-input>
+      </ion-item>
 
-              <ion-note color="danger" class="ion-text-start"
-                *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
-                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-                Este campo es <strong>requerido</strong>
-              </ion-note>
+      <ion-note color="danger"
+        *ngIf="datosForm.get('email')?.hasError('required') && datosForm.get('email')?.touched">
+        Este campo es requerido
+      </ion-note>
 
-              <ion-note color="danger" class="ion-text-start"
-                *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
-                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-                Ingresa un email <strong>válido</strong>
-              </ion-note>
-            </ion-item>
+      <ion-note color="danger"
+        *ngIf="datosForm.get('email')?.hasError('email') && datosForm.get('email')?.touched">
+        Ingresa un email válido
+      </ion-note>
 
-            <!-- Password -->
-            <ion-item class="ion-margin-top">
-              <ion-label position="stacked">Contraseña</ion-label>
-              <ion-input
-                type="password"
-                formControlName="password"
-                placeholder="Mínimo 6 caracteres">
-              </ion-input>
+      <!-- Password -->
+      <ion-item>
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Mínimo 6 caracteres">
+        </ion-input>
+      </ion-item>
 
-              <ion-note color="danger" class="ion-text-start"
-                *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
-                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-                Este campo es <strong>requerido</strong>
-              </ion-note>
+      <ion-note color="danger"
+        *ngIf="datosForm.get('password')?.hasError('required') && datosForm.get('password')?.touched">
+        Este campo es requerido
+      </ion-note>
 
-              <ion-note color="danger" class="ion-text-start"
-                *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
-                <ion-icon name="alert-circle-outline" size="small"></ion-icon>
-                La contraseña debe tener al menos 6 caracteres
-              </ion-note>
-            </ion-item>
-          </ion-list>
+      <ion-note color="danger"
+        *ngIf="datosForm.get('password')?.hasError('minlength') && datosForm.get('password')?.touched">
+        La contraseña debe tener al menos 6 caracteres
+      </ion-note>
+    </ion-list>
 
-          <!-- Botones -->
-          <ion-button
-            type="submit"
-            expand="block"
-            shape="round"
-            class="ion-margin-top"
-            [disabled]="cargando || datosForm.invalid">
-            Ingresar
-          </ion-button>
+    <!-- Botones -->
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="cargando || datosForm.invalid">
+      Ingresar
+    </ion-button>
 
-          <ion-button fill="clear" size="small" class="ion-margin-top">
-            Olvidé mi contraseña
-          </ion-button>
+    <ion-button fill="clear" size="small">
+      Olvidé mi contraseña
+    </ion-button>
 
-          <ion-button
-            expand="block"
-            shape="round"
-            color="danger"
-            type="button"
-            (click)="irARegistro()"
-            class="ion-margin-top">
-            Crear
-          </ion-button>
+    <ion-button
+      expand="block"
+      color="danger"
+      type="button"
+      (click)="irARegistro()">
+      Crear
+    </ion-button>
 
-          <ion-text>
-            <div class="ion-text-center ion-margin-top">¿No tienes una cuenta?</div>
-          </ion-text>
-        </form>
-        <!-- ============================== -->
+    <ion-text>
+      <div>¿No tienes una cuenta?</div>
+    </ion-text>
+  </form>
+  <!-- ============================== -->
 
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-title size="small" class="ion-text-center">
+    <ion-title size="small">
       <a href="https://www.ashbis.com" target="_blank" rel="noopener">
         www.ashbis.com
       </a>
