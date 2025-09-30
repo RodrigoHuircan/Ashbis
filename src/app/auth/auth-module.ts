@@ -8,17 +8,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 
-@NgModule({
-  declarations: [
-    LoginComponent,
-    RegistroComponent
-  ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    IonicModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
-})
+// @NgModule({
+//   declarations: [
+//     LoginComponent,
+//     RegistroComponent
+//   ],
+//   imports: [
+//     CommonModule,
+//     AuthRoutingModule,
+//     IonicModule,
+//     FormsModule,
+//     ReactiveFormsModule
+//   ]
+// })
 export class AuthModule { }
