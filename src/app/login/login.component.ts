@@ -26,50 +26,50 @@ export class LoginComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.datosForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+    // this.datosForm = this.fb.group({
+    //   email: ['', [Validators.required, Validators.email]],
+    //   password: ['', [Validators.required, Validators.minLength(6)]],
+    // });
 
-    this.authenticationService.authState.subscribe(user => {
-      if (user) {
-        this.router.navigate(['tabs/home'], { replaceUrl: true });
-      }
-    });
+    // this.authenticationService.authState.subscribe(user => {
+    //   if (user) {
+    //     this.router.navigate(['tabs/home'], { replaceUrl: true });
+    //   }
+    // });
   }
 
-  async login() {
-    this.datosForm.markAllAsTouched();
-    if (this.datosForm.invalid) return;
+  // async login() {
+  //   this.datosForm.markAllAsTouched();
+  //   if (this.datosForm.invalid) return;
 
-    const { email, password } = this.datosForm.value;
-    this.cargando = true;
+  //   const { email, password } = this.datosForm.value;
+  //   this.cargando = true;
 
-    try {
-      await this.authenticationService.login(email, password);
-      await this.router.navigate(['/home'], { replaceUrl: true });
-    } catch (err: any) {
-      // Mapeo simple de errores comunes de Firebase Auth
-      const msg =
-        err?.code === 'auth/invalid-email' ? 'Email inválido' :
-        err?.code === 'auth/user-not-found' || err?.code === 'auth/wrong-password'
-          ? 'Credenciales incorrectas'
-          : 'No fue posible iniciar sesión';
+  //   try {
+  //     await this.authenticationService.login(email, password);
+  //     await this.router.navigate(['/home'], { replaceUrl: true });
+  //   } catch (err: any) {
+  //     // Mapeo simple de errores comunes de Firebase Auth
+  //     const msg =
+  //       err?.code === 'auth/invalid-email' ? 'Email inválido' :
+  //       err?.code === 'auth/user-not-found' || err?.code === 'auth/wrong-password'
+  //         ? 'Credenciales incorrectas'
+  //         : 'No fue posible iniciar sesión';
 
-      const t = await this.toastCtrl.create({
-        message: msg,
-        duration: 2200,
-        position: 'middle',
-        color: 'danger',
-        buttons: [{ text: 'OK', role: 'cancel' }],
-      });
-      await t.present();
-    } finally {
-      this.cargando = false;
-    }
-  }
+  //     const t = await this.toastCtrl.create({
+  //       message: msg,
+  //       duration: 2200,
+  //       position: 'middle',
+  //       color: 'danger',
+  //       buttons: [{ text: 'OK', role: 'cancel' }],
+  //     });
+  //     await t.present();
+  //   } finally {
+  //     this.cargando = false;
+  //   }
+  // }
 
-  irARegistro(){
-    this.router.navigate(['/registro'], { replaceUrl: true });
-  }
+  // irARegistro(){
+  //   this.router.navigate(['/registro'], { replaceUrl: true });
+  // }
 }
