@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/firebase/authentication';
-import { IonicModule, IonIcon } from '@ionic/angular';
+import { IonContent, IonGrid, IonRow, IonCol, IonImg, IonList, IonItem, IonLabel, IonInput, IonNote, IonIcon, 
+  IonSelect, IonSelectOption,  IonButton, IonButtons,  IonTitle,  IonToolbar, IonFooter
+ } from '@ionic/angular/standalone';
 import { Models } from 'src/app/models/models';
 import { FirestoreService } from 'src/app/firebase/firestore';
 import { Router } from '@angular/router';
@@ -10,7 +12,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule,IonContent, IonGrid, IonRow, IonImg, IonList, IonItem, IonLabel, IonInput, IonNote, IonIcon, 
+  IonSelect, IonSelectOption,  IonButton, IonButtons, IonTitle, IonToolbar, IonFooter, IonCol],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss'],
 })

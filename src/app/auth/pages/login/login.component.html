@@ -1,15 +1,72 @@
-<ion-content class="ion-padding">
+<ion-content [fullscreen]="true" class="login">
+  <div class="wrap">
 
-  <!-- Título -->
-  <ion-text>
-    <h1>¡Bienvenido!</h1>
-  </ion-text>
+    <img class="logo" src="assets/img/logo_ashbis.jpeg" alt="ASHBIS" />
+    <h1 class="title">Bienvenido!</h1>
 
-    <ion-button
-      expand="block"
-      color="danger"
-      type="button"
-      (click)="irARegistro()">
-      Crear
-    </ion-button>
+    <form [formGroup]="datosForm" (ngSubmit)="login()" novalidate>
+
+      <!-- Usuario -->
+      <label class="input-label">Nombre de usuario</label>
+      <div
+        class="underline-input"
+        [class.error]="datosForm.get('email')?.invalid && datosForm.get('email')?.touched"
+      >
+        <ion-input
+          type="email"
+          formControlName="email"
+          inputmode="email"
+          autocomplete="username"
+          fill="none"
+          [attr.aria-invalid]="datosForm.get('email')?.invalid && datosForm.get('email')?.touched"
+          (ionBlur)="datosForm.get('email')?.markAsTouched()"
+        ></ion-input>
+      </div>
+
+      <!-- Mensajes email -->
+      <ion-note class="error-note" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.errors?.['required']" role="alert">
+        El email es obligatorio
+      </ion-note>
+      <ion-note class="error-note" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.errors?.['email']" role="alert">
+        Formato de email inválido
+      </ion-note>
+
+      <!-- Contraseña -->
+      <label class="input-label">Contraseña</label>
+      <div
+        class="underline-input"
+        [class.error]="datosForm.get('password')?.invalid && datosForm.get('password')?.touched"
+      >
+        <ion-input
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          fill="none"
+          [attr.aria-invalid]="datosForm.get('password')?.invalid && datosForm.get('password')?.touched"
+          (ionBlur)="datosForm.get('password')?.markAsTouched()"
+        ></ion-input>
+      </div>
+
+      <!-- Mensajes password -->
+      <ion-note class="error-note" *ngIf="datosForm.get('password')?.touched && datosForm.get('password')?.errors?.['required']" role="alert">
+        La contraseña es obligatoria
+      </ion-note>
+      <ion-note class="error-note" *ngIf="datosForm.get('password')?.touched && datosForm.get('password')?.errors?.['minlength']" role="alert">
+        Mínimo 6 caracteres
+      </ion-note>
+
+      <!-- Botón ingresar -->
+      <ion-button type="submit" expand="block" class="btn-primary" [disabled]="cargando || datosForm.invalid">
+        <ng-container *ngIf="!cargando; else loadingTpl">INGRESAR</ng-container>
+      </ion-button>
+      <ng-template #loadingTpl><ion-spinner name="crescent" class="spinner"></ion-spinner></ng-template>
+
+      <button type="button" class="text-link" routerLink="/recuperar">Olvidé mi contraseña</button>
+
+      <ion-button type="button" expand="block" class="btn-secondary" (click)="irARegistro()">Crear</ion-button>
+      <div class="muted small">No tienes una cuenta?</div>
+    </form>
+
+    <a class="site-link" href="https://www.ashbis.com" target="_blank" rel="noopener">www.ashbis.com</a>
+  </div>
 </ion-content>

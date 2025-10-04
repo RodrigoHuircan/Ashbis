@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from 'src/app/firebase/authentication';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { ToastController, IonContent, IonInput, IonNote, IonButton, IonSpinner} from '@ionic/angular/standalone';
 import { Models } from 'src/app/models/models';
 import { Router } from '@angular/router';
 @Component({
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   standalone: true,
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, IonContent, IonInput, IonNote, IonButton, IonSpinner],
 })
 export class LoginComponent  implements OnInit {
   //Declaro los módulos a usar
@@ -47,7 +47,7 @@ export class LoginComponent  implements OnInit {
 
     try {
       await this.authenticationService.login(email, password);
-      await this.router.navigate(['/home'], { replaceUrl: true });
+      await this.router.navigate(['/login'], { replaceUrl: true });
     } catch (err: any) {
       // Mapeo simple de errores comunes de Firebase Auth
       const msg =
