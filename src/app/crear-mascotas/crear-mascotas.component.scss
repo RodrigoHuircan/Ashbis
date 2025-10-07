@@ -1,0 +1,20 @@
+.field-underline-red {
+  --background: transparent;
+  --inner-border-width: 0 0 2px 0;
+  --border-color: var(--ion-color-danger);
+  --padding-start: 0;
+}
+
+ion-label {
+  color: #bdbdbd !important;
+}
+
+ion-input, ion-select, ion-datetime {
+  color: #fff !important;
+}
+
+ion-note {
+  font-size: 12px;
+  margin-left: 4px;
+  color: #ff3b30;
+}

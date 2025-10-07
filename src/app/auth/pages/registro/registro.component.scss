@@ -1,36 +1,142 @@
-/* Reutiliza tus notas de error */
-.note-error {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  line-height: 1.2;
-  font-size: 0.7rem;
-  padding-bottom: 1vh;
+:host {
+  --bg: #000;
+  --text: #fff;
+  --muted: #bdbdbd;
+  --ashbis-red: #dc0000;
 }
 
-/* Subrayado rojo y fondo transparente igual que en login */
-.field-underline-red {
-  --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  --inner-border-width: 0 0 2px 0; /* subrayado */
-  --border-color: var(--ion-color-danger);
-}
-/* Reutiliza tus notas de error */
-.note-error {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  line-height: 1.2;
-  font-size: 0.7rem;
-  padding-bottom: 1vh;
+ion-content.registro {
+  --background: var(--bg);
+  color: var(--text);
 }
 
-/* Subrayado rojo y fondo transparente igual que en login */
-.field-underline-red {
-  --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  --inner-border-width: 0 0 2px 0; /* subrayado */
-  --border-color: var(--ion-color-danger);
+.wrap {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-height: 100%;
+}
+
+.logo {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 24px;
+  background: #0b0b0b;
+  padding: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+  margin-top: 12px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 12px 0 8px;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.input-label {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  margin: 18px 0 10px;
+}
+
+/* Subrayado rojo (igual que login) */
+.underline-input {
+  position: relative;
+  padding-bottom: 10px;
+
+  ion-input, ion-select {
+    --color: var(--text);
+    --placeholder-color: var(--muted);
+    --padding-start: 0;
+    --padding-end: 40px; /* espacio para el ojo */
+    --highlight-color-focused: transparent;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: var(--ashbis-red);
+  }
+
+  &.error::after {
+    background: #ff3b30;
+  }
+
+  /* Botón ojo */
+  .eye {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    width: 36px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+  }
+}
+
+/* Botón blanco (principal) */
+.btn-primary {
+  --background: #fff;
+  --color: var(--ashbis-red);
+  --border-radius: 18px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  --box-shadow: 0 10px 28px rgba(255,255,255,.08);
+  margin-top: 24px;
+}
+
+/* Spinner */
+.spinner { width: 22px; height: 22px; --color: var(--ashbis-red); }
+
+/* Botón rojo (secundario) */
+.btn-secondary {
+  --background: var(--ashbis-red);
+  --color: #fff;
+  --border-radius: 18px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  margin-top: 8px;
+}
+
+/* Mensajes de error */
+.error-note {
+  color: #ff3b30;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* URL inferior */
+.site-link {
+  display: block;
+  margin-top: auto;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: .8px;
+  font-size: 12px;
+  padding-bottom: 12px;
+}
+
+@media (max-width: 380px) {
+  .title { font-size: 28px; }
+  .logo  { width: 120px; height: 120px; }
 }

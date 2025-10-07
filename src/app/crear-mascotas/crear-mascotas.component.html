@@ -1,3 +1,80 @@
-<p>
-  crear-mascotas works!
-</p>
+<ion-content class="ion-padding" style="--background:#000;color:#fff">
+  <ion-grid fixed>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="8" size-lg="6">
+
+        <h1 class="ion-text-center" style="margin-bottom:16px;font-weight:800;">Crear Mascota</h1>
+
+        <form [formGroup]="mascotaForm" (ngSubmit)="guardarMascota()">
+          <!-- Nombre -->
+          <ion-item class="field-underline-red">
+            <ion-label position="stacked">Nombre / Chip</ion-label>
+            <ion-input formControlName="nombre" placeholder="Ej: Luna o N° chip" color="light"></ion-input>
+          </ion-item>
+          <ion-note color="danger" *ngIf="mascotaForm.get('nombre')?.touched && mascotaForm.get('nombre')?.invalid">
+            Este campo es requerido
+          </ion-note>
+
+          <!-- Edad -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Edad (años)</ion-label>
+            <ion-input type="number" formControlName="edad" placeholder="Ej: 3" color="light"></ion-input>
+          </ion-item>
+
+          <!-- Sexo -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Sexo</ion-label>
+            <ion-select formControlName="sexo" placeholder="Seleccionar sexo">
+              <ion-select-option value="Macho">Macho</ion-select-option>
+              <ion-select-option value="Hembra">Hembra</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Fecha Nacimiento -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Fecha de nacimiento</ion-label>
+            <ion-datetime formControlName="fechaNacimiento" presentation="date"></ion-datetime>
+          </ion-item>
+
+          <!-- Especie -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Especie</ion-label>
+            <ion-input formControlName="especie" placeholder="Ej: Perro, Gato" color="light"></ion-input>
+          </ion-item>
+
+          <!-- Color -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Color</ion-label>
+            <ion-input formControlName="color" placeholder="Ej: Blanco y negro" color="light"></ion-input>
+          </ion-item>
+
+          <!-- Raza -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Raza</ion-label>
+            <ion-input formControlName="raza" placeholder="Ej: Labrador, Mestizo" color="light"></ion-input>
+          </ion-item>
+
+          <!-- Castrado -->
+          <ion-item class="field-underline-red ion-margin-top">
+            <ion-label position="stacked">Castrado / Esterilizado</ion-label>
+            <ion-select formControlName="castrado" placeholder="Seleccionar opción">
+              <ion-select-option value="Sí">Sí</ion-select-option>
+              <ion-select-option value="No">No</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Botón Guardar -->
+          <ion-button
+            expand="block"
+            class="ion-margin-top"
+            type="submit"
+            [disabled]="cargando || mascotaForm.invalid"
+            style="--background:#fff;--color:#dc0000;--border-radius:18px;font-weight:700;">
+            Guardar Mascota
+          </ion-button>
+        </form>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

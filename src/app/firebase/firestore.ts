@@ -46,4 +46,8 @@ export class FirestoreService {
     const document = doc(this.firestore, `${enlace}/${idDoc}`);
     return deleteDoc(document)
   }
+
+  createId(): string {
+    return uuidv4();
+  }
 }

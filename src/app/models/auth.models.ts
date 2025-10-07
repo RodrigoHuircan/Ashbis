@@ -27,4 +27,18 @@ export namespace ModelsAuth{
         displayName?: string,
         photoURL?: string
     }
+
+    export interface Mascota {
+      id: string;
+      uidUsuario: string;
+      nombre: string;
+      edad: number;
+      sexo: string;
+      fechaNacimiento: string;
+      especie: string;
+      color: string;
+      raza: string;
+      castrado: string;
+      fechaRegistro: string;
+    }
 }

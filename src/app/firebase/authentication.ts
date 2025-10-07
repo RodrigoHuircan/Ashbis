@@ -29,4 +29,13 @@ export class AuthenticationService {
   getCurrentUser(){
     return this.auth.currentUser;
   }
+
+  getUser() {
+    return new Promise<any>((resolve, reject) => {
+      const sub = this.authState.subscribe(user => {
+        sub.unsubscribe();
+        resolve(user);
+      }, reject);
+    });
+  }
 }
