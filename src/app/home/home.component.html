@@ -1,7 +1,77 @@
-<ion-content class="ion-padding">
-  <h1>Bienvenido: {{ (userEmail$ | async) || 'Invitado' }}</h1>
+<h1>Bienvenido: {{ (userEmail$ | async) || 'Invitado' }}</h1>
 
-  <ion-button expand="block" color="medium" class="ion-margin-top" (click)="logout();">
-    Logout
-  </ion-button>
-</ion-content>
+
+<ion-card class="ion-no-margin ion-margin-bottom">
+<ion-card-header class="map-header">
+<ion-card-title>Veterinarias Cercanas</ion-card-title>
+
+<ion-button
+    (click)="findVetsAction()"
+    color="primary"
+    size="small"
+    [disabled]="isLoadingVets"
+>
+    <ion-icon
+        [name]="isLoadingVets ? 'hourglass-outline' : 'locate-outline'"
+        slot="start"
+        [ngClass]="{'spin-animation': isLoadingVets}">
+    </ion-icon>
+    {{ isLoadingVets ? 'Buscando...' : 'Buscar Veterinaria' }}
+</ion-button>
+
+</ion-card-header>
+
+<ion-card-content>
+<div class="map-container">
+<google-map
+height="300px"
+width="100%"
+[zoom]="mapOptions.zoom"
+[center]="center"
+[options]="mapOptions">
+
+        <map-marker
+            *ngIf="userPositionMarker"
+            [position]="userPositionMarker"
+            [options]="userMarkerOptions">
+        </map-marker>
+
+        <map-marker
+            *ngFor="let vet of realVeterinarias"
+            [position]="vet.position"
+            [options]="vet.options"
+            [title]="vet.title"
+            (mapClick)="openInfoWindow(vetMarker, vet)"
+            #vetMarker="mapMarker"
+        >
+        </map-marker>
+
+        <map-info-window>
+            <div *ngIf="selectedVet">
+                <h2 class="font-bold text-lg mb-1">{{ selectedVet.title }}</h2>
+                <p class="text-sm text-gray-700">
+                    {{ selectedVet.address }}
+                </p>
+                <p *ngIf="selectedVet.rating" class="text-xs text-yellow-600 mt-1 flex items-center">
+                    Puntuación: <strong>{{ selectedVet.rating }}</strong>
+                    <ion-icon name="star" class="text-yellow-500 ml-1"></ion-icon>
+                </p>
+            </div>
+        </map-info-window>
+
+    </google-map>
+</div>
+
+<p *ngIf="!isLoadingVets && realVeterinarias.length === 0" class="ion-text-center ion-margin-top text-gray-600">
+    {{ userPositionMarker ? 'No se encontraron veterinarias en 5km.' : 'Haz clic en "Buscar Veterinaria" para cargar tu ubicación y ver resultados.' }}
+</p>
+
+</ion-card-content>
+
+</ion-card>
+
+
+
+<ion-button expand="block" color="medium" class="ion-margin-top" (click)="logout();">
+Logout
+</ion-button>
