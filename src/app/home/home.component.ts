@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core'; // Agregamos ViewChild
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonCard,  IonCardHeader, IonCardTitle, IonButton, IonIcon, IonCardContent} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/firebase/authentication';
@@ -25,7 +25,7 @@ addIcons({ hourglassOutline, locateOutline });
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, GoogleMapsModule],
+  imports: [CommonModule, IonCard,  IonCardHeader, IonCardTitle, IonButton, IonIcon, IonCardContent, GoogleMapsModule],
 })
 
 

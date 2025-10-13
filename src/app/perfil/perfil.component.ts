@@ -32,7 +32,6 @@ export class PerfilComponent  implements OnInit {
           email: res.email,
           name: res.displayName
         }
-        this
       }
       else{
         this.user = null
