@@ -1,20 +1,74 @@
+.foto-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icono-camara {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 20px;
+  color: #ff4d4d;
+}
+
+.fecha-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 6px;
+  color: #555;
+  background: #fff;
+}
+
+.fecha-container ion-icon {
+  color: #ff4d4d;
+}
 .field-underline-red {
   --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
   --inner-border-width: 0 0 2px 0;
   --border-color: var(--ion-color-danger);
-  --padding-start: 0;
 }
 
-ion-label {
-  color: #bdbdbd !important;
-}
 
-ion-input, ion-select, ion-datetime {
+/* Forzar colores oscuros dentro del modal para inputs, selects y textareas */
+/* 🌙 Forzar color blanco en los inputs normales (fuera del modal) */
+ion-input,
+ion-select,
+ion-textarea {
+  --color: #fff;
   color: #fff !important;
 }
 
-ion-note {
-  font-size: 12px;
-  margin-left: 4px;
-  color: #ff3b30;
+ion-input input,
+ion-select .select-text,
+ion-textarea textarea {
+  color: #fff !important;
 }
+
+ion-input::part(native-input)::placeholder,
+ion-textarea::part(native-textarea)::placeholder {
+  color: #ccc !important;
+}
+
