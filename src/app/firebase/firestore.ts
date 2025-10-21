@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, deleteDoc, doc, serverTimestamp, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, deleteDoc, doc, serverTimestamp, setDoc, updateDoc, docData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -49,5 +49,10 @@ export class FirestoreService {
 
   createId(): string {
     return uuidv4();
+  }
+
+  getDocumentChanges<tipo>(path: string){
+    const document = doc(this.firestore, path);
+    return docData(document) as Observable<tipo>
   }
 }

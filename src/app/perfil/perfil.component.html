@@ -1,3 +1,48 @@
-<p>
-  perfil works!
-</p>
+<ion-content [fullscreen]="true" class="perfil">
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ion-card class="photo-card">
+          <img class="logo" [src]="defaultPhoto" alt="Foto" />
+      </ion-card>
+    </aside>
+
+    <!-- Panel de datos -->
+    <section class="panel">
+      <ion-skeleton-text *ngIf="cargando" [animated]="true" style="height: 300px;"></ion-skeleton-text>
+
+      <form *ngIf="!cargando && user_profile" class="form">
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [value]="user_profile?.nombre" readonly></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Apellidos</ion-label>
+          <ion-input [value]="user_profile?.apellido" readonly></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input [value]="user_profile?.email" readonly></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Teléfono</ion-label>
+          <ion-input [value]="user_profile?.telefono" readonly></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Región</ion-label>
+          <ion-input [value]="user_profile?.region" readonly></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Dirección</ion-label>
+          <ion-input [value]="user_profile?.direccion" readonly></ion-input>
+        </ion-item>
+
+      </form>
+    </section>
+  </div>
+</ion-content>

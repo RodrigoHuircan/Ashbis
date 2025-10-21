@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import {
   IonContent, IonInput, IonLabel, IonItem, IonList, IonSelect, IonSelectOption,
-  IonButton, IonDatetimeButton, IonModal, IonDatetime,
+  IonButton, IonDatetimeButton, IonModal,
   IonGrid, IonRow, IonCol, IonImg, IonIcon,
 } from '@ionic/angular/standalone';
 import { FirestoreService } from 'src/app/firebase/firestore';
@@ -30,7 +30,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/stor
     IonSelect,
     IonSelectOption,
     IonButton,
-    IonDatetime,
     IonModal,
     IonGrid,
     IonRow,
