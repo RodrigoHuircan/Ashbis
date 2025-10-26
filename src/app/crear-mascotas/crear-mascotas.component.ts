@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import {
-  IonContent, IonInput, IonLabel, IonItem, IonList, IonSelect, IonSelectOption,
-  IonButton, IonDatetimeButton, IonModal, IonDatetime,
-  IonGrid, IonRow, IonCol, IonImg, IonIcon,
-} from '@ionic/angular/standalone';
+  IonContent, IonInput, IonLabel, IonItem, IonSelect, IonSelectOption,
+  IonNote, IonButton, IonModal, IonDatetime, IonGrid, IonRow, IonCol, IonImg, IonList, IonDatetimeButton, IonIcon } from '@ionic/angular/standalone';
 import { FirestoreService } from 'src/app/firebase/firestore';
 import { AuthenticationService } from 'src/app/firebase/authentication';
 import { Router } from '@angular/router';
 import { Models } from 'src/app/models/models';
 import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { formatDate } from '@angular/common';
+import { ViewChild, ElementRef } from '@angular/core';
+
 
 
 @Component({
@@ -18,7 +19,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/stor
   standalone: true,
   templateUrl: './crear-mascotas.component.html',
   styleUrls: ['./crear-mascotas.component.scss'],
-  imports: [
+  imports: [IonIcon, IonDatetimeButton, 
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
@@ -26,33 +27,39 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/stor
     IonInput,
     IonLabel,
     IonItem,
-    IonList,
     IonSelect,
     IonSelectOption,
+    IonNote,
     IonButton,
-    IonDatetime,
     IonModal,
+    IonDatetime,
     IonGrid,
     IonRow,
     IonCol,
     IonImg,
+    IonList,
+    IonDatetimeButton
   ]
 })
-export class CrearMascotasComponent implements OnInit {
-  
 
+
+export class CrearMascotasComponent implements OnInit {
   private fb = inject(FormBuilder);
   private firestoreService = inject(FirestoreService);
   private authService = inject(AuthenticationService);
   private router = inject(Router);
+
+  @ViewChild('inputFecha',{ static: false}) inputFecha!: ElementRef<HTMLInputElement>;
+  
 
   mascotaForm!: FormGroup;
   cargando = false;
   imagenPreview: string | ArrayBuffer | null = null;
   imagenFile: File | null = null;
 
-  mostrarSelectorFecha = false;
-  fechaFormateada: string | null = null;
+  // 📅 Fecha
+
+  fechaFormateada: string = '';
   fechaActual: string = new Date().toISOString();
 
   ngOnInit() {
@@ -70,7 +77,7 @@ export class CrearMascotasComponent implements OnInit {
     });
   }
 
-  // 📸 Subir imagen y mostrar preview
+  // 📸 Imagen de mascota
   onImageSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
@@ -81,26 +88,22 @@ export class CrearMascotasComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  // 📅 Fecha de nacimiento — Modal control
-    abrirSelectorFecha() {
-      this.mostrarSelectorFecha = true;
-    }
+abrirInputFecha() {
+  this.inputFecha.nativeElement.showPicker(); // Abre el selector de fecha nativo
+}
 
-    cerrarSelectorFecha() {
-      this.mostrarSelectorFecha = false;
-    }
+onNativeDateChange(event: any) {
+  const valor = event.target.value;
+  if (!valor) return;
+
+  this.mascotaForm.patchValue({ fechaNacimiento: valor });
+
+  const fecha = new Date(valor);
+  const opciones: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+  this.fechaFormateada = fecha.toLocaleDateString('es-CL', opciones);
+}
 
 
-
-  seleccionarFecha(event: any) {
-    const fecha = new Date(event.detail.value);
-    this.mascotaForm.patchValue({ fechaNacimiento: fecha.toISOString() });
-    this.fechaFormateada = fecha.toLocaleDateString('es-CL', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
-  }
 
   // 💾 Guardar mascota
   async guardarMascota() {

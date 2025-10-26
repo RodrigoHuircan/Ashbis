@@ -3,9 +3,7 @@
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-md="8" size-lg="5" class="ion-text-center">
 
-        <h1 style="color:#fff; margin:18px 0 12px; font-weight:800;">
-          Agregar Mascota
-        </h1>
+        <h1 style="color:#fff; margin:18px 0 12px; font-weight:800;">Agregar Mascota</h1>
 
         <!-- Imagen de la mascota -->
         <div style="margin-bottom:20px;">
@@ -15,21 +13,9 @@
             style="width:140px; height:140px; border-radius:20px; object-fit:cover; margin:0 auto 12px; background:#222; box-shadow:0 0 10px rgba(255,255,255,0.1);"
           ></ion-img>
 
-          <input
-            type="file"
-            accept="image/*"
-            (change)="onImageSelected($event)"
-            style="display:none"
-            #fileInput
-          />
+          <input type="file" accept="image/*" (change)="onImageSelected($event)" style="display:none" #fileInput />
 
-          <ion-button
-            size="small"
-            color="light"
-            fill="outline"
-            (click)="fileInput.click()"
-            style="--border-radius:18px; --border-color:#fff;"
-          >
+          <ion-button size="small" color="light" fill="outline" (click)="fileInput.click()" style="--border-radius:18px; --border-color:#fff;">
             Seleccionar Foto
           </ion-button>
         </div>
@@ -37,6 +23,8 @@
         <!-- Formulario -->
         <form [formGroup]="mascotaForm" (ngSubmit)="guardarMascota()">
           <ion-list lines="none" style="background:transparent; color:#fff;">
+
+            <!-- Campos normales -->
             <ion-item class="field-underline-red">
               <ion-label position="stacked" color="medium">Nombre</ion-label>
               <ion-input formControlName="nombre" placeholder="Nombre de la mascota"></ion-input>
@@ -60,33 +48,23 @@
               </ion-select>
             </ion-item>
 
-            <!-- Botón de fecha (modal vacío) -->
+            <!-- Fecha de nacimiento (FUNCIONAL) -->
             <ion-item class="field-underline-red ion-margin-top">
               <ion-label position="stacked" color="medium">Fecha de nacimiento</ion-label>
-              <ion-button
-                fill="outline"
-                size="small"
-                (click)="abrirSelectorFecha()"
-                color="light"
-                style="--border-radius:14px; margin-top:8px;"
-              >
-                Seleccionar fecha
-              </ion-button>
-            </ion-item>
 
-            <!-- Modal vacío -->
-            <ion-modal
-              [isOpen]="mostrarSelectorFecha"
-              (didDismiss)="cerrarSelectorFecha()"
-              cssClass="modal-fecha"
-            >
-              <ion-content>
-                <div style="padding: 16px; text-align: center;">
-                  <p style="color:#000;">(Aquí irá el selector de fecha)</p>
-                  <ion-button expand="block" color="dark" (click)="cerrarSelectorFecha()">Cerrar</ion-button>
-                </div>
-              </ion-content>
-            </ion-modal>
+              <div class="fecha-display" (click)="abrirInputFecha()">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ fechaFormateada || 'Seleccionar fecha' }}</span>
+              </div>
+
+              <input
+                #inputFecha
+                type="date"
+                (change)="onNativeDateChange($event)"
+                [max]="fechaActual | date:'yyyy-MM-dd'"
+                hidden
+              />
+            </ion-item>
 
             <!-- Resto del formulario -->
             <ion-item class="field-underline-red ion-margin-top">
@@ -117,7 +95,6 @@
             </ion-item>
           </ion-list>
 
-          <!-- Botón guardar -->
           <ion-button
             type="submit"
             expand="block"
