@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import {
   IonContent, IonInput, IonLabel, IonItem, IonSelect, IonSelectOption,
-  IonNote, IonButton, IonModal, IonDatetime, IonGrid, IonRow, IonCol, IonImg, IonList, IonDatetimeButton, IonIcon } from '@ionic/angular/standalone';
+  IonNote, IonButton, IonModal, IonGrid, IonRow, IonCol, IonImg, IonList, IonDatetimeButton, IonIcon } from '@ionic/angular/standalone';
 import { FirestoreService } from 'src/app/firebase/firestore';
 import { AuthenticationService } from 'src/app/firebase/authentication';
 import { Router } from '@angular/router';
@@ -31,8 +31,8 @@ import { ViewChild, ElementRef } from '@angular/core';
     IonSelectOption,
     IonNote,
     IonButton,
-    IonModal,
     IonDatetime,
+    IonModal,
     IonGrid,
     IonRow,
     IonCol,
