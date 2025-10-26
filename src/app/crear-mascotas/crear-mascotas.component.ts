@@ -31,7 +31,6 @@ import { ViewChild, ElementRef } from '@angular/core';
     IonSelectOption,
     IonNote,
     IonButton,
-    IonDatetime,
     IonModal,
     IonGrid,
     IonRow,

@@ -49,6 +49,7 @@
             </ion-item>
 
             <!-- Fecha de nacimiento (FUNCIONAL) -->
+            <!-- Fecha de nacimiento -->
             <ion-item class="field-underline-red ion-margin-top">
               <ion-label position="stacked" color="medium">Fecha de nacimiento</ion-label>
 
@@ -57,14 +58,18 @@
                 <span>{{ fechaFormateada || 'Seleccionar fecha' }}</span>
               </div>
 
+              <!-- input oculto, pero accesible -->
               <input
                 #inputFecha
                 type="date"
                 (change)="onNativeDateChange($event)"
                 [max]="fechaActual | date:'yyyy-MM-dd'"
-                hidden
+                class="input-fecha-oculto"
               />
             </ion-item>
+
+
+
 
             <!-- Resto del formulario -->
             <ion-item class="field-underline-red ion-margin-top">
