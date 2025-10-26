@@ -97,7 +97,7 @@ onNativeDateChange(event: any) {
 
   this.mascotaForm.patchValue({ fechaNacimiento: valor });
 
-  const fecha = new Date(valor);
+  const fecha = new Date(valor + 'T00:00:00');
   const opciones: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
   this.fechaFormateada = fecha.toLocaleDateString('es-CL', opciones);
 }

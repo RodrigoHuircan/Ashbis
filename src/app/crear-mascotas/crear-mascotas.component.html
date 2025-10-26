@@ -47,26 +47,26 @@
                 <ion-select-option value="Hembra">Hembra</ion-select-option>
               </ion-select>
             </ion-item>
+            
 
-            <!-- Fecha de nacimiento (FUNCIONAL) -->
-            <!-- Fecha de nacimiento -->
             <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Fecha de nacimiento</ion-label>
+            <ion-label position="stacked" color="medium">Fecha de nacimiento</ion-label>
 
-              <div class="fecha-display" (click)="abrirInputFecha()">
-                <ion-icon name="calendar-outline"></ion-icon>
-                <span>{{ fechaFormateada || 'Seleccionar fecha' }}</span>
-              </div>
+            <!-- Div visible para seleccionar la fecha -->
+            <div class="fecha-display" (click)="abrirInputFecha()">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>{{ fechaFormateada || 'Seleccionar fecha' }}</span>
+            </div>
 
-              <!-- input oculto, pero accesible -->
-              <input
-                #inputFecha
-                type="date"
-                (change)="onNativeDateChange($event)"
-                [max]="fechaActual | date:'yyyy-MM-dd'"
-                class="input-fecha-oculto"
-              />
-            </ion-item>
+            <!-- Input nativo de fecha, completamente oculto -->
+            <input
+              #inputFecha
+              type="date"
+              (change)="onNativeDateChange($event)"
+              [max]="fechaActual | date:'yyyy-MM-dd'"
+              class="input-fecha-oculto"
+            />
+          </ion-item>
 
 
 
