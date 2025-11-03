@@ -1,142 +1,177 @@
-<ion-content [fullscreen]="true" class="registro">
-  <div class="wrap">
-    <!-- Logo -->
-    <img class="logo" src="assets/img/logo_ashbis.jpeg" alt="ASHBIS" />
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid fixed class="ion-justify-content-center ion-align-items-center" style="min-height: 100%;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" sizeSm="10" sizeMd="8" sizeLg="6">
 
-    <!-- Título -->
-    <h1 class="title">Crear cuenta</h1>
+        <ion-card>
+          <ion-card-header class="ion-text-center">
+            <ion-thumbnail style="--size: 125px; margin: 12px auto; --border-radius: 16px;">
+              <ion-img src="assets/img/logo_ashbis.jpeg" alt="ASHBIS" loading="lazy"></ion-img>
+            </ion-thumbnail>
+            <ion-card-title>¡Bienvenido!</ion-card-title>
+          </ion-card-header>
 
-    <form [formGroup]="datosForm" (ngSubmit)="registrarse()" novalidate>
-      <!-- Nombre -->
-      <label class="input-label">Nombre</label>
-      <div class="underline-input" [class.error]="datosForm.get('nombre')?.invalid && datosForm.get('nombre')?.touched">
-        <ion-input
-          formControlName="nombre"
-          (ionBlur)="datosForm.get('nombre')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('nombre')?.touched && datosForm.get('nombre')?.hasError('required')">El nombre es obligatorio</ion-note>
+          <ion-card-content>
+            <form [formGroup]="datosForm" (ngSubmit)="registrarse()" novalidate>
+              <ion-list lines="inset">
 
-      <!-- Apellido -->
-      <label class="input-label">Apellido</label>
-      <div class="underline-input" [class.error]="datosForm.get('apellido')?.invalid && datosForm.get('apellido')?.touched">
-        <ion-input
-          formControlName="apellido"
-          (ionBlur)="datosForm.get('apellido')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('apellido')?.touched && datosForm.get('apellido')?.hasError('required')">El apellido es obligatorio</ion-note>
+                <!-- Nombre -->
+                <ion-item>
+                  <ion-label position="stacked">Nombre</ion-label>
+                  <ion-input
+                    formControlName="nombre"
+                    (ionBlur)="datosForm.get('nombre')?.markAsTouched()">
+                  </ion-input>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('nombre')?.touched && datosForm.get('nombre')?.hasError('required')">
+                  El nombre es obligatorio
+                </ion-note>
 
-      <!-- Teléfono -->
-      <label class="input-label">Teléfono</label>
-      <div class="underline-input" [class.error]="datosForm.get('telefono')?.invalid && datosForm.get('telefono')?.touched">
-        <ion-input
-          type="tel"
-          formControlName="telefono"
-          inputmode="tel"
-          (ionBlur)="datosForm.get('telefono')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('telefono')?.touched && datosForm.get('telefono')?.hasError('required')">El teléfono es obligatorio</ion-note>
+                <!-- Apellido -->
+                <ion-item>
+                  <ion-label position="stacked">Apellido</ion-label>
+                  <ion-input
+                    formControlName="apellido"
+                    (ionBlur)="datosForm.get('apellido')?.markAsTouched()">
+                  </ion-input>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('apellido')?.touched && datosForm.get('apellido')?.hasError('required')">
+                  El apellido es obligatorio
+                </ion-note>
 
-      <!-- Dirección -->
-      <label class="input-label">Dirección</label>
-      <div class="underline-input" [class.error]="datosForm.get('direccion')?.invalid && datosForm.get('direccion')?.touched">
-        <ion-input
-          formControlName="direccion"
-          (ionBlur)="datosForm.get('direccion')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('direccion')?.touched && datosForm.get('direccion')?.hasError('required')">La dirección es obligatoria</ion-note>
+                <!-- Teléfono -->
+                <ion-item>
+                  <ion-label position="stacked">Teléfono</ion-label>
+                  <ion-input
+                    type="tel"
+                    inputmode="tel"
+                    formControlName="telefono"
+                    (ionBlur)="datosForm.get('telefono')?.markAsTouched()">
+                  </ion-input>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('telefono')?.touched && datosForm.get('telefono')?.hasError('required')">
+                  El teléfono es obligatorio
+                </ion-note>
 
-      <!-- Región -->
-      <label class="input-label">Región</label>
-      <div class="underline-input" [class.error]="datosForm.get('region')?.invalid && datosForm.get('region')?.touched">
-        <ion-select
-          interface="popover"
-          placeholder="Selecciona una región"
-          formControlName="region"
-          (ionBlur)="datosForm.get('region')?.markAsTouched()"
-        >
-          <ion-select-option value="rm">Región Metropolitana</ion-select-option>
-          <ion-select-option value="v">Valparaíso</ion-select-option>
-          <ion-select-option value="bio">Biobío</ion-select-option>
-          <ion-select-option value="la">Los Lagos</ion-select-option>
-          <!-- agrega las que necesites -->
-        </ion-select>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('region')?.touched && datosForm.get('region')?.hasError('required')">La región es obligatoria</ion-note>
+                <!-- Dirección -->
+                <ion-item>
+                  <ion-label position="stacked">Dirección</ion-label>
+                  <ion-input
+                    formControlName="direccion"
+                    (ionBlur)="datosForm.get('direccion')?.markAsTouched()">
+                  </ion-input>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('direccion')?.touched && datosForm.get('direccion')?.hasError('required')">
+                  La dirección es obligatoria
+                </ion-note>
 
-      <!-- Email -->
-      <label class="input-label">Email</label>
-      <div class="underline-input" [class.error]="datosForm.get('email')?.invalid && datosForm.get('email')?.touched">
-        <ion-input
-          type="email"
-          formControlName="email"
-          inputmode="email"
-          autocomplete="email"
-          (ionBlur)="datosForm.get('email')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.hasError('required')">El email es obligatorio</ion-note>
-      <ion-note class="error-note" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.hasError('email')">Formato de email inválido</ion-note>
+                <!-- Región -->
+                <ion-item>
+                  <ion-label position="stacked">Región</ion-label>
+                  <ion-select
+                    interface="popover"
+                    placeholder="Selecciona una región"
+                    formControlName="region"
+                    (ionBlur)="datosForm.get('region')?.markAsTouched()">
+                    <ion-select-option value="rm">Región Metropolitana</ion-select-option>
+                    <ion-select-option value="v">Valparaíso</ion-select-option>
+                    <ion-select-option value="bio">Biobío</ion-select-option>
+                    <ion-select-option value="la">Los Lagos</ion-select-option>
+                    <!-- agrega las que necesites -->
+                  </ion-select>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('region')?.touched && datosForm.get('region')?.hasError('required')">
+                  La región es obligatoria
+                </ion-note>
 
-      <!-- Contraseña -->
-      <label class="input-label">Contraseña</label>
-      <div class="underline-input" [class.error]="datosForm.get('password')?.invalid && datosForm.get('password')?.touched">
-        <ion-input
-          [type]="mostrarPass ? 'text' : 'password'"
-          formControlName="password"
-          autocomplete="new-password"
-          (ionBlur)="datosForm.get('password')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-        <button type="button" class="eye" (click)="mostrarPass = !mostrarPass" aria-label="Mostrar/Ocultar contraseña">
-          <ion-icon [name]="mostrarPass ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-        </button>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('password')?.touched && datosForm.get('password')?.hasError('required')">La contraseña es obligatoria</ion-note>
+                <!-- Email -->
+                <ion-item>
+                  <ion-label position="stacked">Email</ion-label>
+                  <ion-input
+                    type="email"
+                    inputmode="email"
+                    autocomplete="email"
+                    formControlName="email"
+                    (ionBlur)="datosForm.get('email')?.markAsTouched()">
+                  </ion-input>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.hasError('required')">
+                  El email es obligatorio
+                </ion-note>
+                <ion-note color="danger" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.hasError('email')">
+                  Formato de email inválido
+                </ion-note>
 
-      <!-- Confirmar contraseña -->
-      <label class="input-label">Confirmar contraseña</label>
-      <div class="underline-input" [class.error]="(datosForm.get('confirmPassword')?.touched && (datosForm.get('confirmPassword')?.invalid || datosForm.hasError('passwordMismatch')))">
-        <ion-input
-          [type]="mostrarPass2 ? 'text' : 'password'"
-          formControlName="confirmPassword"
-          autocomplete="new-password"
-          (ionBlur)="datosForm.get('confirmPassword')?.markAsTouched()"
-          fill="none"
-        ></ion-input>
-        <button type="button" class="eye" (click)="mostrarPass2 = !mostrarPass2" aria-label="Mostrar/Ocultar confirmar contraseña">
-          <ion-icon [name]="mostrarPass2 ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-        </button>
-      </div>
-      <ion-note class="error-note" *ngIf="datosForm.get('confirmPassword')?.touched && datosForm.get('confirmPassword')?.hasError('required')">Debes confirmar la contraseña</ion-note>
-      <ion-note class="error-note" *ngIf="datosForm.get('confirmPassword')?.touched && datosForm.hasError('passwordMismatch')">Las contraseñas no coinciden</ion-note>
+                <!-- Contraseña -->
+                <ion-item>
+                  <ion-label position="stacked">Contraseña</ion-label>
+                  <ion-input
+                    [type]="mostrarPass ? 'text' : 'password'"
+                    autocomplete="new-password"
+                    formControlName="password"
+                    (ionBlur)="datosForm.get('password')?.markAsTouched()">
+                  </ion-input>
+                  <ion-button type="button" slot="end" fill="clear"
+                    (click)="mostrarPass = !mostrarPass"
+                    [aria-label]="mostrarPass ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                    <ion-icon [name]="mostrarPass ? 'eye-off' : 'eye'"></ion-icon>
+                  </ion-button>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('password')?.touched && datosForm.get('password')?.hasError('required')">
+                  La contraseña es obligatoria
+                </ion-note>
 
-      <!-- Botón crear cuenta -->
-      <ion-button
-        type="submit"
-        expand="block"
-        class="btn-primary"
-        [disabled]="cargando || datosForm.invalid || datosForm.hasError('passwordMismatch')"
-      >
-        <ng-container *ngIf="!cargando; else loadingTpl">Crear cuenta</ng-container>
-      </ion-button>
-      <ng-template #loadingTpl><ion-spinner name="crescent" class="spinner"></ion-spinner></ng-template>
+                <!-- Confirmar contraseña -->
+                <ion-item>
+                  <ion-label position="stacked">Confirmar contraseña</ion-label>
+                  <ion-input
+                    [type]="mostrarPass2 ? 'text' : 'password'"
+                    autocomplete="new-password"
+                    formControlName="confirmPassword"
+                    (ionBlur)="datosForm.get('confirmPassword')?.markAsTouched()">
+                  </ion-input>
+                  <ion-button type="button" slot="end" fill="clear"
+                    (click)="mostrarPass2 = !mostrarPass2"
+                    [aria-label]="mostrarPass2 ? 'Ocultar confirmar contraseña' : 'Mostrar confirmar contraseña'">
+                    <ion-icon [name]="mostrarPass2 ? 'eye-off' : 'eye'"></ion-icon>
+                  </ion-button>
+                </ion-item>
+                <ion-note color="danger" *ngIf="datosForm.get('confirmPassword')?.touched && datosForm.get('confirmPassword')?.hasError('required')">
+                  Debes confirmar la contraseña
+                </ion-note>
+                <ion-note color="danger" *ngIf="datosForm.get('confirmPassword')?.touched && datosForm.hasError('passwordMismatch')">
+                  Las contraseñas no coinciden
+                </ion-note>
 
-      <!-- Botón volver a login -->
-      <ion-button type="button" expand="block" class="btn-secondary" (click)="irALogin()">
-        Volver a Ingresar
-      </ion-button>
-    </form>
+              </ion-list>
 
-    <!-- Footer url -->
-    <a class="site-link" href="https://www.ashbis.com" target="_blank" rel="noopener">www.ashbis.com</a>
-  </div>
+              <!-- Actions -->
+              <ion-button
+                type="submit"
+                expand="block"
+                class="ion-margin-top"
+                [disabled]="cargando || datosForm.invalid || datosForm.hasError('passwordMismatch')"
+                color="danger">
+                <ng-container *ngIf="!cargando; else loadingTpl">Crear cuenta</ng-container>
+              </ion-button>
+              <ng-template #loadingTpl>
+                <ion-spinner name="crescent"></ion-spinner>
+              </ng-template>
+
+              <ion-button type="button" color="medium" expand="block" (click)="irALogin()">
+                Volver a Ingresar
+              </ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+
+        <div class="ion-text-center ion-margin-top">
+          <ion-button fill="clear" size="small" href="https://www.ashbis.com" target="_blank" rel="noopener" color="medium">
+            www.ashbis.com
+          </ion-button>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

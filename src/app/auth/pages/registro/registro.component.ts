@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/firebase/authentication';
-import { IonContent, IonInput, IonNote, IonIcon, 
-  IonSelect, IonSelectOption,  IonButton, IonSpinner
+import { IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption,
+  IonButton, IonIcon, IonImg, IonNote, IonSpinner, IonThumbnail
  } from '@ionic/angular/standalone';
 import { Models } from 'src/app/models/models';
 import { FirestoreService } from 'src/app/firebase/firestore';
@@ -14,8 +14,10 @@ import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule,IonContent, IonInput, IonNote, IonIcon, 
-  IonSelect, IonSelectOption,  IonButton, IonSpinner],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule,
+  IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption,
+  IonButton, IonIcon, IonImg, IonNote, IonSpinner, IonThumbnail
+  ],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss'],
 })

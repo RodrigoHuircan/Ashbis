@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from 'src/app/firebase/authentication';
-import { ToastController, IonContent, IonInput, IonNote, IonButton, IonSpinner} from '@ionic/angular/standalone';
+import { RouterLink } from '@angular/router';
+import { ToastController, IonContent, IonInput, IonNote, IonButton, IonSpinner, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonImg, IonCardTitle, 
+  IonCardContent, IonList, IonItem, IonLabel, IonIcon, IonText, IonThumbnail
+} from '@ionic/angular/standalone';
 import { Models } from 'src/app/models/models';
 import { Router } from '@angular/router';
 @Component({
@@ -10,7 +13,9 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   standalone: true,
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, IonContent, IonInput, IonNote, IonButton, IonSpinner],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, IonContent, IonInput, IonNote, IonButton, IonSpinner, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonImg, IonCardTitle,
+    IonCardContent, IonList, IonItem, IonLabel, IonIcon, IonText, RouterLink, IonThumbnail
+  ],
 })
 export class LoginComponent  implements OnInit {
   //Declaro los módulos a usar
@@ -21,6 +26,7 @@ export class LoginComponent  implements OnInit {
 
   datosForm!: FormGroup;
   cargando = false;
+  showPass = false;
 
   constructor() {
   }

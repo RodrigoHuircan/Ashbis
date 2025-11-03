@@ -19,7 +19,7 @@ import { ViewChild, ElementRef } from '@angular/core';
   standalone: true,
   templateUrl: './crear-mascotas.component.html',
   styleUrls: ['./crear-mascotas.component.scss'],
-  imports: [IonIcon, IonDatetimeButton, 
+  imports: [IonIcon,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
@@ -29,15 +29,12 @@ import { ViewChild, ElementRef } from '@angular/core';
     IonItem,
     IonSelect,
     IonSelectOption,
-    IonNote,
     IonButton,
-    IonModal,
     IonGrid,
     IonRow,
     IonCol,
     IonImg,
-    IonList,
-    IonDatetimeButton
+    IonList
   ]
 })
 
