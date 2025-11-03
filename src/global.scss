@@ -35,3 +35,22 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+ion-tab-bar {
+  /* Color por defecto de los iconos y texto */
+  --color: var(--ion-color-medium);
+
+  /* Color cuando el tab está seleccionado */
+  --color-selected: var(--ion-color-danger);
+}
+
+/* Hover (web y desktop) */
+ion-tab-button:hover {
+  color: var(--ion-color-danger);
+}
+
+/* Si quieres asegurar que el icono también cambie en hover */
+ion-tab-button:hover ion-icon {
+  color: var(--ion-color-danger);
+}
