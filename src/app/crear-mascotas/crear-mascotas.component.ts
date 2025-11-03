@@ -3,7 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import {
   IonContent, IonInput, IonLabel, IonItem, IonSelect, IonSelectOption,
-  IonNote, IonButton, IonModal, IonGrid, IonRow, IonCol, IonImg, IonList, IonDatetimeButton, IonIcon } from '@ionic/angular/standalone';
+  IonNote, IonButton, IonModal, IonGrid, IonRow, IonCol, IonImg, IonList,
+  IonDatetime, IonDatetimeButton, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonIcon} from '@ionic/angular/standalone';
 import { FirestoreService } from 'src/app/firebase/firestore';
 import { AuthenticationService } from 'src/app/firebase/authentication';
 import { Router } from '@angular/router';
@@ -23,18 +24,10 @@ import { ViewChild, ElementRef } from '@angular/core';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    IonContent,
-    IonInput,
-    IonLabel,
-    IonItem,
-    IonSelect,
-    IonSelectOption,
-    IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonImg,
-    IonList
+    IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+    IonContent, IonGrid, IonRow, IonCol,
+    IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption,
+    IonNote, IonButton, IonImg, IonModal, IonDatetimeButton, IonDatetime, IonIcon
   ]
 })
 
@@ -88,13 +81,12 @@ abrirInputFecha() {
   this.inputFecha.nativeElement.showPicker(); // Abre el selector de fecha nativo
 }
 
-onNativeDateChange(event: any) {
-  const valor = event.target.value;
+
+onIonDateChange(ev: CustomEvent) {
+  const valor = (ev as any).detail?.value as string | null;
   if (!valor) return;
-
   this.mascotaForm.patchValue({ fechaNacimiento: valor });
-
-  const fecha = new Date(valor + 'T00:00:00');
+  const fecha = new Date(valor);
   const opciones: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
   this.fechaFormateada = fecha.toLocaleDateString('es-CL', opciones);
 }

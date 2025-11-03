@@ -1,114 +1,164 @@
-<ion-content [fullscreen]="true" style="--background:#000;">
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Mascota</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
   <ion-grid fixed>
     <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="8" size-lg="5" class="ion-text-center">
+      <ion-col size="12" size-md="8" size-lg="6">
 
-        <h1 style="color:#fff; margin:18px 0 12px; font-weight:800;">Agregar Mascota</h1>
+        <!-- Imagen -->
+        <ion-list lines="none">
+          <ion-item>
+            <ion-img
+              [src]="imagenPreview || 'assets/img/logo_ashbis.jpeg'"
+              alt="Foto Mascota"
+              style="width:140px;height:140px;border-radius:20px;object-fit:cover;margin:12px auto"
+            ></ion-img>
+          </ion-item>
 
-        <!-- Imagen de la mascota -->
-        <div style="margin-bottom:20px;">
-          <ion-img
-            [src]="imagenPreview || 'assets/img/placeholder_pet.png'"
-            alt="Foto Mascota"
-            style="width:140px; height:140px; border-radius:20px; object-fit:cover; margin:0 auto 12px; background:#222; box-shadow:0 0 10px rgba(255,255,255,0.1);"
-          ></ion-img>
-
-          <input type="file" accept="image/*" (change)="onImageSelected($event)" style="display:none" #fileInput />
-
-          <ion-button size="small" color="light" fill="outline" (click)="fileInput.click()" style="--border-radius:18px; --border-color:#fff;">
-            Seleccionar Foto
-          </ion-button>
-        </div>
+          <ion-item lines="none" class="ion-text-center">
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden #fileInput />
+            <ion-button size="small" fill="outline" (click)="fileInput.click()" color="danger">
+              <ion-icon name="image-outline" slot="start"></ion-icon>
+              Seleccionar foto
+            </ion-button>
+          </ion-item>
+        </ion-list>
 
         <!-- Formulario -->
         <form [formGroup]="mascotaForm" (ngSubmit)="guardarMascota()">
-          <ion-list lines="none" style="background:transparent; color:#fff;">
+          <ion-list inset="true">
 
-            <!-- Campos normales -->
-            <ion-item class="field-underline-red">
-              <ion-label position="stacked" color="medium">Nombre</ion-label>
-              <ion-input formControlName="nombre" placeholder="Nombre de la mascota"></ion-input>
+            <!-- Nombre -->
+            <ion-item fill="solid">
+              <ion-label position="stacked">Nombre</ion-label>
+              <ion-input formControlName="nombre" placeholder="Nombre de la mascota" clearInput></ion-input>
+              <ion-note color="danger" *ngIf="mascotaForm.get('nombre')?.touched && mascotaForm.get('nombre')?.invalid">
+                El nombre es obligatorio.
+              </ion-note>              
             </ion-item>
 
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Número de chip</ion-label>
-              <ion-input type="number" formControlName="numeroChip" placeholder="Ej: 1234567890"></ion-input>
+            <!-- Número de chip -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Número de chip</ion-label>
+              <ion-input type="number" formControlName="numeroChip" inputmode="numeric" placeholder="Ej: 1234567890" clearInput></ion-input>
+              <ion-note color="danger" *ngIf="mascotaForm.get('numeroChip')?.touched && mascotaForm.get('numeroChip')?.invalid">
+                Ingresa sólo números.
+              </ion-note>              
             </ion-item>
 
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Edad</ion-label>
-              <ion-input type="number" formControlName="edad" placeholder="Ej: 2"></ion-input>
+            <!-- Edad -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Edad</ion-label>
+              <ion-input type="number" formControlName="edad" inputmode="numeric" placeholder="Ej: 2" clearInput></ion-input>
+              <ion-note color="danger" *ngIf="mascotaForm.get('edad')?.touched && mascotaForm.get('edad')?.invalid">
+                La edad debe ser 0 o mayor.
+              </ion-note>              
             </ion-item>
 
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Sexo</ion-label>
-              <ion-select formControlName="sexo" placeholder="Selecciona sexo">
+            <!-- Sexo -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Sexo</ion-label>
+              <ion-select formControlName="sexo" interface="popover" placeholder="Selecciona sexo">
                 <ion-select-option value="Macho">Macho</ion-select-option>
                 <ion-select-option value="Hembra">Hembra</ion-select-option>
               </ion-select>
+              <ion-note color="danger" *ngIf="mascotaForm.get('sexo')?.touched && mascotaForm.get('sexo')?.invalid">
+                Selecciona el sexo.
+              </ion-note>              
             </ion-item>
-            
 
-            <ion-item class="field-underline-red ion-margin-top">
-            <ion-label position="stacked" color="medium">Fecha de nacimiento</ion-label>
+            <!-- Fecha de nacimiento con IonDatetime -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Fecha de nacimiento</ion-label>
 
-            <!-- Div visible para seleccionar la fecha -->
-            <div class="fecha-display" (click)="abrirInputFecha()">
-              <ion-icon name="calendar-outline"></ion-icon>
-              <span>{{ fechaFormateada || 'Seleccionar fecha' }}</span>
-            </div>
+              <!-- Botón que abre el modal -->
+              <ion-datetime-button datetime="picker-fecha" class="ion-margin-top ion-margin-bottom"></ion-datetime-button>
 
-            <!-- Input nativo de fecha, completamente oculto -->
-            <input
-              #inputFecha
-              type="date"
-              (change)="onNativeDateChange($event)"
-              [max]="fechaActual | date:'yyyy-MM-dd'"
-              class="input-fecha-oculto"
-            />
-          </ion-item>
+              <!-- Modal + Datetime -->
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime
+                    id="picker-fecha"
+                    presentation="date"
+                    [max]="fechaActual"
+                    locale="es-ES"
+                    (ionChange)="onIonDateChange($event)">
+                  </ion-datetime>
+                </ng-template>
+              </ion-modal>
 
+              <!-- Vista legible seleccionada -->
+              <ion-note slot="end" color="medium">{{ fechaFormateada || 'Sin seleccionar' }}</ion-note>
+              <ion-note color="danger" *ngIf="mascotaForm.get('fechaNacimiento')?.touched && mascotaForm.get('fechaNacimiento')?.invalid">
+                La fecha de nacimiento es obligatoria.
+              </ion-note>              
+            </ion-item>
 
-
-
-            <!-- Resto del formulario -->
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Especie</ion-label>
-              <ion-select formControlName="especie" placeholder="Ej: Perro, Gato...">
+            <!-- Especie -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Especie</ion-label>
+              <ion-select formControlName="especie" interface="popover" placeholder="Perro, Gato, Otro">
                 <ion-select-option value="Perro">Perro</ion-select-option>
                 <ion-select-option value="Gato">Gato</ion-select-option>
                 <ion-select-option value="Otro">Otro</ion-select-option>
               </ion-select>
+              <ion-note color="danger" *ngIf="mascotaForm.get('especie')?.touched && mascotaForm.get('especie')?.invalid">
+                Selecciona la especie.
+              </ion-note>            
             </ion-item>
 
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Color</ion-label>
-              <ion-input formControlName="color" placeholder="Ej: Marrón, Negro..."></ion-input>
+
+            <!-- Color -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Color</ion-label>
+              <ion-input formControlName="color" placeholder="Ej: Marrón, Negro..." clearInput></ion-input>
+              <ion-note color="danger" *ngIf="mascotaForm.get('color')?.touched && mascotaForm.get('color')?.invalid">
+                El color es obligatorio.
+              </ion-note>              
             </ion-item>
 
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Raza</ion-label>
-              <ion-input formControlName="raza" placeholder="Ej: Labrador, Persa..."></ion-input>
+
+            <!-- Raza -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Raza</ion-label>
+              <ion-input formControlName="raza" placeholder="Ej: Labrador, Persa..." clearInput></ion-input>
+              <ion-note color="danger" *ngIf="mascotaForm.get('raza')?.touched && mascotaForm.get('raza')?.invalid">
+                La raza es obligatoria.
+              </ion-note>              
             </ion-item>
 
-            <ion-item class="field-underline-red ion-margin-top">
-              <ion-label position="stacked" color="medium">Castrado / Esterilizado</ion-label>
-              <ion-select formControlName="castrado" placeholder="Selecciona una opción">
+            <!-- Castrado -->
+            <ion-item class="ion-margin-top" fill="solid">
+              <ion-label position="stacked">Castrado / Esterilizado</ion-label>
+              <ion-select formControlName="castrado" interface="popover" placeholder="Selecciona una opción">
                 <ion-select-option value="Sí">Sí</ion-select-option>
                 <ion-select-option value="No">No</ion-select-option>
               </ion-select>
+              <ion-note color="danger" *ngIf="mascotaForm.get('castrado')?.touched && mascotaForm.get('castrado')?.invalid">
+                Indica si está castrado/esterilizado.
+              </ion-note>              
             </ion-item>
+
           </ion-list>
 
           <ion-button
             type="submit"
             expand="block"
-            style="--background:#fff; --color:#d60000; --border-radius:20px; margin-top:24px; font-weight:700;"
+            shape="round"
+            class="ion-margin-top"
             [disabled]="cargando || mascotaForm.invalid"
-          >
+            color="danger">
             {{ cargando ? 'Guardando...' : 'Guardar Mascota' }}
           </ion-button>
         </form>
+
       </ion-col>
     </ion-row>
   </ion-grid>
