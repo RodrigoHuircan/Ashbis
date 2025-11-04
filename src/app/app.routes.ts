@@ -31,6 +31,10 @@ export const routes: Routes = [
         loadComponent: () => import('./crear-mascotas/crear-mascotas.component').then((m) => m.CrearMascotasComponent),
       },
       {
+        path: 'mascota-qr',
+        loadComponent: () => import('./mascota-qr/mascota-qr.component').then(m => m.MascotaQrComponent)
+      },
+      {
         path: 'perfil',
         loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
       },
@@ -43,11 +47,11 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'login', 
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'login', 
+    redirectTo: 'login',
   },
 ];

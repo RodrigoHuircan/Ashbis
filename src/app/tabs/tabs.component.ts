@@ -1,16 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
+import { CommonModule } from '@angular/common';
+
+
+import {
+  IonIcon,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  IonLabel
+} from '@ionic/angular/standalone';
+
+
 import { addIcons } from 'ionicons';
-import { home, paw, add, person } from 'ionicons/icons';
+import {
+  homeOutline,
+  listOutline,
+  addCircleOutline,
+  qrCodeOutline,
+  personOutline
+} from 'ionicons/icons';
+
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss'],
-  imports: [IonIcon, IonTabBar, IonTabButton, IonTabs ]
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonIcon,
+    IonTabBar,
+    IonTabButton,
+    IonTabs,
+    IonLabel
+  ]
 })
-export class TabsComponent  implements OnInit {
-  constructor() { 
-    addIcons({ home, paw, add, person });
+export class TabsComponent implements OnInit {
+
+  constructor() {
+    // 4. Añadir todos los iconos que usa el HTML
+    addIcons({
+      homeOutline,
+      listOutline,
+      addCircleOutline,
+      qrCodeOutline, // <-- El nuevo icono
+      personOutline
+    });
   }
+
   ngOnInit() {}
 }
