@@ -1,0 +1,66 @@
+/* Estilo para el contenedor del mapa para asegurar que ocupe espacio */
+.map-container {
+    height: 500px;
+    width: 100%;
+    /* Aseguramos que la tarjeta no tenga un padding interno excesivo que estorbe al mapa */
+    padding: 0; 
+}
+
+/* Estilo para el encabezado de la tarjeta, usando flexbox para alinear título y botón */
+.map-header {
+    display: flex;
+    justify-content: space-between; /* Espacio entre el título y el botón */
+    align-items: center; /* Alinear verticalmente */
+    padding-bottom: 0.5rem; /* Pequeño espacio debajo */
+}
+
+/* Animación de giro para el ícono de carga */
+.spin-animation {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilo para el ícono de estrella en el info window (para darle color) */
+ion-icon[name="star"] {
+    color: #f59e0b; /* Color amarillo de Tailwind (yellow-500) */
+}
+
+/* Clases para el contenido del info window, complementando las clases de Tailwind en el HTML */
+.text-gray-600 {
+    color: #4b5563;
+}
+.text-gray-700 {
+    color: #374151;
+}
+.text-sm {
+    font-size: 0.875rem;
+}
+.text-lg {
+    font-size: 1.125rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+.mt-1 {
+    margin-top: 0.25rem;
+}
+.flex {
+    display: flex;
+}
+.items-center {
+    align-items: center;
+}
+.ml-1 {
+    margin-left: 0.25rem;
+}
