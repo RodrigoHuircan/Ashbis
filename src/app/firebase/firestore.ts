@@ -3,6 +3,22 @@ import { Firestore, collection, collectionData, deleteDoc, doc, serverTimestamp,
 import { ref } from 'firebase/storage';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import { query, where, orderBy, CollectionReference } from '@angular/fire/firestore';
+
+export interface Mascota {
+  id: string;
+  nombre: string;
+  especie: string;
+  raza: string;
+  sexo: string;
+  color?: string;
+  castrado?: 'Sí' | 'No' | 'Si' | 'No';
+  edad?: number;
+  fechaNacimiento?: string; // o Timestamp si lo guardas así
+  fechaRegistro?: string;
+  date?: any;
+  uidUsuario: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -61,5 +77,11 @@ export class FirestoreService {
     const refDoc = doc(this.firestore, path)
     data.updateAt = serverTimestamp()
     return await updateDoc(refDoc, data)
+  }
+
+  getUserPets(uid: string) {
+    const ref = collection(this.firestore, 'mascotas') as CollectionReference<Mascota>;
+    const q = query(ref, where('uidUsuario', '==', uid), orderBy('date', 'desc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Mascota[]>;
   }
 }

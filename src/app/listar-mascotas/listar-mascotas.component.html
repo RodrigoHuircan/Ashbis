@@ -1,3 +1,106 @@
-<p>
-  listar-mascotas works!
-</p>
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Mis Mascotas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading -->
+  <ion-list *ngIf="loading(); else loaded">
+    <ion-item *ngFor="let i of [1,2,3]">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated style="width:40px;height:40px;"></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3><ion-skeleton-text animated style="width:60%"></ion-skeleton-text></h3>
+        <p><ion-skeleton-text animated style="width:40%"></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Data -->
+  <ng-template #loaded>
+    <ng-container *ngIf="mascotas().length > 0; else empty">
+      <ion-grid fixed>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" sizeMd="6" sizeLg="4" *ngFor="let m of mascotas(); trackBy: trackById">
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{{ m.nombre }}</ion-card-title>
+                <ion-card-subtitle>
+                  <ion-chip color="danger" outline><ion-label>{{ m.especie }}</ion-label></ion-chip>
+                  <ion-chip color="medium" outline><ion-label>{{ m.raza }}</ion-label></ion-chip>
+                </ion-card-subtitle>
+              </ion-card-header>
+
+              <ion-card-content>
+                <ion-list lines="none">
+                  <ion-item>
+                    <ion-label>
+                      <h3>Sexo</h3>
+                      <p>{{ m.sexo }}</p>
+                    </ion-label>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>
+                      <h3>Color</h3>
+                    </ion-label>
+                    <ion-badge slot="end" color="tertiary">{{ m.color || '—' }}</ion-badge>
+                  </ion-item>                  
+
+                  <ion-item>
+                    <ion-label>
+                      <h3>Edad</h3>
+                      <p>{{ m.edad ?? '—' }} años</p>
+                    </ion-label>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>
+                      <h3>¿Castrado/a?</h3>
+                    </ion-label>
+                    <ion-badge slot="end"
+                               [color]="(m.castrado || '').toLowerCase().startsWith('s') ? 'success' : 'warning'">
+                      {{ m.castrado ?? '—' }}
+                    </ion-badge>
+                  </ion-item>
+
+                  <ion-item *ngIf="m.fechaNacimiento">
+                    <ion-label>
+                      <h3>Nacimiento</h3>
+                      <p>{{ m.fechaNacimiento | date:'dd-MM-yyyy, HH:mm' }}</p>
+                    </ion-label>
+                  </ion-item>
+
+                  <ion-item *ngIf="m.fechaRegistro">
+                    <ion-label>
+                      <h3>Registro</h3>
+                      <p>{{ m.fechaRegistro | date:'dd-MM-yyyy, HH:mm' }}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+
+    <ng-template #empty>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Sin mascotas registradas</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Usa “Agregar Mascota” para crear tu primera ficha.
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </ng-template>
+</ion-content>
+

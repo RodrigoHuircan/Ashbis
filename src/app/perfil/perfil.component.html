@@ -60,7 +60,7 @@
 
           <ion-row class="actions" style="margin-top: 16px;">
             <ion-col size="12" class="ion-text-right">
-              <ion-button *ngIf="!editMode" (click)="habilitarEdicion()" fill="solid">
+              <ion-button *ngIf="!editMode" (click)="habilitarEdicion()" fill="solid" color="danger">
                 Editar
               </ion-button>
 
@@ -68,7 +68,7 @@
                 Cancelar
               </ion-button>
 
-              <ion-button *ngIf="editMode" color="primary" (click)="guardar()" [disabled]="profileForm.invalid">
+              <ion-button *ngIf="editMode" color="primary" (click)="guardar()" [disabled]="profileForm.invalid" color="danger">
                 Guardar
               </ion-button>
             </ion-col>
