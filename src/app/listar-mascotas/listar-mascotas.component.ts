@@ -1,19 +1,17 @@
-// listar-mascotas.component.ts (o mis-mascotas.page.ts)
 import { Component, inject, signal } from '@angular/core';
 import { NgIf, NgFor, DatePipe } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonRefresher, IonRefresherContent,
   IonList, IonItem, IonAvatar, IonSkeletonText,
-  IonGrid, IonRow, IonCol,
-  IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent,
-  IonChip, IonLabel, IonBadge
+  IonButton, IonLabel
 } from '@ionic/angular/standalone';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { Auth, authState } from '@angular/fire/auth';
 import { of, take } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { FirestoreService, Mascota } from '../firebase/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mis-mascotas',
@@ -23,9 +21,7 @@ import { FirestoreService, Mascota } from '../firebase/firestore';
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonRefresher, IonRefresherContent,
     IonList, IonItem, IonAvatar, IonSkeletonText,
-    IonGrid, IonRow, IonCol,
-    IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent,
-    IonChip, IonLabel, IonBadge, DatePipe
+    IonButton, IonLabel
   ],
   templateUrl: './listar-mascotas.component.html',
   providers: [DatePipe],
@@ -33,6 +29,7 @@ import { FirestoreService, Mascota } from '../firebase/firestore';
 export class ListarMascotasComponent {
   private auth = inject(Auth);
   private fs = inject(FirestoreService);
+  private router = inject(Router);
 
   loading = signal(true);
   mascotas = signal<Mascota[]>([]);
@@ -55,7 +52,6 @@ export class ListarMascotasComponent {
 
   trackById = (_: number, m: Mascota) => m.id;
 
-  // ✅ Fijado: siempre retorna void y todos los caminos finalizan
   doRefresh(ev: Event): void {
     const refresher = ev as RefresherCustomEvent;
     const uid = this.usuarioUid();
@@ -66,14 +62,21 @@ export class ListarMascotasComponent {
     }
 
     this.loading.set(true);
-    this.fs.getUserPets(uid).pipe(take(1)).subscribe(pets => {
-      this.mascotas.set(pets ?? []);
-      this.loading.set(false);
-      refresher.target.complete();
-    }, () => {
-      // En caso de error también se completa el refresher
-      this.loading.set(false);
-      refresher.target.complete();
+    this.fs.getUserPets(uid).pipe(take(1)).subscribe({
+      next: pets => {
+        this.mascotas.set(pets ?? []);
+        this.loading.set(false);
+        refresher.target.complete();
+      },
+      error: () => {
+        this.loading.set(false);
+        refresher.target.complete();
+      }
     });
+  }
+
+  // Navega al perfil (pasamos el objeto por router state para cargar rápido)
+  goPerfil(m: Mascota) {
+    this.router.navigate(['/tabs/perfil-mascota', m.id], { state: { mascota: m } });
   }
 }
