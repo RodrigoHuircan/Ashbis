@@ -39,6 +39,14 @@ export const routes: Routes = [
         loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
       },
       {
+        path: 'perfil-mascota/:id',
+        loadComponent: () => import('./perfil-mascota/perfil-mascota.component').then((m) => m.MascotaPerfilComponent),
+      },     
+      {
+        path: 'mascota-editar/:id/editar',
+        loadComponent: () => import('./mascota-editar/mascota-editar.component').then((m) => m.MascotaEditarComponent),
+      },          
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',
