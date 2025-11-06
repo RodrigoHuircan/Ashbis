@@ -11,8 +11,8 @@
   <ion-grid fixed>
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-md="8" size-lg="6">
-
-        <!-- Imagen principal + Botones -->
+        
+       <!-- Imagen principal + Botones -->
         <ion-list lines="none">
           <ion-item>
             <ion-img
@@ -22,21 +22,21 @@
             ></ion-img>
           </ion-item>
 
-          <ion-item lines="none" class="ion-text-center">
-            <!-- Inputs ocultos -->
-            <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden #fileInput />
-            <input type="file" accept="image/*" multiple (change)="onImagesSelected($event)" hidden #filesInputMulti />
 
-            <ion-button size="small" fill="outline" (click)="fileInput.click()" color="danger">
+            <!-- Inputs ocultos -->
+            <input type="file" accept="image/" (change)="onImageSelected($event)" hidden #fileInput />
+            <input type="file" accept="image/" multiple (change)="onImagesSelected($event)" hidden #filesInputMulti />
+            <div class="botones-imagenes">
+            <ion-button class="btn-foto"  size="small" fill="outline" (click)="fileInput.click()" >
               <ion-icon name="image-outline" slot="start"></ion-icon>
               Foto principal
             </ion-button>
 
-            <ion-button size="small" fill="solid" class="ion-margin-start" (click)="filesInputMulti.click()" color="danger">
+            <ion-button  size="small" fill="solid" class="ion-margin-start btn-galeria" (click)="filesInputMulti.click()">
               <ion-icon name="images-outline" slot="start"></ion-icon>
               Agregar a galería
             </ion-button>
-          </ion-item>
+            </div>
         </ion-list>
 
         <!-- Previews de la galería -->
@@ -181,7 +181,7 @@
             type="submit"
             expand="block"
             shape="round"
-            class="ion-margin-top"
+            class="ion-margin-top btn-guardar"
             [disabled]="cargando || mascotaForm.invalid"
             color="danger">
             {{ cargando ? 'Guardando...' : 'Guardar Mascota' }}

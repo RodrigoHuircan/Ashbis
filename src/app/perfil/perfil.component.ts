@@ -13,6 +13,7 @@ import {
 
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -29,6 +30,8 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class PerfilComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  private auth = inject(AuthenticationService);
+  private router = inject(Router);
 
   authenticationService: AuthenticationService = inject(AuthenticationService);
   firestoreService: FirestoreService = inject(FirestoreService);
@@ -164,4 +167,8 @@ export class PerfilComponent implements OnInit, OnDestroy {
     const t = await this.toastCtrl.create({ message, duration: 1800, color });
     t.present();
   }
+   async logout() {
+        await this.auth.logout();
+        this.router.navigate(['/login'], { replaceUrl: true });
+    }
 }
