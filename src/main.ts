@@ -5,8 +5,8 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { registerLocaleData } from '@angular/common';
-import localeEsCL from '@angular/common/locales/es-CL';
-registerLocaleData(localeEsCL);
+import localeEsCl from '@angular/common/locales/es-CL';
+registerLocaleData(localeEsCl, 'es-CL');
 //  Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';

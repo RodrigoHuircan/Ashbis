@@ -12,6 +12,7 @@ import { FirestoreService, Mascota, Cita } from '../firebase/firestore';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
+import { LOCALE_ID } from '@angular/core';
 
 type Section =
   | 'info'
@@ -36,7 +37,9 @@ type Section =
   ],
   templateUrl: './mascota-editar.component.html',
   styleUrls: ['./mascota-editar.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe,
+    { provide: LOCALE_ID, useValue: 'es-CL' }
+  ]
 })
 export class MascotaEditarComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
