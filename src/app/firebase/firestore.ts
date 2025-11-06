@@ -1,11 +1,20 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, deleteDoc, doc, serverTimestamp, setDoc, updateDoc, docData } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, deleteDoc, doc, serverTimestamp, setDoc, updateDoc, docData, addDoc } from '@angular/fire/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { query, where, orderBy, CollectionReference } from '@angular/fire/firestore';
 import { arrayUnion, arrayRemove } from 'firebase/firestore';
 
+export type Cita = {
+  id?: string;
+  titulo: string;
+  fechaInicio: string; // ISO
+  fechaFin?: string;   // ISO
+  lugar?: string;
+  notas?: string;
+  creadoPor: string;
+};
 
 export interface Mascota {
   id: string;
@@ -128,5 +137,29 @@ export class FirestoreService {
     // ref acepta URL https/gs => no necesitas refFromURL
     const r = ref(storage, url);
     await deleteObject(r);
+  }  
+
+  getCitasByMascota(petId: string): Observable<Cita[]> {
+    const ref = collection(this.firestore, `mascotas/${petId}/citas`);
+    const q = query(ref, orderBy('fechaInicio', 'asc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Cita[]>;
+  }
+
+  // Crear cita
+  async addCita(petId: string, data: Cita) {
+    const ref = collection(this.firestore, `mascotas/${petId}/citas`);
+    return addDoc(ref, data);
+  }
+
+  // Actualizar cita
+  async updateCita(petId: string, citaId: string, data: Partial<Cita>) {
+    const ref = doc(this.firestore, `mascotas/${petId}/citas/${citaId}`);
+    return updateDoc(ref, { ...data });
+  }
+
+  // Borrar cita
+  async deleteCita(petId: string, citaId: string) {
+    const ref = doc(this.firestore, `mascotas/${petId}/citas/${citaId}`);
+    return deleteDoc(ref);
   }  
 }

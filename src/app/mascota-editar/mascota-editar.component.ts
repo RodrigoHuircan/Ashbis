@@ -1,13 +1,14 @@
-import { Component, inject, signal, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnDestroy, ViewChild } from '@angular/core';
 import { NgIf, NgFor, DatePipe } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
   IonContent, IonGrid, IonRow, IonCol, IonList, IonItem, IonLabel,
-  IonButton, IonAvatar, IonBadge, IonInput, IonSelect, IonSelectOption,
-  IonNote, IonModal, IonDatetime, IonDatetimeButton, IonToast, IonIcon, IonCard, IonCardContent
+  IonButton, IonAvatar, IonInput, IonSelect, IonSelectOption,
+  IonNote, IonModal, IonDatetime, IonDatetimeButton, IonToast, IonIcon,
+  IonCard, IonCardContent, IonTextarea
 } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FirestoreService, Mascota } from '../firebase/firestore';
+import { FirestoreService, Mascota, Cita } from '../firebase/firestore';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
@@ -29,9 +30,9 @@ type Section =
     // Ionic
     IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
     IonContent, IonGrid, IonRow, IonCol, IonList, IonItem, IonLabel,
-    IonButton, IonAvatar, IonBadge, IonInput, IonSelect, IonSelectOption,
+    IonButton, IonAvatar, IonInput, IonSelect, IonSelectOption,
     IonNote, IonModal, IonDatetime, IonDatetimeButton, IonToast, IonIcon,
-    IonCard, IonCardContent
+    IonCard, IonCardContent, IonTextarea
   ],
   templateUrl: './mascota-editar.component.html',
   styleUrls: ['./mascota-editar.component.scss'],
@@ -55,15 +56,39 @@ export class MascotaEditarComponent implements OnDestroy {
   section = signal<Section>('info');
   fechaMax = new Date().toISOString();
 
-  form!: FormGroup;
-  sub?: Subscription;
+  // Calendario / Citas
+  citas = signal<Cita[]>([]);
+  fechaSeleccionada = signal<string>(new Date().toISOString());
 
+  // Modal de cita
+  citaModalOpen = signal(false);
+  editandoCitaId = signal<string | null>(null);
+  citaForm!: FormGroup;
+
+  // Form principal
+  form!: FormGroup;
+
+  // Subscripciones
+  sub?: Subscription;
+  subCitas?: Subscription;
+
+  @ViewChild('tituloInput', { read: IonInput }) tituloInput?: IonInput;
+  
   constructor() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.sub = this.fs.getPetById(id).subscribe(doc => {
       if (doc) {
         this.mascota.set(doc);
         this.buildForm(doc);
+
+        // Suscribir citas de la mascota
+        this.subCitas?.unsubscribe();
+        this.subCitas = this.fs.getCitasByMascota(doc.id).subscribe(arr => {
+          const ordenadas = [...arr].sort((a, b) =>
+            new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime()
+          );
+          this.citas.set(ordenadas);
+        });
       }
       this.loading.set(false);
     });
@@ -71,12 +96,14 @@ export class MascotaEditarComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.subCitas?.unsubscribe();
   }
 
   setSection(s: Section) {
     this.section.set(s);
   }
 
+  // --------- FORM PRINCIPAL ----------
   private buildForm(m: Mascota) {
     this.form = this.fb.group({
       nombre: [m.nombre ?? '', [Validators.required, Validators.maxLength(60)]],
@@ -170,5 +197,125 @@ export class MascotaEditarComponent implements OnDestroy {
       console.error(e);
       this.showToast('No se pudo actualizar la foto principal.');
     }
+  }
+
+  // ---------- CALENDARIO / AGENDA ----------
+  onCalendarioChange(ev: CustomEvent) {
+    const val = (ev as any).detail?.value as string | null;
+    if (!val) return;
+    this.fechaSeleccionada.set(val);
+  }
+
+  get citasDelDia(): Cita[] {
+    const sel = this.fechaSeleccionada();
+    if (!sel) return [];
+    return this.citas().filter(c => this.esMismoDia(c.fechaInicio, sel));
+  }
+
+  private esMismoDia(aISO: string, bISO: string): boolean {
+    const a = new Date(aISO);
+    const b = new Date(bISO);
+    return a.getFullYear() === b.getFullYear()
+      && a.getMonth() === b.getMonth()
+      && a.getDate() === b.getDate();
+  }
+
+  // ---------- MODAL: crear / editar / borrar citas ----------
+  abrirNuevaCita() {
+    this.editandoCitaId.set(null);
+    this.citaForm = this.fb.group({
+      titulo: ['', [Validators.required, Validators.maxLength(80)]],
+      fecha: [this.fechaSeleccionada(), Validators.required], // ISO (solo fecha)
+      horaInicio: ['10:00', Validators.required],             // HH:mm
+      horaFin: ['11:00'],
+      lugar: [''],
+      notas: ['']
+    });
+    this.citaModalOpen.set(true);
+  }
+
+  abrirEditarCita(c: Cita) {
+    const fi = new Date(c.fechaInicio);
+    const ff = c.fechaFin ? new Date(c.fechaFin) : null;
+
+    const isoFecha = new Date(fi.getFullYear(), fi.getMonth(), fi.getDate()).toISOString();
+    const horaInicio = fi.toISOString().substring(11, 16); // HH:mm
+    const horaFin = ff ? ff.toISOString().substring(11, 16) : '';
+
+    this.editandoCitaId.set(c.id || null);
+    this.citaForm = this.fb.group({
+      titulo: [c.titulo, [Validators.required, Validators.maxLength(80)]],
+      fecha: [isoFecha, Validators.required],
+      horaInicio: [horaInicio, Validators.required],
+      horaFin: [horaFin],
+      lugar: [c.lugar || ''],
+      notas: [c.notas || '']
+    });
+    this.citaModalOpen.set(true);
+  }
+
+  async guardarCita() {
+    if (this.citaForm.invalid || !this.mascota()?.id || !this.auth.currentUser) {
+      this.citaForm.markAllAsTouched();
+      return this.showToast('Revisa los campos de la cita.');
+    }
+
+    const petId = this.mascota()!.id;
+    const { titulo, fecha, horaInicio, horaFin, lugar, notas } = this.citaForm.value;
+
+    // Validación simple: horaFin >= horaInicio (si existe)
+    if (horaFin) {
+      const iniNum = parseInt(horaInicio.replace(':', ''), 10);
+      const finNum = parseInt(horaFin.replace(':', ''), 10);
+      if (finNum < iniNum) {
+        return this.showToast('La hora fin no puede ser menor que la hora inicio.');
+      }
+    }
+
+    const isoInicio = this.combineFechaHora(fecha, horaInicio);
+    const isoFin = horaFin ? this.combineFechaHora(fecha, horaFin) : undefined;
+
+    const payload: Cita = {
+      titulo,
+      fechaInicio: isoInicio,
+      fechaFin: isoFin,
+      lugar,
+      notas,
+      creadoPor: this.auth.currentUser.uid
+    };
+
+    try {
+      const editId = this.editandoCitaId();
+      if (editId) {
+        await this.fs.updateCita(petId, editId, payload);
+        this.showToast('Cita actualizada.');
+      } else {
+        await this.fs.addCita(petId, payload);
+        this.showToast('Cita creada.');
+      }
+      this.citaModalOpen.set(false);
+    } catch (e) {
+      console.error(e);
+      this.showToast('No se pudo guardar la cita.');
+    }
+  }
+
+  async borrarCita(c: Cita) {
+    if (!this.mascota()?.id || !c.id) return;
+    try {
+      await this.fs.deleteCita(this.mascota()!.id, c.id);
+      this.showToast('Cita eliminada.');
+    } catch (e) {
+      console.error(e);
+      this.showToast('No se pudo eliminar la cita.');
+    }
+  }
+
+  // Combina fecha (ISO) + hora (HH:mm) a ISO en zona local
+  private combineFechaHora(fechaISO: string, hhmm: string): string {
+    const f = new Date(fechaISO);
+    const [h, m] = hhmm.split(':').map((n: string) => parseInt(n, 10));
+    f.setHours(h, m, 0, 0);
+    return f.toISOString();
   }
 }

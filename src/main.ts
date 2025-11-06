@@ -4,13 +4,16 @@ import { provideRouter, withPreloading, PreloadAllModules } from '@angular/route
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
-
+import { registerLocaleData } from '@angular/common';
+import localeEsCL from '@angular/common/locales/es-CL';
+registerLocaleData(localeEsCL);
 //  Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { LOCALE_ID } from '@angular/core';
 
 //  Íconos de Ionicons
 import { addIcons } from 'ionicons';
@@ -19,7 +22,11 @@ import {
   homeOutline,
   personCircleOutline,
   addCircleOutline,
-  pawOutline
+  pawOutline,
+  imagesOutline,
+  createOutline,
+  trashOutline,
+  addOutline
 } from 'ionicons/icons';
 
 //  Registrar íconos globales
@@ -28,7 +35,11 @@ addIcons({
   homeOutline,
   personCircleOutline,
   addCircleOutline,
-  pawOutline
+  pawOutline,
+  imagesOutline,
+  createOutline,
+  trashOutline,
+  addOutline
 });
 
 //  Configuración de Firebase (tu proyecto Ashbis)
@@ -46,6 +57,7 @@ const firebaseConfig = {
 bootstrapApplication(AppComponent, {
   providers: [
     // Ionic & rutas
+    { provide: LOCALE_ID, useValue: 'es-CL' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
