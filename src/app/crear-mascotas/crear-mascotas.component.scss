@@ -35,3 +35,24 @@ ion-item.is-invalid {
   --highlight-color-focused: var(--ion-color-danger);
   --border-color: var(--ion-color-danger-tint);
 }
+.btn-foto{
+    --border-color: #8b0808;
+    --color: #ffffff;
+}
+
+.btn-galeria{
+  --background: #8b0808;
+  --color: #ffffff;
+}
+
+.botones-imagenes{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.btn-guardar{
+    --background: #8b0808;
+    --color: #ffffff;
+}

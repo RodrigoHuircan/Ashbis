@@ -1,111 +1,115 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
-    <!-- Encabezado de Bienvenida -->
-    <h1 class="text-xl font-semibold mb-4 text-gray-800">
-        Bienvenido: {{ (userEmail$ | async) || 'Invitado' }}
-    </h1>
+ 
 
-    <!-- Tarjeta Principal del Mapa -->
-    <ion-card class="ion-no-margin">
-        
-        <!-- Encabezado de la Tarjeta (Título y Botones de Búsqueda) -->
-        <ion-card-header class="map-header">
-            <ion-card-title class="text-lg font-bold">Lugares para Mascotas</ion-card-title>
+  <!-- 🐾 Carrusel principal -->
+<div class="carrusel-container">
+  <swiper-container
+    slides-per-view="1"
+    pagination="true"
+    autoplay-delay="3500"
+    autoplay-disable-on-interaction="false"
+    loop="true"
+  >
+    <swiper-slide *ngFor="let img of imagenesCarrusel">
+      <div class="slide-content">
+        <img [src]="img.src" [alt]="img.titulo" />
+        <div class="slide-text">
+          <h2>{{ img.titulo }}</h2>
+          <p>{{ img.descripcion }}</p>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+</div>
 
-            <!-- Contenedor de los botones de búsqueda -->
-            <div class="flex space-x-2">
-                <!-- Botón Veterinaria (Search Type: veterinary_care) -->
-                <ion-button
-                    (click)="findPlacesAction('veterinary_care')"
-                    color="primary"
-                    size="small"
-                    [disabled]="isLoadingVets"
-                >
-                    <ion-icon
-                        [name]="isLoadingVets && currentSearchType === 'veterinary_care' ? 'hourglass-outline' : 'locate-outline'"
-                        slot="start"
-                        [ngClass]="{'spin-animation': isLoadingVets && currentSearchType === 'veterinary_care'}">
-                    </ion-icon>
-                    Veterinaria
-                </ion-button>
 
-                <!-- Botón Tienda de Mascotas (Search Type: pet_store) -->
-                <ion-button
-                    (click)="findPlacesAction('pet_store')"
-                    color="secondary"
-                    size="small"
-                    [disabled]="isLoadingVets"
-                >
-                    <ion-icon
-                        [name]="isLoadingVets && currentSearchType === 'pet_store' ? 'hourglass-outline' : 'bag-outline'"
-                        slot="start"
-                        [ngClass]="{'spin-animation': isLoadingVets && currentSearchType === 'pet_store'}">
-                    </ion-icon>
-                    Tienda
-                </ion-button>
+  <!-- 🗺️ Tarjeta Principal del Mapa -->
+  <ion-card class="ion-no-margin">
+    <ion-card-header class="map-header">
+      <ion-card-title class="text-lg font-bold">Lugares para Mascotas</ion-card-title>
+
+      <div class="flex space-x-2">
+        <ion-button
+          (click)="findPlacesAction('veterinary_care')"
+          color="primary"
+          size="small"
+          [disabled]="isLoadingVets"
+        >
+          <ion-icon
+            [name]="isLoadingVets && currentSearchType === 'veterinary_care' ? 'hourglass-outline' : 'locate-outline'"
+            slot="start"
+            [ngClass]="{'spin-animation': isLoadingVets && currentSearchType === 'veterinary_care'}"
+          ></ion-icon>
+          Veterinaria
+        </ion-button>
+
+        <ion-button
+          (click)="findPlacesAction('pet_store')"
+          color="secondary"
+          size="small"
+          [disabled]="isLoadingVets"
+        >
+          <ion-icon
+            [name]="isLoadingVets && currentSearchType === 'pet_store' ? 'hourglass-outline' : 'bag-outline'"
+            slot="start"
+            [ngClass]="{'spin-animation': isLoadingVets && currentSearchType === 'pet_store'}"
+          ></ion-icon>
+          Tienda
+        </ion-button>
+      </div>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="map-container">
+        <google-map
+          height="500px"
+          width="100%"
+          [zoom]="mapOptions.zoom"
+          [center]="center"
+          [options]="mapOptions"
+        >
+          <map-marker
+            *ngIf="userPositionMarker"
+            [position]="userPositionMarker"
+            [options]="userMarkerOptions"
+          ></map-marker>
+
+          <map-marker
+            *ngFor="let vet of realVeterinarias"
+            [position]="vet.position"
+            [options]="vet.options"
+            [title]="vet.title"
+            (mapClick)="openInfoWindow(vetMarker, vet)"
+            #vetMarker="mapMarker"
+          ></map-marker>
+
+          <map-info-window>
+            <div *ngIf="selectedVet" class="p-2">
+              <h2 class="font-bold text-lg mb-1">{{ selectedVet.title }}</h2>
+              <p class="text-sm text-gray-700">
+                Dirección: {{ selectedVet.address }}
+              </p>
+              <p *ngIf="selectedVet.rating" class="text-xs text-yellow-600 mt-1 flex items-center">
+                Puntuación: <strong>{{ selectedVet.rating }}</strong>
+                <ion-icon name="star"></ion-icon>
+              </p>
             </div>
-        </ion-card-header>
+          </map-info-window>
+        </google-map>
+      </div>
 
-        <!-- Contenido de la Tarjeta (Mapa y Mensajes) -->
-        <ion-card-content>
-            <div class="map-container">
-                <!-- Componente de Google Map -->
-                <google-map
-                    height="500px"
-                    width="100%"
-                    [zoom]="mapOptions.zoom"
-                    [center]="center"
-                    [options]="mapOptions">
-
-                    <!-- Marcador de la Ubicación del Usuario -->
-                    <map-marker
-                        *ngIf="userPositionMarker"
-                        [position]="userPositionMarker"
-                        [options]="userMarkerOptions">
-                    </map-marker>
-
-                    <!-- Marcadores de los Lugares Encontrados -->
-                    <map-marker
-                        *ngFor="let vet of realVeterinarias"
-                        [position]="vet.position"
-                        [options]="vet.options"
-                        [title]="vet.title"
-                        (mapClick)="openInfoWindow(vetMarker, vet)"
-                        #vetMarker="mapMarker"
-                    >
-                    </map-marker>
-
-                    <!-- Ventana de Información (Info Window) -->
-                    <map-info-window>
-                        <div *ngIf="selectedVet" class="p-2">
-                            <h2 class="font-bold text-lg mb-1">{{ selectedVet.title }}</h2>
-                            <p class="text-sm text-gray-700">
-                                Dirección: {{ selectedVet.address }}
-                            </p>
-                            <p *ngIf="selectedVet.rating" class="text-xs text-yellow-600 mt-1 flex items-center">
-                                Puntuación: <strong>{{ selectedVet.rating }}</strong>
-                                <ion-icon name="star"></ion-icon>
-                            </p>
-                        </div>
-                    </map-info-window>
-
-                </google-map>
-            </div>
-
-            <!-- Mensajes de estado para el usuario -->
-            <p *ngIf="!isLoadingVets && realVeterinarias.length === 0" class="ion-text-center ion-margin-top text-gray-600 p-2">
-                {{ userPositionMarker 
-                    ? 'No se encontraron lugares en 5km a la redonda.' 
-                    : 'Haz clic en un botón para cargar tu ubicación y buscar lugares cercanos.' }}
-            </p>
-
-        </ion-card-content>
-
-    </ion-card>
-
-    <!-- Botón de Logout -->
-    <ion-button expand="block" color="medium" class="ion-margin-top" (click)="logout();">
-        Cerrar Sesión
-    </ion-button>
+      <p
+        *ngIf="!isLoadingVets && realVeterinarias.length === 0"
+        class="ion-text-center ion-margin-top text-gray-600 p-2"
+      >
+        {{
+          userPositionMarker
+            ? 'No se encontraron lugares en 5km a la redonda.'
+            : 'Haz clic en un botón para cargar tu ubicación y buscar lugares cercanos.'
+        }}
+      </p>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
