@@ -292,13 +292,16 @@
             </ng-container>
 
             <!-- LISTADO MES (agrupado por día) -->
+            <!-- LISTADO MES (agrupado por día) -->
             <ng-container *ngIf="viewMode()==='mes'">
               <ng-container *ngIf="citasDelMes.length; else sinCitasMes">
-                <ng-container *ngFor="let g of citasMesAgrupadas">
+                <ng-container *ngFor="let g of citasMesAgrupadas; trackBy: trackByDia">
                   <ion-item lines="full" color="light">
-                    <ion-label><strong>{{ g.diaISO | date:"EEEE d 'de' MMMM":"":"es-CL" }}</strong></ion-label>
+                    <!-- usamos diaKey y lo formateamos con DatePipe -->
+                    <ion-label><strong>{{ (g.diaKey + 'T00:00:00') | date:"EEEE d 'de' MMMM":"":"es-CL" }}</strong></ion-label>
                   </ion-item>
-                  <ion-item *ngFor="let c of g.items">
+
+                  <ion-item *ngFor="let c of g.items; trackBy: trackByCita">
                     <ion-label>
                       <h3>{{ c.titulo }}</h3>
                       <p>
@@ -320,6 +323,7 @@
                 <ion-item><ion-label color="medium">No hay citas en este mes.</ion-label></ion-item>
               </ng-template>
             </ng-container>
+
           </ion-list>
 
 

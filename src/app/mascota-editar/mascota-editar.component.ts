@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnDestroy, ViewChild } from '@angular/core';
+import { Component, inject, signal, OnDestroy, ViewChild, computed } from '@angular/core';
 import { NgIf, NgFor, DatePipe, CurrencyPipe } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
@@ -297,11 +297,11 @@ export class MascotaEditarComponent implements OnDestroy {
     this.fechaSeleccionada.set(val);
   }
 
-  get citasDelDia(): Cita[] {
-    const sel = this.fechaSeleccionada();
-    if (!sel) return [];
-    return this.citas().filter(c => this.esMismoDia(c.fechaInicio, sel));
-  }
+  // get citasDelDia(): Cita[] {
+  //   const sel = this.fechaSeleccionada();
+  //   if (!sel) return [];
+  //   return this.citas().filter(c => this.esMismoDia(c.fechaInicio, sel));
+  // }
 
   private esMismoDia(aISO: string, bISO: string): boolean {
     const a = new Date(aISO);
@@ -321,37 +321,37 @@ export class MascotaEditarComponent implements OnDestroy {
     this.mesSeleccionado.set(val);
   }
 
-  // Utilidades de rango de mes (inicio fin en ISO)
-  private monthBounds(iso: string) {
-    const d = new Date(iso);
-    const start = new Date(d.getFullYear(), d.getMonth(), 1);
-    const end = new Date(d.getFullYear(), d.getMonth() + 1, 1); // exclusivo
-    return { start, end };
-  }
+  // // Utilidades de rango de mes (inicio fin en ISO)
+  // private monthBounds(iso: string) {
+  //   const d = new Date(iso);
+  //   const start = new Date(d.getFullYear(), d.getMonth(), 1);
+  //   const end = new Date(d.getFullYear(), d.getMonth() + 1, 1); // exclusivo
+  //   return { start, end };
+  // }
 
-  // Citas del MES (filtra por fechaInicio ∈ [start, end))
-  get citasDelMes(): Cita[] {
-    const { start, end } = this.monthBounds(this.mesSeleccionado());
-    return this.citas().filter(c => {
-      const t = new Date(c.fechaInicio).getTime();
-      return t >= start.getTime() && t < end.getTime();
-    }).sort((a,b)=> new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime());
-  }
+  // // Citas del MES (filtra por fechaInicio ∈ [start, end))
+  // get citasDelMes(): Cita[] {
+  //   const { start, end } = this.monthBounds(this.mesSeleccionado());
+  //   return this.citas().filter(c => {
+  //     const t = new Date(c.fechaInicio).getTime();
+  //     return t >= start.getTime() && t < end.getTime();
+  //   }).sort((a,b)=> new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime());
+  // }
 
-  // (Opcional) Agrupar por día para mostrar bonito
-  get citasMesAgrupadas(): { diaISO: string; items: Cita[] }[] {
-    const map = new Map<string, Cita[]>();
-    for (const c of this.citasDelMes) {
-      const d = new Date(c.fechaInicio);
-      const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString();
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(c);
-    }
-    // ordenar por día
-    return Array.from(map.entries())
-      .sort((a,b)=> new Date(a[0]).getTime() - new Date(b[0]).getTime())
-      .map(([diaISO, items]) => ({ diaISO, items }));
-  }  
+  // // (Opcional) Agrupar por día para mostrar bonito
+  // get citasMesAgrupadas(): { diaISO: string; items: Cita[] }[] {
+  //   const map = new Map<string, Cita[]>();
+  //   for (const c of this.citasDelMes) {
+  //     const d = new Date(c.fechaInicio);
+  //     const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString();
+  //     if (!map.has(key)) map.set(key, []);
+  //     map.get(key)!.push(c);
+  //   }
+  //   // ordenar por día
+  //   return Array.from(map.entries())
+  //     .sort((a,b)=> new Date(a[0]).getTime() - new Date(b[0]).getTime())
+  //     .map(([diaISO, items]) => ({ diaISO, items }));
+  // }  
 
   // ---------- MODAL: crear / editar / borrar citas ----------
   abrirNuevaCita() {
@@ -793,5 +793,76 @@ async onUploadResultado(ev: Event, e: Examen) {
     if (!Number.isNaN(ini) && ini > now) return 'Programado';
     return 'En curso';
   }
+
+
+
+
+  //Prueba para producción
+  // 🔹 Derivados con memoización
+  private monthBounds = (iso: string) => {
+    const d = new Date(iso);
+    const start = new Date(d.getFullYear(), d.getMonth(), 1);
+    const end = new Date(d.getFullYear(), d.getMonth() + 1, 1); // exclusivo
+    return { start, end };
+  };
+
+  // Día seleccionado (derivado del signal ya existente)
+  private _citasDelDia = computed<Cita[]>(() => {
+    const sel = this.fechaSeleccionada();
+    if (!sel) return [];
+    const selDate = new Date(sel);
+    return this.citas()
+      .filter(c => {
+        const d = new Date(c.fechaInicio);
+        return d.getFullYear() === selDate.getFullYear()
+          && d.getMonth() === selDate.getMonth()
+          && d.getDate() === selDate.getDate();
+      })
+      .sort((a,b) => new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime());
+  });
+
+  // Mes seleccionado
+  private _citasDelMes = computed<Cita[]>(() => {
+    const { start, end } = this.monthBounds(this.mesSeleccionado());
+    const s = start.getTime();
+    const e = end.getTime();
+    // ⚠️ no mutar: usa spread antes de sort
+    return [...this.citas()
+      .filter(c => {
+        const t = new Date(c.fechaInicio).getTime();
+        return t >= s && t < e;
+      })].sort((a,b) => new Date(a.fechaInicio).getTime() - new Date(b.fechaInicio).getTime());
+  });
+
+  // Clave de día local segura (sin zonas)
+  private dayKey(d: Date): string {
+    const y = d.getFullYear();
+    const m = (d.getMonth() + 1).toString().padStart(2,'0');
+    const dd = d.getDate().toString().padStart(2,'0');
+    return `${y}-${m}-${dd}`;
+  }
+
+  // Agrupado por día (memoizado)
+  private _citasMesAgrupadas = computed<{ diaKey: string; items: Cita[] }[]>(() => {
+    const map = new Map<string, Cita[]>();
+    for (const c of this._citasDelMes()) {
+      const d = new Date(c.fechaInicio);
+      const key = this.dayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+      if (!map.has(key)) map.set(key, []);
+      map.get(key)!.push(c);
+    }
+    return Array.from(map.entries())
+      .sort((a,b)=> a[0] < b[0] ? -1 : 1)
+      .map(([diaKey, items]) => ({ diaKey, items }));
+  });
+
+  // 🔹 Getters “fachada” para NO tocar el HTML
+  get citasDelDia(): Cita[] { return this._citasDelDia(); }
+  get citasDelMes(): Cita[] { return this._citasDelMes(); }
+  get citasMesAgrupadas(): { diaKey: string; items: Cita[] }[] { return this._citasMesAgrupadas(); }
+
+  // 🔹 trackBy para listas
+  trackByDia = (_: number, g: { diaKey: string }) => g.diaKey;
+  trackByCita = (_: number, c: Cita) => c.id ?? c.fechaInicio; // fallback
 
 }
