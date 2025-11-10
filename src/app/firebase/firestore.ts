@@ -34,6 +34,43 @@ export interface Mascota {
   numeroChip?: string;
 }
 
+export type Vacuna = {
+  id?: string;
+  tipo: string;                 
+  fechaAplicacion: string;      
+  notas?: string;
+  creadoPor: string;
+  proximaFecha?: string;        
+};
+
+export type Examen = {
+  id?: string;
+  tipo: string;                 // p.ej.: "Perfil bioquímico", "Radiografía", etc.
+  fechaProgramada?: string;     // ISO
+  realizado?: boolean;          // check de estado
+  fechaRealizado?: string;      // ISO (si realizado)
+  lugar?: string;
+  costo?: number;
+  notas?: string;
+
+  // URLs de archivos en Storage
+  ordenUrl?: string;            // imagen/archivo de orden médica
+  resultadoUrl?: string;        // imagen/archivo de resultados
+
+  creadoPor: string;
+};
+
+export type Medicamento = {
+  id?: string;
+  nombre: string;
+  mg: number;                 // dosis en mg
+  fechaInicio: string;        // ISO
+  fechaFin?: string;          // ISO (opcional)
+  costo?: number;             // CLP (opcional)
+  notas?: string;             // nota de comportamiento (opcional)
+  creadoPor: string;
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -160,6 +197,99 @@ export class FirestoreService {
   // Borrar cita
   async deleteCita(petId: string, citaId: string) {
     const ref = doc(this.firestore, `mascotas/${petId}/citas/${citaId}`);
+    return deleteDoc(ref);
+  }  
+
+  //Métodos para vacunas
+  getVacunasByMascota(petId: string): Observable<Vacuna[]> {
+    const ref = collection(this.firestore, `mascotas/${petId}/vacunas`);
+    const q = query(ref, orderBy('fechaAplicacion', 'desc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Vacuna[]>;
+  }
+
+  // Crear vacuna
+  async addVacuna(petId: string, data: Vacuna) {
+    const ref = collection(this.firestore, `mascotas/${petId}/vacunas`);
+    return addDoc(ref, data);
+  }
+
+  // Actualizar vacuna
+  async updateVacuna(petId: string, vacunaId: string, data: Partial<Vacuna>) {
+    const ref = doc(this.firestore, `mascotas/${petId}/vacunas/${vacunaId}`);
+    return updateDoc(ref, { ...data });
+  }
+
+  // Borrar vacuna
+  async deleteVacuna(petId: string, vacunaId: string) {
+    const ref = doc(this.firestore, `mascotas/${petId}/vacunas/${vacunaId}`);
+    return deleteDoc(ref);
+  }    
+
+  // ➕ Exámenes (subcolección)
+  getExamenesByMascota(petId: string): Observable<Examen[]> {
+    const ref = collection(this.firestore, `mascotas/${petId}/examenes`);
+    const q = query(ref, orderBy('fechaProgramada', 'asc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Examen[]>;
+  }
+
+  async addExamen(petId: string, data: Examen) {
+    const ref = collection(this.firestore, `mascotas/${petId}/examenes`);
+    return addDoc(ref, data);
+  }
+
+  async updateExamen(petId: string, examenId: string, data: Partial<Examen>) {
+    const ref = doc(this.firestore, `mascotas/${petId}/examenes/${examenId}`);
+    return updateDoc(ref, { ...data });
+  }
+
+  async deleteExamen(petId: string, examenId: string) {
+    const ref = doc(this.firestore, `mascotas/${petId}/examenes/${examenId}`);
+    return deleteDoc(ref);
+  }
+
+  // ➕ Uploads (orden / resultado)
+  async uploadExamenFile(
+    uid: string,
+    petId: string,
+    examenId: string,
+    file: File,
+    kind: 'orden' | 'resultado'
+  ): Promise<string> {
+    const storage = getStorage();
+    const path = `mascotas/${uid}/${petId}/examenes/${examenId}/${kind}-${Date.now()}-${file.name}`;
+    const r = ref(storage, path);
+    await uploadBytes(r, file);
+    return getDownloadURL(r);
+  }
+
+  async removeExamenFileByUrl(url: string): Promise<void> {
+    const storage = getStorage();
+    const r = ref(storage, url);
+    await deleteObject(r);
+  } 
+  
+  // 👉 2. Query por mascota
+  getMedicamentosByMascota(petId: string): Observable<Medicamento[]> {
+    const ref = collection(this.firestore, `mascotas/${petId}/medicamentos`);
+    const q = query(ref, orderBy('fechaInicio', 'desc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Medicamento[]>;
+  }
+
+  // 👉 3. Crear
+  async addMedicamento(petId: string, data: Medicamento) {
+    const ref = collection(this.firestore, `mascotas/${petId}/medicamentos`);
+    return addDoc(ref, data);
+  }
+
+  // 👉 4. Actualizar
+  async updateMedicamento(petId: string, medicamentoId: string, data: Partial<Medicamento>) {
+    const ref = doc(this.firestore, `mascotas/${petId}/medicamentos/${medicamentoId}`);
+    return updateDoc(ref, { ...data });
+  }
+
+  // 👉 5. Borrar
+  async deleteMedicamento(petId: string, medicamentoId: string) {
+    const ref = doc(this.firestore, `mascotas/${petId}/medicamentos/${medicamentoId}`);
     return deleteDoc(ref);
   }  
 }

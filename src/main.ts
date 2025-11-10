@@ -26,7 +26,14 @@ import {
   imagesOutline,
   createOutline,
   trashOutline,
-  addOutline
+  addOutline,
+  imageOutline,
+  qrCodeOutline, 
+  cloudUploadOutline,
+  closeCircleOutline,
+  checkboxOutline,
+  checkmarkDoneOutline,
+  eyeOutline
 } from 'ionicons/icons';
 
 //  Registrar íconos globales
@@ -39,7 +46,14 @@ addIcons({
   imagesOutline,
   createOutline,
   trashOutline,
-  addOutline
+  addOutline,
+  imageOutline,
+  qrCodeOutline,
+  cloudUploadOutline,
+  closeCircleOutline,
+  checkboxOutline,
+  checkmarkDoneOutline,
+  eyeOutline
 });
 
 //  Configuración de Firebase (tu proyecto Ashbis)
