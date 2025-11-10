@@ -176,9 +176,23 @@ export class MascotaEditarComponent implements OnDestroy {
     this.subMedicamentos?.unsubscribe();  
   }
 
+  // En MascotaEditarComponent
   setSection(s: Section) {
+    const prev = this.section();
+    // Si salgo del calendario, cierro modales y libero formularios
+    if (prev === 'calendario') {
+      this.citaModalOpen.set(false);
+      this.citaForm = undefined as any;
+    }
+    // Si entro al calendario, uso un pequeño deferral para montar limpio
     this.section.set(s);
+    if (s === 'calendario') {
+      queueMicrotask(() => {
+        // Si necesitas preparar algo, hazlo aquí
+      });
+    }
   }
+
 
   // --------- FORM PRINCIPAL ----------
   private buildForm(m: Mascota) {
