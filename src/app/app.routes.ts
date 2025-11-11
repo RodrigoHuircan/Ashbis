@@ -41,17 +41,21 @@ export const routes: Routes = [
       {
         path: 'perfil-mascota/:id',
         loadComponent: () => import('./perfil-mascota/perfil-mascota.component').then((m) => m.MascotaPerfilComponent),
-      },     
+      },
       {
         path: 'mascota-editar/:id/editar',
         loadComponent: () => import('./mascota-editar/mascota-editar.component').then((m) => m.MascotaEditarComponent),
-      },          
+      },
       {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: 'chat-ia',
+    loadComponent: () => import('./chat-ia/chat-ia.component').then(m => m.ChatIaComponent)
   },
   {
     path: '',
@@ -61,5 +65,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'login',
-  },
+  }
 ];

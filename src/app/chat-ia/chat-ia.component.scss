@@ -1,0 +1,19 @@
+.chat-input {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-input {
+  flex: 1;
+}
+
+ion-list {
+  margin-bottom: 80px; /* para no tapar los mensajes */
+}

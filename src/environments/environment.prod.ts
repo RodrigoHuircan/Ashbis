@@ -8,5 +8,7 @@ export const environment = {
     messagingSenderId: "586939747639",
     appId: "1:586939747639:web:5d8dcf672717cf1052deb2",
     measurementId: "G-JPXH6ZVCGZ"
-  }
+  },
+  geminiApiKey: 'AIzaSyCpBclcAdjWBjup9yP2kNxCq96TPSC1zfw'
+                 
 };

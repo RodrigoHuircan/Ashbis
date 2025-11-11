@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/firebase/authentication';
 import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { addIcons } from 'ionicons';
-import { hourglassOutline, locateOutline, star, bagOutline, pawOutline } from 'ionicons/icons';
+import { hourglassOutline, locateOutline, star, bagOutline, pawOutline, chatbubblesOutline } from 'ionicons/icons';
 import { register } from 'swiper/element/bundle';
 register();
 
@@ -95,6 +95,7 @@ export class HomePage implements OnInit {
   // 👇 3. CONSTRUCTOR limpio (ya no inyecta ToastController aquí)
   constructor() {
     // No es necesario llamar a addIcons aquí si ya se hizo arriba
+      addIcons({star,chatbubblesOutline});
   }
 
   ngOnInit() {
@@ -228,5 +229,10 @@ export class HomePage implements OnInit {
         console.error('Error al buscar lugares cercanos:', status);
       }
     });
+
   }
+  irAlChatIA() {
+  this.router.navigate(['/chat-ia']);
+}
+
 }
