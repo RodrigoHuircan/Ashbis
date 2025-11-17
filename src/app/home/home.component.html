@@ -26,6 +26,12 @@
     Ahora el mapa tiene su propia tarjeta para mantener las esquinas redondeadas,
     pero los botones y el título están fuera.
   -->
+    <div class="ion-text-center ion-margin-top">
+      <ion-button expand="block" color="danger" shape="round" (click)="irAlChatIA()">
+        <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+        Chat con IA
+      </ion-button>
+    </div>
   <ion-card class="map-card-container ion-no-margin">
       <!-- 2. Título Centrado (Nuevo) -->
   <h2 class="map-title ion-text-center">Lugares para Mascotas</h2>
@@ -34,7 +40,7 @@
   <div class="button-container ion-text-center">
     <ion-button
       (click)="findPlacesAction('veterinary_care')"
-      color="primary"
+      color="danger"
       size="small"
       [disabled]="estaCargando"
       shape="round"
@@ -50,7 +56,7 @@
 
     <ion-button
       (click)="findPlacesAction('pet_store')"
-      color="secondary"
+      color="danger"
       size="small"
       [disabled]="estaCargando"
       shape="round"
@@ -105,19 +111,6 @@
     </ion-card-content>
   </ion-card>
   <!-- 🤖 Botón para abrir Chat con IA -->
-<div class="ion-text-center ion-margin-top">
-  <ion-button
-    expand="block"
-    color="danger"
-    shape="round"
-    (click)="irAlChatIA()"
-  >
-    <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
-    Chat con IA
-  </ion-button>
-</div>
-
-
   <!-- 5. Mensaje de "No se encontraron..." -->
   <p
     *ngIf="!estaCargando && marcadoresEnMapa.length === 0"

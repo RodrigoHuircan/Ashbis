@@ -18,8 +18,7 @@ import { Models } from '../../models/models';
 // Componentes de Ionic
 import {
   IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-  IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonNote,
-  IonFab, IonFabButton, IonIcon, IonSpinner, IonCard, IonCardContent
+  IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonNote, IonIcon, IonSpinner, IonCard, IonCardContent
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, medicalOutline, clipboardOutline, eyedropOutline } from 'ionicons/icons';
@@ -30,8 +29,7 @@ import { addOutline, medicalOutline, clipboardOutline, eyedropOutline } from 'io
   imports: [
     CommonModule, NgIf, DatePipe,
     IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-    IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonNote,
-    IonFab, IonFabButton, IonIcon, IonSpinner, IonCard, IonCardContent
+    IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonNote, IonIcon, IonSpinner, IonCard, IonCardContent
   ],
   providers: [DatePipe],
   templateUrl: './mascota-detalle.component.html',

@@ -1,5 +1,8 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Chat Ashbis IA 🐾</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,21 +11,26 @@
 
   <ion-list>
     <ion-item *ngFor="let msg of mensajes">
-      <ion-label [color]="msg.autor === 'Tú' ? 'medium' : 'primary'">
-        <strong>{{ msg.autor }}:</strong> {{ msg.texto }}
+      <ion-label [color]="msg.autor === 'Tú' ? 'medium' : 'danger'">
+        <strong >{{ msg.autor }}:</strong> {{ msg.texto }}
       </ion-label>
     </ion-item>
   </ion-list>
 
+  <div class="loader" *ngIf="cargando">
+    <ion-spinner name="dots"></ion-spinner>
+    <span style="margin-left: 8px;">Ashbis IA está pensando...</span>
+  </div>  
+
   <div *ngIf="pasoActual === 1" class="botones">
-    <ion-button expand="block" (click)="seleccionarCategoria('Salud')">1️⃣ Salud 🩺</ion-button>
-    <ion-button expand="block" (click)="seleccionarCategoria('Alimentación')">2️⃣ Alimentación 🍖</ion-button>
-    <ion-button expand="block" (click)="seleccionarCategoria('Cuidados')">3️⃣ Cuidados 🧴</ion-button>
+    <ion-button expand="block" color="danger" (click)="seleccionarCategoria('Salud')">1️⃣ Salud 🩺</ion-button>
+    <ion-button expand="block" color="danger" (click)="seleccionarCategoria('Alimentación')">2️⃣ Alimentación 🍖</ion-button>
+    <ion-button expand="block" color="danger" (click)="seleccionarCategoria('Cuidados')">3️⃣ Cuidados 🧴</ion-button>
   </div>
 
   <div *ngIf="pasoActual === 2" class="botones">
-    <ion-button expand="block" (click)="seleccionarMascota('Perro')">🐶 Perro</ion-button>
-    <ion-button expand="block" (click)="seleccionarMascota('Gato')">🐱 Gato</ion-button>
+    <ion-button expand="block" color="danger" (click)="seleccionarMascota('Perro')">🐶 Perro</ion-button>
+    <ion-button expand="block" color="danger" (click)="seleccionarMascota('Gato')">🐱 Gato</ion-button>
   </div>
 
   <div *ngIf="pasoActual === 3" class="pregunta">

@@ -42,7 +42,8 @@
       <ion-button
         expand="block"
         (click)="descargarPDF()"
-        [disabled]="descargandoPDF">
+        [disabled]="descargandoPDF"
+        color="danger">
         <ion-icon name="document-text-outline" slot="start"></ion-icon>
         <ion-spinner *ngIf="descargandoPDF" name="crescent" slot="start"></ion-spinner>
         {{ descargandoPDF ? 'Generando...' : 'Descargar PDF' }}
@@ -50,6 +51,7 @@
 
       <!-- Botón de Compartir (Solo aparece si el navegador puede) -->
       <ion-button
+        color="danger"
         *ngIf="canShare"
         expand="block"
         fill="outline"

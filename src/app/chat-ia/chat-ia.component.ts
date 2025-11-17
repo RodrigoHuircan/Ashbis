@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonItem, IonLabel, IonInput } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonItem, IonLabel, IonInput, IonSpinner, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-chat-ia',
@@ -21,6 +21,9 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonIte
     IonItem,
     IonLabel,
     IonInput,
+    IonSpinner,
+    IonButtons,
+    IonBackButton
   ]
 })
 export class ChatIaComponent {
@@ -30,15 +33,32 @@ export class ChatIaComponent {
   mensaje: string = '';
   mensajes: { autor: string; texto: string }[] = [];
 
+  cargando: boolean = false;
+
   async enviarMensajeIA(prompt: string) {
+    this.cargando = true;
     try {
+
+      const promptFormateado = `
+Eres Ashbis IA, un asistente veterinario para perros y gatos.
+
+Reglas de respuesta:
+- Responde en español.
+- Usa texto plano, SIN Markdown (no uses #, **, listas con números o guiones).
+- Máximo 8–10 líneas.
+- Usa frases cortas y fáciles de leer en el celular.
+
+Pregunta del usuario:
+${prompt}
+    `.trim();
+
       const response = await fetch(
         'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=' + environment.geminiApiKey,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
+            contents: [{ parts: [{ text: promptFormateado }] }],
           }),
         }
       );
@@ -69,8 +89,11 @@ export class ChatIaComponent {
         autor: 'Ashbis IA',
         texto: '🚨 Ocurrió un error al procesar tu mensaje.',
       });
+    } finally {
+      this.cargando = false;
     }
   }
+
 
   seleccionarCategoria(categoria: string) {
     this.categoriaSeleccionada = categoria;
@@ -82,7 +105,7 @@ export class ChatIaComponent {
     this.mascotaSeleccionada = tipo;
     this.mensajes.push({
       autor: 'Ashbis IA',
-      texto: `Excelente 🐶🐱. Ahora escribe tu pregunta sobre **${this.categoriaSeleccionada}** de tu **${this.mascotaSeleccionada}**.`,
+      texto: `Excelente 🐶🐱. Ahora escribe tu pregunta sobre ${this.categoriaSeleccionada} de tu ${this.mascotaSeleccionada}.`,
     });
     this.pasoActual = 3;
   }
