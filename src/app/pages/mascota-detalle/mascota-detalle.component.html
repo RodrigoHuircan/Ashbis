@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/listar-mascotas"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ mascota?.nombre || 'Cargando...' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="cargando" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando datos de {{ mascota?.nombre }}...</p>
+  </div>
+
+  <div *ngIf="!cargando && mascota">
+    
+    <!-- 1. Pestañas (Segmento) -->
+    <ion-segment [value]="segmentoActual" (ionChange)="segmentoCambiado($event)">
+      <ion-segment-button value="vacunas">
+        <ion-icon name="medical-outline"></ion-icon>
+        <ion-label>Vacunas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="examenes">
+        <ion-icon name="clipboard-outline"></ion-icon>
+        <ion-label>Exámenes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="medicamentos">
+        <ion-icon name="eyedropOutline"></ion-icon>
+        <ion-label>Medicamentos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- 2. Contenido de las Pestañas (Listas) -->
+    <div [ngSwitch]="segmentoActual" class="ion-padding-top">
+
+      <!-- Sección VACUNAS (Corregida) -->
+      <ion-list *ngSwitchCase="'vacunas'">
+        <ion-item *ngFor="let vacuna of vacunas">
+          <ion-label>
+            <!-- 👇 CORREGIDO: 'nombre' -> 'tipo' -->
+            <h2>{{ vacuna.tipo }}</h2>
+            <!-- 👇 CORREGIDO: 'fecha' -> 'fechaAplicacion' -->
+            <p>Aplicada: {{ vacuna.fechaAplicacion | date: 'dd/MM/yyyy' }}</p>
+          </ion-label>
+          <ion-note slot="end" color="primary">
+            <!-- 👇 CORREGIDO: 'proximaDosis' -> 'proximaFecha' -->
+            Próxima: {{ vacuna.proximaFecha | date: 'dd/MM/yyyy' }}
+          </ion-note>
+        </ion-item>
+        <ion-card *ngIf="vacunas.length === 0">
+          <ion-card-content class="ion-text-center">
+            No hay vacunas registradas.
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+
+      <!-- Sección EXÁMENES (Corregida) -->
+      <ion-list *ngSwitchCase="'examenes'">
+        <ion-item *ngFor="let examen of examenes">
+          <ion-label>
+            <h2>{{ examen.tipo }}</h2>
+            <!-- 👇 CORREGIDO: 'fecha' -> 'fechaRealizado' (o 'fechaProgramada') -->
+            <p>
+              {{ examen.realizado ? 'Realizado:' : 'Programado:' }} 
+              {{ (examen.realizado ? examen.fechaRealizado : examen.fechaProgramada) | date: 'dd/MM/yyyy' }}
+            </p>
+          </ion-label>
+          <ion-note slot="end" [color]="examen.realizado ? 'success' : 'warning'">
+            <!-- 👇 CORREGIDO: 'resultado' -> 'realizado' (lógica) -->
+            {{ examen.realizado ? 'Completado' : 'Pendiente' }}
+          </ion-note>
+        </ion-item>
+        <ion-card *ngIf="examenes.length === 0">
+          <ion-card-content class="ion-text-center">
+            No hay exámenes registrados.
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+
+      <!-- Sección MEDICAMENTOS (Corregida) -->
+      <ion-list *ngSwitchCase="'medicamentos'">
+        <ion-item *ngFor="let med of medicamentos">
+          <ion-label>
+            <h2>{{ med.nombre }}</h2>
+            <!-- 👇 CORREGIDO: 'dosis' -> 'mg' -->
+            <p>Dosis: {{ med.mg }} mg</p>
+          </ion-label>
+          <!-- 👇 CORREGIDO: 'frecuencia' -> 'fechaInicio' -->
+          <ion-note slot="end" color="tertiary">
+            Inicia: {{ med.fechaInicio | date: 'dd/MM/yyyy' }}
+          </ion-note>
+        </ion-item>
+        <ion-card *ngIf="medicamentos.length === 0">
+          <ion-card-content class="ion-text-center">
+            No hay medicamentos registrados.
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+    </div>
+
+  </div> <!-- Fin de *ngIf="!cargando" -->
+
+  <!-- 3. Botón Flotante para AÑADIR -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="abrirModalNuevoRegistro()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

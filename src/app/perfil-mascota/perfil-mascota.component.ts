@@ -55,6 +55,12 @@ editarPerfil() {
     this.router.navigate(['/tabs/mascota-editar', id, 'editar']);
   }
 }
-  verHistorial() { /* historial clínico */ }
-  verQR() { /* genera/abre QR */ }
+  verHistorial() { 
+    const id = this.mascota()?.id;
+    if (id) {
+      // La ruta correcta al dashboard de tu equipo
+      this.router.navigate(['/tabs/mascota-detalle', id]);
+    }
+  }
+  verQR() { this.router.navigate(['/tabs/mascota-qr',]) }
 }

@@ -47,6 +47,11 @@ export const routes: Routes = [
         loadComponent: () => import('./mascota-editar/mascota-editar.component').then((m) => m.MascotaEditarComponent),
       },
       {
+        path: 'mascota-detalle/:id', // :id es el parámetro dinámico
+        loadComponent: () => import('./pages/mascota-detalle/mascota-detalle.component')
+          .then(m => m.MascotaDetalleComponent)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',
