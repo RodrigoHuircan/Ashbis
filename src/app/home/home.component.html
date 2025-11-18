@@ -1,3 +1,11 @@
+<ion-header>
+  <ion-toolbar class="header-menu">
+    <img src="assets/img/ashbis.png" alt="Logo Ashbis" class="logo-header">
+  </ion-toolbar>
+</ion-header>
+
+
+
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <!-- 1. Carrusel (Sigue igual) -->
@@ -12,10 +20,6 @@
       <swiper-slide *ngFor="let img of imagenesCarrusel">
         <div class="slide-content">
           <img [src]="img.src" [alt]="img.titulo" />
-          <div class="slide-text">
-            <h2>{{ img.titulo }}</h2>
-            <p>{{ img.descripcion }}</p>
-          </div>
         </div>
       </swiper-slide>
     </swiper-container>

@@ -55,4 +55,14 @@ ion-tab-button:hover ion-icon {
   color: var(--ion-color-danger);
 }
 
+:root {
+  --ion-color-danger: #8b0808;
+  --ion-color-danger-rgb: 139,8,8;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255,255,255;
+  --ion-color-danger-shade: #740707;
+  --ion-color-danger-tint: #9a1b1b;
+}
+
+
 @import 'swiper/swiper-bundle.css';
