@@ -12,6 +12,8 @@ import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps
 import { addIcons } from 'ionicons';
 import { hourglassOutline, locateOutline, star, bagOutline, pawOutline, chatbubblesOutline } from 'ionicons/icons';
 import { register } from 'swiper/element/bundle';
+import { FirestoreService } from '../firebase/firestore';
+import { firstValueFrom } from 'rxjs';
 register();
 
 // Definición de la interfaz (ahora genérica para Marcador)
@@ -21,7 +23,18 @@ interface Marcador {
   options: google.maps.MarkerOptions;
   address: string;
   rating?: number;
+  placeId?: string;
 }
+
+type VeterinariaFavoritaInput = {
+  placeId: string;
+  nombre: string;
+  direccion: string;
+  lat: number;
+  lng: number;
+  rating?: number;
+  tipos?: string[];
+};
 
 // Se agregan todos los iconos necesarios
 addIcons({ hourglassOutline, locateOutline, bagOutline, pawOutline, star });
@@ -39,6 +52,7 @@ export class HomePage implements OnInit {
   private router = inject(Router);
   // 👇 2. INYECTADO aquí con inject()
   private toastController = inject(ToastController);
+  private firestoreService = inject(FirestoreService);
 
   @ViewChild(MapInfoWindow, { static: false }) infoWindow!: MapInfoWindow;
 
@@ -222,7 +236,8 @@ export class HomePage implements OnInit {
             icon: iconUrl // <-- Icono dinámico ARREGLADO
           },
           address: place.vicinity || place.formatted_address || 'Dirección no disponible',
-          rating: place.rating
+          rating: place.rating,
+          placeId: place.place_id ?? '' 
         }));
         console.log(`Se encontraron ${this.marcadoresEnMapa.length} lugares (${this.currentSearchType}).`);
       } else {
@@ -233,6 +248,39 @@ export class HomePage implements OnInit {
   }
   irAlChatIA() {
   this.router.navigate(['/chat-ia']);
+}
+
+async guardarVeterinariaFavorita() {
+  if (!this.marcadorSeleccionado) return;
+
+  if (this.currentSearchType !== 'veterinary_care') {
+    this.presentToast(
+      'Solo puedes guardar veterinarias desde la búsqueda de veterinarias.',
+      'warning'
+    );
+    return;
+  }
+
+  const user = await firstValueFrom(this.auth.authState);
+  if (!user) {
+    this.presentToast('Debes iniciar sesión para guardar favoritos.', 'warning');
+    return;
+  }
+
+  const m = this.marcadorSeleccionado;
+
+  const vet: VeterinariaFavoritaInput = {
+    placeId: m.placeId || '',
+    nombre: m.title,
+    direccion: m.address,
+    lat: m.position.lat,
+    lng: m.position.lng,
+    rating: m.rating,
+    tipos: [] // si más adelante quieres guardar types de Places
+  };
+
+  await this.firestoreService.addVeterinariaFavorita(user.uid, vet);
+  this.presentToast('Veterinaria añadida a favoritos 🐾', 'success');
 }
 
 }

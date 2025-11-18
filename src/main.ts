@@ -33,7 +33,12 @@ import {
   closeCircleOutline,
   checkboxOutline,
   checkmarkDoneOutline,
-  eyeOutline
+  eyeOutline,
+  heartOutline,
+  eyedropOutline,
+  medicalOutline,
+  clipboardOutline,
+  mapOutline
 } from 'ionicons/icons';
 
 //  Registrar íconos globales
@@ -53,7 +58,11 @@ addIcons({
   closeCircleOutline,
   checkboxOutline,
   checkmarkDoneOutline,
-  eyeOutline
+  eyeOutline,
+  heartOutline,
+  eyedropOutline, medicalOutline,
+  clipboardOutline,
+  mapOutline
 });
 
 //  Configuración de Firebase (tu proyecto Ashbis)

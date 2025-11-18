@@ -104,6 +104,12 @@
                 Puntuación: <strong>{{ marcadorSeleccionado.rating }}</strong>
                 <ion-icon name="star"></ion-icon>
               </p>
+                  <div class="ion-text-right ion-margin-top">
+                    <ion-button size="small" color="danger" shape="round" (click)="guardarVeterinariaFavorita()">
+                      <ion-icon name="heart-outline" slot="start"></ion-icon>
+                      Favorita
+                    </ion-button>
+                  </div>
             </div>
           </map-info-window>
         </google-map>

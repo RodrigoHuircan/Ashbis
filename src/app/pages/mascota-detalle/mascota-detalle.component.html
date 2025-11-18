@@ -27,9 +27,13 @@
         <ion-label>Exámenes</ion-label>
       </ion-segment-button>
       <ion-segment-button value="medicamentos">
-        <ion-icon name="eyedropOutline"></ion-icon>
+        <ion-icon name="eyedrop-outline"></ion-icon>
         <ion-label>Medicamentos</ion-label>
       </ion-segment-button>
+        <ion-segment-button value="veterinarias">
+          <ion-icon name="paw-outline"></ion-icon>
+          <ion-label>Veterinarias</ion-label>
+        </ion-segment-button>
     </ion-segment>
 
     <!-- 2. Contenido de las Pestañas (Listas) -->
@@ -95,6 +99,32 @@
         <ion-card *ngIf="medicamentos.length === 0">
           <ion-card-content class="ion-text-center">
             No hay medicamentos registrados.
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'veterinarias'">
+        <ion-item *ngFor="let vet of veterinariasFavoritas">
+          <ion-label>
+            <h2>{{ vet.nombre }}</h2>
+            <p>{{ vet.direccion }}</p>
+            <p *ngIf="vet.rating">⭐ {{ vet.rating }}</p>
+          </ion-label>
+
+          <!-- Botón para abrir en el mapa (opcional)
+          <ion-button
+            slot="end"
+            fill="clear"
+            (click)="abrirEnMapa(vet)"
+          >
+            <ion-icon name="map-outline" slot="icon-only"></ion-icon>
+          </ion-button> -->
+        </ion-item>
+
+        <ion-card *ngIf="veterinariasFavoritas.length === 0">
+          <ion-card-content class="ion-text-center">
+            Aún no tienes veterinarias favoritas.<br />
+            Agrégalas desde el mapa en la pantalla principal 🗺️
           </ion-card-content>
         </ion-card>
       </ion-list>

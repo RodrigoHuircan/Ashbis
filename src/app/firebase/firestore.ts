@@ -71,6 +71,20 @@ export type Medicamento = {
   creadoPor: string;
 };
 
+export type VeterinariaFavorita = {
+  id?: string;
+  placeId: string;
+  nombre: string;
+  direccion: string;
+  lat: number;
+  lng: number;
+  rating?: number;
+  tipos?: string[];
+  uidUsuario: string;     // para trazabilidad
+  fechaRegistro?: string; // opcional ISO
+};
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -292,4 +306,32 @@ export class FirestoreService {
     const ref = doc(this.firestore, `mascotas/${petId}/medicamentos/${medicamentoId}`);
     return deleteDoc(ref);
   }  
+
+  // 🐾 Veterinarias favoritas (por usuario)
+  getVeterinariasFavoritasByUsuario(uid: string): Observable<VeterinariaFavorita[]> {
+    const ref = collection(this.firestore, `usuarios/${uid}/veterinariasFavoritas`);
+    const q = query(ref, orderBy('fechaRegistro', 'desc'));
+    return collectionData(q, { idField: 'id' }) as Observable<VeterinariaFavorita[]>;
+  }
+
+  async addVeterinariaFavorita(uid: string, data: Omit<VeterinariaFavorita, 'id' | 'uidUsuario' | 'fechaRegistro'>) {
+    const refCol = collection(this.firestore, `usuarios/${uid}/veterinariasFavoritas`);
+    const payload: VeterinariaFavorita = {
+      ...data,
+      uidUsuario: uid,
+      fechaRegistro: new Date().toISOString(),
+    };
+    return addDoc(refCol, payload);
+  }
+
+  async updateVeterinariaFavorita(uid: string, vetId: string, data: Partial<VeterinariaFavorita>) {
+    const refDoc = doc(this.firestore, `usuarios/${uid}/veterinariasFavoritas/${vetId}`);
+    return updateDoc(refDoc, { ...data });
+  }
+
+  async deleteVeterinariaFavorita(uid: string, vetId: string) {
+    const refDoc = doc(this.firestore, `usuarios/${uid}/veterinariasFavoritas/${vetId}`);
+    return deleteDoc(refDoc);
+  }
+
 }

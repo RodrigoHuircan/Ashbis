@@ -7,6 +7,8 @@ import {
 } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService, Mascota } from '../firebase/firestore';
+import { VeterinariaFavorita } from 'src/app/firebase/firestore';
+import { AuthenticationService } from 'src/app/firebase/authentication';
 
 @Component({
   selector: 'app-mascota-perfil',
@@ -24,6 +26,9 @@ export class MascotaPerfilComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fs = inject(FirestoreService);
+
+  veterinariasFavoritas: VeterinariaFavorita[] = [];
+  private auth = inject(AuthenticationService);
 
   mascota = signal<Mascota | null>(null);
   loading = signal(true);
