@@ -41,39 +41,38 @@
   <h2 class="map-title ion-text-center">Lugares para Mascotas</h2>
 
   <!-- 3. Botones Centrados (Nuevo) -->
-  <div class="button-container ion-text-center">
-    <ion-button
-      (click)="findPlacesAction('veterinary_care')"
-      color="danger"
-      size="small"
-      [disabled]="estaCargando"
-      shape="round"
-      fill="solid"
-    >
-      <ion-icon
-        [name]="estaCargando && currentSearchType === 'veterinary_care' ? 'hourglass-outline' : 'locate-outline'"
-        slot="start"
-        [ngClass]="{'spin-animation': estaCargando && currentSearchType === 'veterinary_care'}"
-      ></ion-icon>
-      Veterinaria
-    </ion-button>
+  <div class="button-row">
+      <ion-button
+        class="btn-big"
+        (click)="findPlacesAction('veterinary_care')"
+        color="danger"
+        [disabled]="estaCargando"
+        shape="round"
+        fill="solid"
+      >
+        <ion-icon
+          [name]="estaCargando && currentSearchType === 'veterinary_care' ? 'hourglass-outline' : 'locate-outline'"
+          slot="start"
+          [ngClass]="{'spin-animation': estaCargando && currentSearchType === 'veterinary_care'}"
+        ></ion-icon>
+        Veterinaria
+      </ion-button>
 
-    <ion-button
-      (click)="findPlacesAction('pet_store')"
-      color="danger"
-      size="small"
-      [disabled]="estaCargando"
-      shape="round"
-      fill="solid"
-    >
-      <ion-icon
-        [name]="estaCargando && currentSearchType === 'pet_store' ? 'hourglass-outline' : 'bag-outline'"
-        slot="start"
-        [ngClass]="{'spin-animation': estaCargando && currentSearchType === 'pet_store'}"
-      ></ion-icon>
-      Tienda
-    </ion-button>
-  </div>
+      <ion-button
+        class="btn-big btn-outline"
+        (click)="findPlacesAction('pet_store')"
+        [disabled]="estaCargando"
+        shape="round"
+        fill="outline"
+      >
+        <ion-icon
+          [name]="estaCargando && currentSearchType === 'pet_store' ? 'hourglass-outline' : 'bag-outline'"
+          slot="start"
+          [ngClass]="{'spin-animation': estaCargando && currentSearchType === 'pet_store'}"
+        ></ion-icon>
+        Tienda
+      </ion-button>
+    </div>
     <ion-card-content>
       <div class="map-container">
         <google-map

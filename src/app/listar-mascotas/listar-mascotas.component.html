@@ -28,23 +28,25 @@
     <ng-container *ngIf="mascotas().length > 0; else empty">
       <ion-list>
         <ion-item *ngFor="let m of mascotas(); trackBy: trackById">
-          <ion-avatar slot="start">
-            <img [src]="m.fotoUrl || 'assets/img/logo_ashbis.jpeg'" alt="foto" />
-          </ion-avatar>
-          <ion-label>
-            <h2 class="ion-text-wrap">{{ m.nombre }}</h2>
-            <p class="ion-text-wrap">{{ m.especie }} • {{ m.raza || '—' }}</p>
-          </ion-label>
+        <ion-avatar slot="start">
+          <img [src]="m.fotoUrl || 'assets/img/logo_ashbis.jpeg'" alt="foto" />
+        </ion-avatar>
 
-          <ion-button
-            slot="end"
-            size="small"
-            color="danger"
-            (click)="goPerfil(m)"
-          >
-            Ver perfil
-          </ion-button>
-        </ion-item>
+        <ion-label>
+          <h2 class="ion-text-wrap">{{ m.nombre }}</h2>
+          <p class="ion-text-wrap">{{ m.especie }} • {{ m.raza || '—' }}</p>
+        </ion-label>
+
+        <!-- Botón VER PERFIL -->
+        <ion-button
+          slot="end"
+          size="small"
+          color="danger"
+          (click)="goPerfil(m)"
+        >
+          Ver perfil
+        </ion-button>
+      </ion-item>
       </ion-list>
     </ng-container>
 

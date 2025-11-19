@@ -1,93 +1,83 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-grid fixed class="ion-justify-content-center ion-align-items-center" style="min-height: 100%;">
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" sizeSm="10" sizeMd="8" sizeLg="6">
+<ion-content [fullscreen]="true">
 
-        <ion-card>
-          <ion-card-header class="ion-text-center">
-            <ion-thumbnail style="--size: 125px; margin: 12px auto; --border-radius: 16px;">
-              <ion-img src="assets/img/logo_ashbis.jpeg" alt="ASHBIS" loading="lazy"></ion-img>
-            </ion-thumbnail>
-            <ion-card-title>¡Bienvenido!</ion-card-title>
-          </ion-card-header>
+  <div class="login-container">
 
-          <ion-card-content>
-            <form [formGroup]="datosForm" (ngSubmit)="login()" novalidate>
-              <ion-list lines="inset">
+    <!-- Logo -->
+    <ion-thumbnail>
+      <ion-img src="assets/img/logo_ashbis.jpeg"></ion-img>
+    </ion-thumbnail>
 
-                <!-- Email -->
-                <ion-item>
-                  <ion-label position="stacked">Email</ion-label>
-                  <ion-input
-                    type="email"
-                    formControlName="email"
-                    inputmode="email"
-                    autocomplete="username"
-                    clear-input="true"
-                    [attr.aria-invalid]="datosForm.get('email')?.invalid && datosForm.get('email')?.touched"
-                    (ionBlur)="datosForm.get('email')?.markAsTouched()">
-                  </ion-input>
-                </ion-item>
-                <ion-note color="danger" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.hasError('required')">
-                  El email es obligatorio
-                </ion-note>
-                <ion-note color="danger" *ngIf="datosForm.get('email')?.touched && datosForm.get('email')?.hasError('email')">
-                  Formato de email inválido
-                </ion-note>
+    <!-- Título -->
+    <h1 class="titulo">¡Bienvenido!</h1>
 
-                <!-- Password -->
-                <ion-item>
-                  <ion-label position="stacked">Contraseña</ion-label>
-                  <ion-input
-                    [type]="showPass ? 'text' : 'password'"
-                    formControlName="password"
-                    autocomplete="current-password"
-                    [attr.aria-invalid]="datosForm.get('password')?.invalid && datosForm.get('password')?.touched"
-                    (ionBlur)="datosForm.get('password')?.markAsTouched()">
-                  </ion-input>
-                  <ion-button type="button" slot="end" fill="clear" (click)="showPass = !showPass" [aria-label]="showPass ? 'Ocultar contraseña' : 'Mostrar contraseña'">
-                    <ion-icon [name]="showPass ? 'eye-off' : 'eye'"></ion-icon>
-                  </ion-button>
-                </ion-item>
-                <ion-note color="danger" *ngIf="datosForm.get('password')?.touched && datosForm.get('password')?.hasError('required')">
-                  La contraseña es obligatoria
-                </ion-note>
-                <ion-note color="danger" *ngIf="datosForm.get('password')?.touched && datosForm.get('password')?.hasError('minlength')">
-                  Mínimo 6 caracteres
-                </ion-note>
+    <!-- Formulario -->
+    <form [formGroup]="datosForm" (ngSubmit)="login()">
 
-              </ion-list>
+      <!-- Email -->
+      <ion-item lines="none">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input
+          type="email"
+          formControlName="email"
+        ></ion-input>
+      </ion-item>
 
-              <!-- Actions -->
-              <ion-button type="submit" expand="block" class="ion-margin-top" [disabled]="cargando || datosForm.invalid" color="danger">
-                <ng-container *ngIf="!cargando; else loadingTpl">Ingresar</ng-container>
-              </ion-button>
-              <ng-template #loadingTpl>
-                <ion-spinner name="crescent"></ion-spinner>
-              </ng-template>
+      <!-- Password -->
+      <ion-item lines="none">
+        <ion-label position="stacked">Contraseña</ion-label>
 
-              <ion-button fill="clear" size="small" expand="block" [routerLink]="'/recuperar'" color="danger">
-                Olvidé mi contraseña
-              </ion-button>
+        <ion-input
+          [type]="showPass ? 'text' : 'password'"
+          formControlName="password">
+        </ion-input>
 
-              <ion-button type="button" color="medium" expand="block" (click)="irARegistro()">
-                Crear cuenta
-              </ion-button>
+        <ion-button
+          fill="clear"
+          slot="end"
+          (click)="showPass = !showPass"
+        >
+          <ion-icon [name]="showPass ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-item>
 
-              <ion-text color="medium" class="ion-text-center">
-                <small>¿No tienes una cuenta?</small>
-              </ion-text>
-            </form>
-          </ion-card-content>
-        </ion-card>
+      <!-- Ingresar -->
+      <ion-button
+        type="submit"
+        color="danger"
+        expand="block"
+      >
+        INGRESAR
+      </ion-button>
 
-        <div class="ion-text-center ion-margin-top">
-          <ion-button fill="clear" size="small" href="https://www.ashbis.com" target="_blank" rel="noopener" color="medium">
-            www.ashbis.com
-          </ion-button>
-        </div>
+      <!-- Olvidé mi contraseña -->
+      <ion-button
+        fill="clear"
+        class="btn-olvido"
+      >
+        Olvidé mi contraseña
+      </ion-button>
 
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      <!-- Crear cuenta -->
+      <ion-button
+        color="medium"
+        expand="block"
+        (click)="irARegistro()"
+      >
+        CREAR
+      </ion-button>
+
+      <small>¿No tienes una cuenta?</small>
+
+    </form>
+
+    <!-- Enlace inferior -->
+    <ion-button class="enlace"
+      fill="clear"
+      href="https://www.ashbis.com"
+    >
+      www.ashbis.com
+    </ion-button>
+
+  </div>
+
 </ion-content>

@@ -1,13 +1,15 @@
-/* Header */
+/* -------------------------------------------------------------------------- */
+/* ------------------------------ HEADER ------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
 .header-menu {
-  --background: #000000; /* Fondo negro */
-  border-bottom: 3px solid #8b0808; /* Borde inferior con tu color */
+  --background: #000000;
+  border-bottom: 3px solid #8b0808;
   display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
+  justify-content: center;
+  align-items: center;
 }
 
-/* Logo */
 .logo-header {
   height: 55px;
   width: auto;
@@ -16,18 +18,15 @@
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Hover */
 .logo-header:hover {
   transform: scale(1.05);
   filter: drop-shadow(0 0 8px rgb(139, 0, 0));
 }
 
-/* === Responsive === */
 @media (max-width: 768px) {
   .header-menu {
     height: 65px;
   }
-
   .logo-header {
     height: 45px;
   }
@@ -37,23 +36,23 @@
   .header-menu {
     height: 55px;
   }
-
   .logo-header {
     height: 38px;
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/* ------------------------------ CARRUSEL ---------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-/* === Carrusel moderno y responsivo === */
 swiper-container {
   width: 100%;
   height: 220px;
   display: block;
   border-radius: 16px;
   overflow: hidden;
-  background: transparent; /* eliminamos el fondo negro */
+  background: transparent;
   margin: 12px auto 24px auto;
-  /* 👇 HE CAMBIADO ESTA LÍNEA 👇 */
   box-shadow: 0 2px 8px rgb(0, 0, 0);
 }
 
@@ -61,7 +60,6 @@ swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .slide-content {
@@ -73,13 +71,11 @@ swiper-slide {
 .slide-content img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* hace que la imagen rellene el carrusel */
-  object-position: center;
+  object-fit: cover;
   border-radius: 16px;
-  display: block;
 }
 
-/* Texto sobre la imagen */
+/* Texto sobre imagen */
 .slide-text {
   position: absolute;
   bottom: 8px;
@@ -89,207 +85,45 @@ swiper-slide {
   background: rgba(0, 0, 0, 0.45);
   border-radius: 10px;
   padding: 8px 10px;
-  text-align: left;
 }
 
 .slide-text h2 {
   font-size: 17px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .slide-text p {
   font-size: 13px;
-  margin-top: 4px;
   opacity: 0.9;
 }
 
-/* Responsive */
+/* ----------------------- Responsive del carrusel -------------------------- */
+
 @media (max-width: 480px) {
   swiper-container {
     height: 180px;
   }
-
-  .slide-text h2 {
-    font-size: 15px;
-  }
-
-  .slide-text p {
-    font-size: 12px;
-  }
+  .slide-text h2 { font-size: 15px; }
+  .slide-text p { font-size: 12px; }
 }
 
-
-/* === Responsive === */
 @media (max-width: 600px) {
-  swiper-container {
-    height: 200px;
-  }
-
-  .slide-text h2 {
-    font-size: 16px;
-  }
-
-  .slide-text p {
-    font-size: 12px;
-  }
+  swiper-container { height: 200px; }
 }
 
+/* -------------------------------------------------------------------------- */
+/* ------------------------------ MAPA -------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-/* === Responsive móvil === */
-@media (max-width: 480px) {
-  swiper-container {
-    margin-top: 20px;
-    margin-bottom: 24px;
-  }
-
-  .slide-content img {
-    max-height: 200px;
-    /* más compacto en pantallas pequeñas */
-  }
-
-  .slide-text h2 {
-    font-size: 16px;
-  }
-
-  .slide-text p {
-    font-size: 12px;
-  }
-}
-
-/* Estilo para el contenedor del mapa para asegurar que ocupe espacio */
-.map-container {
-  height: 500px;
-  width: 100%;
-  /* Aseguramos que la tarjeta no tenga un padding interno excesivo que estorbe al mapa */
-  padding: 0;
-}
-
-/* Estilo para el encabezado de la tarjeta, usando flexbox para alinear título y botón */
-.map-header {
-  display: flex;
-  justify-content: space-between;
-  /* Espacio entre el título y el botón */
-  align-items: center;
-  /* Alinear verticalmente */
-  padding-bottom: 0.5rem;
-  /* Pequeño espacio debajo */
-}
-
-/* Animación de giro para el ícono de carga */
-.spin-animation {
-  animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Estilo para el ícono de estrella en el info window (para darle color) */
-ion-icon[name="star"] {
-  color: #f59e0b;
-  /* Color amarillo de Tailwind (yellow-500) */
-}
-
-/* Clases para el contenido del info window, complementando las clases de Tailwind en el HTML */
-/* Estas clases son de utilidad, por si acaso Tailwind no está configurado para 'scss' */
-.text-gray-600 {
-  color: #4b5563;
-}
-
-.text-gray-700 {
-  color: #374151;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.mb-1 {
-  margin-bottom: 0.25rem;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.ml-1 {
-  margin-left: 0.25rem;
-}
-
-/* Estilos de utilidad de Ionic que se usan en el HTML */
-.ion-padding {
-  padding: 16px;
-}
-
-.ion-no-margin {
-  margin: 0;
-}
-
-.ion-text-center {
-  text-align: center;
-}
-
-.ion-margin-top {
-  margin-top: 16px;
-}
-
-.p-2 {
-  padding: 8px;
-}
-
-.text-xs {
-  font-size: 0.75rem;
-}
-
-.text-yellow-600 {
-  color: #D97706; /* Un equivalente de Tailwind */
-}
-
-.space-x-2 > * + * {
-  margin-left: 0.5rem; /* 8px */
-}
-ion-button[color="danger"] {
-  --background: linear-gradient(135deg, #ff3b30, #ff6b6b);
-  --background-activated: #ff3b30;
-  --border-radius: 20px;
-  font-weight: 600;
-  box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
-}
-/* === MAPA RESPONSIVE Y MÁS PEQUEÑO === */
-
-/* Tamaño base del mapa */
 .map-container {
   width: 100%;
-  height: 300px; /* más pequeño */
+  height: 300px;
   padding: 0;
   border-radius: 16px;
   overflow: hidden;
 }
 
-/* Ajuste automático del componente google-map */
 google-map {
   width: 100% !important;
   height: 100% !important;
@@ -297,45 +131,92 @@ google-map {
   border-radius: 16px;
 }
 
-/* Tablets */
 @media (max-width: 768px) {
-  .map-container {
-    height: 250px; /* más pequeño en tablet */
-  }
+  .map-container { height: 250px; }
 }
-
-/* Móviles grandes */
 @media (max-width: 540px) {
-  .map-container {
-    height: 220px; /* tamaño cómodo */
-  }
+  .map-container { height: 220px; }
 }
-
-/* Móviles pequeños */
 @media (max-width: 420px) {
-  .map-container {
-    height: 200px; /* aún más compacto */
-  }
+  .map-container { height: 200px; }
 }
-
-/* Móviles muy pequeños */
 @media (max-width: 360px) {
-  .map-container {
-    height: 180px;
-  }
-}
-.btn-tienda {
-  background: transparent !important;   /* Fondo transparente */
-  border: 2px solid var(--ion-color-primary); /* Borde del color del tema */
-  color: var(--ion-color-primary);      /* Texto del mismo color */
-  padding: 10px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  transition: 0.3s ease;
+  .map-container { height: 180px; }
 }
 
-/* Efecto al pasar el mouse */
-.btn-tienda:hover {
-  background: var(--ion-color-primary);
-  color: white;
+/* Animación ícono de carga */
+.spin-animation {
+  animation: spin 1.5s linear infinite;
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* -------------------------------------------------------------------------- */
+/* ----------------------- BOTONES (ACTUALIZADO) ---------------------------- */
+/* -------------------------------------------------------------------------- */
+
+/* Contenedor horizontal */
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Tamaño idéntico */
+.btn-big {
+  width: 160px;
+  height: 45px;
+  font-weight: 600;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Botón rojo (Veterinaria) ya funciona con color="danger" */
+
+/* Botón Tienda con borde */
+.btn-outline {
+  --border-color: #8b0808;
+  --border-width: 2px;
+  --border-style: solid;
+  --color: white;
+  --background: transparent;
+}
+
+.btn-outline:hover {
+  --background: #8b080855;
+}
+
+/* Botones base de Ionic */
+ion-button[color="danger"] {
+  --background: linear-gradient(135deg, #ff3b30, #ff6b6b);
+  --background-activated: #ff3b30;
+  --border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
+}
+
+/* -------------------------------------------------------------------------- */
+/* UTILIDADES EXTRA ---------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+.ion-text-center { text-align: center; }
+.ion-padding { padding: 16px; }
+.ion-margin-top { margin-top: 16px; }
+.p-2 { padding: 8px; }
+.text-gray-600 { color: #4b5563; }
+.text-gray-700 { color: #374151; }
+.text-xs { font-size: 0.75rem; }
+.text-lg { font-size: 1.125rem; }
+.font-bold { font-weight: 700; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mt-1 { margin-top: 0.25rem; }
+.ml-1 { margin-left: 0.25rem; }
