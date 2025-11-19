@@ -63,6 +63,29 @@ ion-tab-button:hover ion-icon {
   --ion-color-danger-shade: #740707;
   --ion-color-danger-tint: #9a1b1b;
 }
+/* Forzar modo oscuro global */
+:root {
+  color-scheme: dark !important;
+}
+
+html, body {
+  --ion-background-color: #000 !important;
+  --ion-text-color: #fff !important;
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Anular modo claro del sistema */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: dark !important;
+  }
+}
+
+/* Activar el modo dark de Ionic */
+body {
+  --ion-color-light: #000 !important;
+}
 
 
 @import 'swiper/swiper-bundle.css';

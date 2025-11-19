@@ -9,30 +9,39 @@
 
 <ion-content class="ion-padding">
 
+  <!-- LISTA DE MENSAJES -->
   <ion-list>
-    <ion-item *ngFor="let msg of mensajes">
-      <ion-label [color]="msg.autor === 'Tú' ? 'medium' : 'danger'">
-        <strong >{{ msg.autor }}:</strong> {{ msg.texto }}
-      </ion-label>
-    </ion-item>
+    <div *ngFor="let msg of mensajes"
+         class="mensaje-container"
+         [ngClass]="msg.autor === 'Tú' ? 'user' : 'bot'">
+
+      <div class="burbuja">
+        <strong>{{ msg.autor }}:</strong> {{ msg.texto }}
+      </div>
+
+    </div>
   </ion-list>
 
+  <!-- LOADER -->
   <div class="loader" *ngIf="cargando">
     <ion-spinner name="dots"></ion-spinner>
     <span style="margin-left: 8px;">Ashbis IA está pensando...</span>
-  </div>  
+  </div>
 
+  <!-- PASO 1 -->
   <div *ngIf="pasoActual === 1" class="botones">
     <ion-button expand="block" color="danger" (click)="seleccionarCategoria('Salud')">1️⃣ Salud 🩺</ion-button>
     <ion-button expand="block" color="danger" (click)="seleccionarCategoria('Alimentación')">2️⃣ Alimentación 🍖</ion-button>
     <ion-button expand="block" color="danger" (click)="seleccionarCategoria('Cuidados')">3️⃣ Cuidados 🧴</ion-button>
   </div>
 
+  <!-- PASO 2 -->
   <div *ngIf="pasoActual === 2" class="botones">
     <ion-button expand="block" color="danger" (click)="seleccionarMascota('Perro')">🐶 Perro</ion-button>
     <ion-button expand="block" color="danger" (click)="seleccionarMascota('Gato')">🐱 Gato</ion-button>
   </div>
 
+  <!-- INPUT FIJO ABAJO -->
   <div *ngIf="pasoActual === 3" class="pregunta">
     <ion-item>
       <ion-input [(ngModel)]="mensaje" placeholder="Escribe tu pregunta..."></ion-input>
@@ -40,6 +49,7 @@
     <ion-button expand="block" color="success" (click)="enviarPregunta()">Enviar ✉️</ion-button>
   </div>
 
-  <ion-button expand="block" color="medium" (click)="reiniciarChat()">🔄 Reiniciar chat</ion-button>
+  <!-- BOTÓN REINICIAR CHAT (BLANCO) -->
+  <ion-button expand="block" class="reset-btn" (click)="reiniciarChat()">🔄 Reiniciar chat</ion-button>
 
 </ion-content>
