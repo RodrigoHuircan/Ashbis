@@ -1,49 +1,44 @@
-/* -------------------------------------------------------------------------- */
-/* ------------------------------ HEADER ------------------------------------ */
-/* -------------------------------------------------------------------------- */
+/* ------------------------------ HEADER --------------------- */
 
 .header-menu {
   --background: #000000;
   border-bottom: 3px solid #8b0808;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 70px;
+  position: relative;     
+  padding: 0;             
+  overflow: visible;
 }
 
 .logo-header {
-  height: 55px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 100px;          
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
-  transition: transform 0.3s ease, filter 0.3s ease;
+  z-index: 20;           
+  pointer-events: none;  
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .logo-header:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 8px rgb(139, 0, 0));
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 8px rgb(139,0,0));
 }
+
 
 @media (max-width: 768px) {
-  .header-menu {
-    height: 65px;
-  }
-  .logo-header {
-    height: 45px;
-  }
+  .header-menu { height: 64px; }
+  .logo-header { height: 52px; pointer-events: none; }
 }
-
 @media (max-width: 480px) {
-  .header-menu {
-    height: 55px;
-  }
-  .logo-header {
-    height: 38px;
-  }
+  .header-menu { height: 56px; }
+  .logo-header { height: 44px; pointer-events: none; }
 }
 
-/* -------------------------------------------------------------------------- */
 /* ------------------------------ CARRUSEL ---------------------------------- */
-/* -------------------------------------------------------------------------- */
 
 swiper-container {
   width: 100%;
@@ -98,7 +93,6 @@ swiper-slide {
   opacity: 0.9;
 }
 
-/* ----------------------- Responsive del carrusel -------------------------- */
 
 @media (max-width: 480px) {
   swiper-container {
@@ -112,9 +106,7 @@ swiper-slide {
   swiper-container { height: 200px; }
 }
 
-/* -------------------------------------------------------------------------- */
-/* ------------------------------ MAPA -------------------------------------- */
-/* -------------------------------------------------------------------------- */
+/* ------------------------------ MAPA -------------------------------- */
 
 .map-container {
   width: 100%;
@@ -144,7 +136,6 @@ google-map {
   .map-container { height: 180px; }
 }
 
-/* Animación ícono de carga */
 .spin-animation {
   animation: spin 1.5s linear infinite;
 }
@@ -154,11 +145,10 @@ google-map {
   100% { transform: rotate(360deg); }
 }
 
-/* -------------------------------------------------------------------------- */
-/* ----------------------- BOTONES (ACTUALIZADO) ---------------------------- */
-/* -------------------------------------------------------------------------- */
+/* ----------------------- BOTONES  ---------------------------- */
 
-/* Contenedor horizontal */
+
+
 .button-row {
   display: flex;
   justify-content: center;
@@ -167,7 +157,7 @@ google-map {
   margin-top: 16px;
 }
 
-/* Tamaño idéntico */
+
 .btn-big {
   width: 160px;
   height: 45px;
@@ -178,9 +168,6 @@ google-map {
   align-items: center;
 }
 
-/* Botón rojo (Veterinaria) ya funciona con color="danger" */
-
-/* Botón Tienda con borde */
 .btn-outline {
   --border-color: #8b0808;
   --border-width: 2px;
@@ -193,7 +180,7 @@ google-map {
   --background: #8b080855;
 }
 
-/* Botones base de Ionic */
+
 ion-button[color="danger"] {
   --background: linear-gradient(135deg, #ff3b30, #ff6b6b);
   --background-activated: #ff3b30;
@@ -202,9 +189,6 @@ ion-button[color="danger"] {
   box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
 }
 
-/* -------------------------------------------------------------------------- */
-/* UTILIDADES EXTRA ---------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
 
 .ion-text-center { text-align: center; }
 .ion-padding { padding: 16px; }
