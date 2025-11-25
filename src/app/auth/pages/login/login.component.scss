@@ -1,13 +1,15 @@
-/* Fondo general */
+/* ============================
+   FONDO GENERAL
+============================ */
 ion-content {
-  --background: #000000;
+  --background: #070707;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Contenedor principal */
+/* Centrado general */
 ion-grid, ion-row, ion-col {
   height: 100%;
   display: flex;
@@ -15,30 +17,24 @@ ion-grid, ion-row, ion-col {
   align-items: center;
 }
 
-/* Quitar fondo del ion-card */
-ion-card {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Logo centrado */
+/* Logo */
 ion-thumbnail {
   --size: 140px;
   margin: 20px auto;
-  border-radius: 30px;        
-  overflow: hidden; 
+  border-radius: 30px;
+  overflow: hidden;
 }
 
-/* Título Bienvenido */
-ion-card-title {
-  font-size: 30px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-top: 10px;
+/* Título */
+.titulo {
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* ===== CENTRAR LOS INPUTS Y DARLES MARGEN ===== */
+/* Wrapper de inputs */
 .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -50,10 +46,12 @@ ion-card-title {
 .input-container {
   width: 90%;
   max-width: 350px;
-  margin: 12px auto;        /* margen entre items */
+  margin: 12px auto;
 }
 
-/* Inputs estilo línea inferior */
+/* ============================
+   INPUTS ESTILO REGISTRO
+============================ */
 ion-item {
   --background: transparent !important;
   --border-color: transparent;
@@ -65,15 +63,15 @@ ion-item {
   padding-left: 0;
   padding-right: 0;
 
-  width: 100%;              
+  width: 100%;
   margin: 0 auto;
 }
 
-/* Línea roja bajo los inputs */
+/* Línea roja */
 ion-item::part(native) {
   border-bottom: 2px solid #d30000 !important;
-  width: 80%;       
-  margin: 20px auto; 
+  width: 80%;
+  margin: 20px auto;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -84,10 +82,32 @@ ion-label {
   font-size: 14px;
 }
 
-/* Texto del input */
+/* Texto */
 ion-input {
   color: #ffffff !important;
 }
+
+/* Placeholder */
+ion-input::part(input) {
+  color: #bbbbbb !important;
+}
+
+/* ============================
+   MENSAJES DE ERROR
+============================ */
+ion-text[color="danger"] {
+  color: #ff4d4d !important;
+  display: block;
+  width: 80%;
+  margin: -10px auto 10px auto;   /* Pegados al input */
+  font-size: 12px;
+  text-align: left;
+  line-height: 1.3;
+}
+
+/* ============================
+   BOTONES
+============================ */
 
 /* Botón INGRESAR */
 ion-button[color="danger"] {
@@ -104,7 +124,7 @@ ion-button[color="danger"] {
   margin-right: auto;
 }
 
-/* Botón OLVIDÉ MI CONTRASEÑA */
+/* OLVIDÉ MI CONTRASEÑA */
 .btn-olvido {
   text-transform: none !important;
   --color: #ffffff !important;
@@ -115,7 +135,7 @@ ion-button[color="danger"] {
   text-align: center;
 }
 
-/* Botón CREAR CUENTA */
+/* Botón CREAR */
 ion-button[color="medium"] {
   --background: #d30000;
   --color: #ffffff;
@@ -138,32 +158,16 @@ small {
   margin-top: 12px;
 }
 
-/* Enlace www.ashbis.com */
-ion-button[fill="clear"] {
-  --color: #bbbbbb !important;
-  margin-top: 20px;
-  font-size: 12px;
-}
-
-.titulo {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
+/* Enlace inferior */
 .enlace {
   --background: transparent !important;
-  --color: #ffffff !important;        /* color del texto */
-  --border-width: 0 !important;       /* sin bordes */
+  --color: #ffffff !important;
+  --border-width: 0 !important;
   --ripple-color: transparent !important;
 
   font-size: 14px;
   margin-top: 25px;
   text-transform: none;
-
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-               Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
   display: block;
   margin-left: auto;

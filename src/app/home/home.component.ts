@@ -98,12 +98,7 @@ export class HomePage implements OnInit {
       src: 'assets/img/carrusel3.jpg',
       titulo: 'Adopta y cambia una vida',
       descripcion: 'Conecta con refugios y dale un hogar a quien más lo necesita 🐕❤️',
-    },
-    {
-      src: 'assets/img/carrusel4.jpg',
-      titulo: 'Bienestar y felicidad animal',
-      descripcion: 'Mantén a tus mascotas saludables y llenas de energía 🌿🐾',
-    },
+    }
   ];
 
   // 👇 3. CONSTRUCTOR limpio (ya no inyecta ToastController aquí)
