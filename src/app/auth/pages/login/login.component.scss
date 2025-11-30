@@ -173,3 +173,41 @@ small {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* ====== BOTÓN GOOGLE ====== */
+.google-btn {
+  width: 100%;
+  max-width: 350px;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background-color: #ffffff;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  border-radius: 25px;
+
+  padding: 5px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: Roboto, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  &:hover {
+    background-color: #f7f7f7;
+  }
+
+  &:active {
+    background-color: #ececec;
+  }
+}
+
+

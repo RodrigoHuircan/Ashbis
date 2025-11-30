@@ -37,7 +37,7 @@ ion-item {
 /* Borde rojo inferior */
 ion-item::part(native) {
   border-bottom: 2px solid #d30000 !important;
-  width: 80%;
+  width: 100%;
   margin: 12px auto;
   padding-left: 8px;
   padding-right: 8px;
@@ -73,7 +73,7 @@ ion-note[color="danger"] {
   background: #070707 !important;
   color: #d50d0d !important;
   display: block;
-  width: 80%;
+  width: 100%;
   margin: 4px auto 0 auto;
   text-align: left;
   font-size: 12px;
@@ -93,7 +93,7 @@ ion-note[color="danger"] {
 
 /* ====== BARRA FUERZA CONTRASEÑA ====== */
 .pw-meter {
-  width: 80%;
+  width: 100%;
   height: 6px;
   background: #070707 !important;
   border-radius: 3px;

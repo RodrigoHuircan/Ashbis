@@ -30,8 +30,6 @@ export class LoginComponent implements OnInit {
   datosForm!: FormGroup;
   cargando = false;
   showPass = false;
-
-  // 🔴 mensaje para mostrar en el html
   loginError: string | null = null;
 
   ngOnInit() {
@@ -59,7 +57,7 @@ export class LoginComponent implements OnInit {
   async login() {
 
     this.datosForm.markAllAsTouched();
-    this.loginError = null; // limpiar mensaje antes de intentar
+    this.loginError = null;
 
     if (this.datosForm.invalid) return;
 
@@ -82,6 +80,21 @@ export class LoginComponent implements OnInit {
         this.loginError = 'Credenciales incorrectas.';
       }
 
+    } finally {
+      this.cargando = false;
+    }
+  }
+
+  // 🔵 LOGIN CON GOOGLE
+  async loginGoogle() {
+    this.cargando = true;
+
+    try {
+      await this.authenticationService.loginWithGoogle();
+      this.router.navigate(['tabs/home'], { replaceUrl: true });
+    } catch (error) {
+      console.log(error);
+      this.loginError = 'No se pudo iniciar sesión con Google.';
     } finally {
       this.cargando = false;
     }

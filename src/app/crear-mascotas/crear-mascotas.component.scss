@@ -1,3 +1,41 @@
+/* ====== FONDO GENERAL ====== */
+ion-content {
+  --background: #070707 !important;
+  color: #ffffff !important;
+}
+
+ion-content::part(scroll),
+ion-content .inner-scroll,
+ion-content .scroll-y,
+ion-content .ion-content-scroll-host {
+  background: #070707 !important;
+}
+
+/* Fondo de tarjetas */
+ion-card,
+ion-card::part(native) {
+  background: #070707 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.list {
+  background: #070707 !important;
+}
+
+.list-md{
+      margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  background: #070707 !important;
+
+}
+/* ====== PREVIEW IMÁGENES ===== */
 .preview-principal {
   width: 140px;
   height: 140px;
@@ -25,34 +63,140 @@
   right: -10px;
 }
 
-.error-note {
-  margin-top: 6px;
+/* ====== BOTONES ===== */
+.btn-foto {
+  --border-color: #8b0808;
+  --color: #ffffff;
+  --border-style: solid;
+  --border-width: 2px;
+  font-weight: 600;
 }
 
-/* borde rojo suave cuando inválido y tocado */
-ion-item.is-invalid {
-  --background: var(--ion-color-light);
-  --highlight-color-focused: var(--ion-color-danger);
-  --border-color: var(--ion-color-danger-tint);
-}
-.btn-foto{
-    --border-color: #8b0808;
-    --color: #ffffff;
-}
-
-.btn-galeria{
+.btn-galeria {
   --background: #8b0808;
   --color: #ffffff;
+  font-weight: 600;
 }
 
-.botones-imagenes{
+.botones-imagenes {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  gap: 12px;
+  margin: 12px 0;
 }
 
-.btn-guardar{
-    --background: #8b0808;
-    --color: #ffffff;
+.btn-guardar {
+  --background: #8b0808;
+  --color: #ffffff;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+/* Botón para cargar fotos */
+ion-button[type="button"] {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
+  display: block;
+  border-radius: 14px;
+}
+
+/* Iconos */
+ion-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* ====== 4. INPUTS, LABELS Y FORMULARIO ====== */
+
+/* Eliminar líneas y bordes nativos */
+ion-item,
+ion-item::part(native),
+ion-item::part(inner) {
+  --background: transparent !important;
+  border-bottom: none !important;
+  --inner-border-width: 0 !important;
+  --border-color: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color-focused: transparent !important;
+  --highlight-color-invalid: transparent !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Label */
+ion-item ion-label {
+  color: #ffffff !important;
+  font-size: 14px;
+  margin-bottom: 6px !important;
+  padding-bottom: 4px !important;
+}
+
+/* Input y Select */
+ion-input,
+ion-select {
+  background: #070707 !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #de0505 !important;
+}
+
+/* Placeholder */
+ion-input::part(input),
+ion-select::part(text) {
+  color: #bbbbbb !important;
+  background: #070707 !important;
+  padding-top: 8px !important;     
+}
+
+/* Select */
+ion-select {
+  --placeholder-color: #bbbbbb !important;
+  padding-bottom: 6px !important;
+}
+
+/* Asterisco obligatorio */
+.req {
+  color: #d30000;
+  margin-left: 4px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Grid general del formulario */
+.comportamiento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+@media (min-width: 720px) {
+  .comportamiento-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ====== 5. GALERÍA ====== */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .galeria-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ====== 6. MENSAJES DE ERROR ====== */
+.error-note {
+  background: #070707 !important;
+  color: #d50d0d !important;
+  display: block;
+  width: 100%;
+  margin: 4px auto 0 auto;
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.3;
 }
