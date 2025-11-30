@@ -9,7 +9,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <!-- Loading -->
+  <!-- Loading -->  
   <ion-list *ngIf="loading(); else loaded">
     <ion-item *ngFor="let i of [1,2,3]">
       <ion-avatar slot="start">
@@ -45,6 +45,16 @@
           (click)="goPerfil(m)"
         >
           Ver perfil
+        </ion-button>
+
+        <!-- Botón Editar -->
+        <ion-button
+          slot="end"
+          size="small"
+          color="danger"
+          (click)="goEditar(m)"
+        >
+          Editar Perfil
         </ion-button>
       </ion-item>
       </ion-list>

@@ -80,5 +80,11 @@ export class ListarMascotasComponent {
     this.router.navigate(['/tabs/perfil-mascota', m.id], { state: { mascota: m } });
   }
 
+ goEditar(m: Mascota) {
+  this.router.navigate(['/tabs/mascota-editar', m.id, 'editar'], { state: { mascota: m } });
+}
+
+
+
 
 }
