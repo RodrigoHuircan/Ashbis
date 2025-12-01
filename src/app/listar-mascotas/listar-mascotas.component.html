@@ -40,17 +40,17 @@
           <div slot="end" style="display: flex; align-items: center; gap: 2px;">
             
             <!-- 👇 BOTÓN QR (NUEVO) -->
-            <ion-button fill="clear" color="dark" (click)="verQrMascota(m, $event)">
-              <ion-icon slot="icon-only" name="qr-code-outline"></ion-icon>
+            <ion-button size="small" fill="outline" color="danger" (click)="verQrMascota(m, $event)">
+              QR
             </ion-button>
 
             <!-- Botón Ver Perfil (Original) -->
             <ion-button
               size="small"
-              color="secondary"
+              color="danger"
               fill="outline"
               (click)="goPerfil(m, $event)">
-              Ver
+              Ver Perfil
             </ion-button>
 
             <!-- Botón Editar (Original) -->
@@ -61,7 +61,7 @@
           color="danger"
           (click)="goEditar(m)"
         >
-          Editar Perfil
+          Ficha completa
         </ion-button>
           </div>
 
