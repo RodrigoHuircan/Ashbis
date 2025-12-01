@@ -28,45 +28,59 @@
     <ng-container *ngIf="mascotas().length > 0; else empty">
       <ion-list>
         <ion-item *ngFor="let m of mascotas(); trackBy: trackById">
-        <ion-avatar slot="start">
-          <img [src]="m.fotoUrl || 'assets/img/logo_ashbis.jpeg'" alt="foto" />
-        </ion-avatar>
+          <ion-avatar slot="start">
+            <img [src]="m.fotoUrl || 'assets/img/logo_ashbis.jpeg'" alt="foto" />
+          </ion-avatar>
 
-        <ion-label>
-          <h2 class="ion-text-wrap">{{ m.nombre }}</h2>
-          <p class="ion-text-wrap">{{ m.especie }} • {{ m.raza || '—' }}</p>
-        </ion-label>
+          <ion-label>
+            <h2 class="ion-text-wrap">{{ m.nombre }}</h2>
+            <p class="ion-text-wrap">{{ m.especie }} • {{ m.raza || '—' }}</p>
+          </ion-label>
 
-        <!-- Botón VER PERFIL -->
-        <ion-button
-          slot="end"
-          size="small"
-          color="danger"
-          (click)="goPerfil(m)"
-        >
-          Ver perfil
-        </ion-button>
+          <!-- GRUPO DE BOTONES -->
+          <div slot="end" style="display: flex; align-items: center; gap: 2px;">
+            
+            <!-- 👇 BOTÓN QR (NUEVO) -->
+            <ion-button fill="clear" color="dark" (click)="verQrMascota(m, $event)">
+              <ion-icon slot="icon-only" name="qr-code-outline"></ion-icon>
+            </ion-button>
 
-        <!-- Botón Editar -->
-        <ion-button
-          slot="end"
-          size="small"
-          color="danger"
-          (click)="goEditar(m)"
-        >
-          Editar Perfil
-        </ion-button>
-      </ion-item>
+            <!-- Botón VER PERFIL (Original) -->
+            <ion-button
+              size="small"
+              color="secondary"
+              fill="outline"
+              (click)="goPerfil(m)">
+              Ver
+            </ion-button>
+
+            <!-- Botón EDITAR (Original) -->
+            <ion-button
+              size="small"
+              color="danger"
+              (click)="goEditar(m)">
+              Editar
+            </ion-button>
+          </div>
+
+        </ion-item>
       </ion-list>
     </ng-container>
 
     <ng-template #empty>
       <ion-item lines="none">
-        <ion-label>
+        <ion-label class="ion-text-center">
           <h2>Sin mascotas registradas</h2>
           <p>Usa “Agregar Mascota” para crear tu primera ficha.</p>
         </ion-label>
       </ion-item>
     </ng-template>
   </ng-template>
+  
+  <!-- Botón Flotante para AÑADIR -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['/tabs/crear-mascotas']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

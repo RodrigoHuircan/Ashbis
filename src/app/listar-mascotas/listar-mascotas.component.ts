@@ -1,32 +1,36 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { NgIf, NgFor, DatePipe } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonRefresher, IonRefresherContent,
   IonList, IonItem, IonAvatar, IonSkeletonText,
-  IonButton, IonLabel
+  IonButton, IonLabel, IonIcon, 
+  IonFab, IonFabButton // Importar componentes FAB
 } from '@ionic/angular/standalone';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { Auth, authState } from '@angular/fire/auth';
 import { of, take } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { FirestoreService, Mascota } from '../firebase/firestore';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router'; // Importar RouterLink
+import { addIcons } from 'ionicons';
+import { add, qrCodeOutline } from 'ionicons/icons'; // Importar iconos
 
 @Component({
   selector: 'app-mis-mascotas',
   standalone: true,
   imports: [
-    NgIf, NgFor,
+    NgIf, NgFor, RouterLink, // Añadir RouterLink a imports
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonRefresher, IonRefresherContent,
     IonList, IonItem, IonAvatar, IonSkeletonText,
-    IonButton, IonLabel
+    IonButton, IonLabel, IonIcon,
+    IonFab, IonFabButton // Añadir FABs a imports
   ],
   templateUrl: './listar-mascotas.component.html',
   providers: [DatePipe],
 })
-export class ListarMascotasComponent {
+export class ListarMascotasComponent implements OnInit, OnDestroy {
   private auth = inject(Auth);
   private fs = inject(FirestoreService);
   private router = inject(Router);
@@ -36,6 +40,9 @@ export class ListarMascotasComponent {
   usuarioUid = signal<string | null>(null);
 
   constructor() {
+    // Registrar los iconos
+    addIcons({ add, qrCodeOutline });
+
     authState(this.auth)
       .pipe(
         switchMap(user => {
@@ -48,6 +55,12 @@ export class ListarMascotasComponent {
         this.mascotas.set(pets ?? []);
         this.loading.set(false);
       });
+  }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    // Limpieza si fuera necesaria
   }
 
   trackById = (_: number, m: Mascota) => m.id;
@@ -75,16 +88,23 @@ export class ListarMascotasComponent {
     });
   }
 
-  // Navega al perfil (pasamos el objeto por router state para cargar rápido)
+  // Navega al perfil (solo lectura)
   goPerfil(m: Mascota) {
     this.router.navigate(['/tabs/perfil-mascota', m.id], { state: { mascota: m } });
   }
 
- goEditar(m: Mascota) {
-  this.router.navigate(['/tabs/mascota-editar', m.id, 'editar'], { state: { mascota: m } });
-}
+  // Navega al dashboard de edición
+  goEditar(m: Mascota) {
+    // Ruta corregida: 'mascota-editar/:id' (sin /editar al final, según tus rutas actuales)
+    this.router.navigate(['/tabs/mascota-editar', m.id], { state: { mascota: m } });
+  }
 
-
-
-
+  // Función para ir al QR específico de la mascota
+  // Acepta el evento para detener la propagación del clic
+  verQrMascota(m: Mascota, event: Event) {
+    event.stopPropagation(); // Evita que se abra el perfil al hacer clic en el QR
+    this.router.navigate(['/tabs/mascota-qr'], { 
+      queryParams: { mascotaId: m.id } 
+    });
+  }
 }

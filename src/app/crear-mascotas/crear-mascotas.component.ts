@@ -4,18 +4,28 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } 
 import {
   IonContent, IonInput, IonLabel, IonItem, IonSelect, IonSelectOption,
   IonNote, IonButton, IonModal, IonGrid, IonRow, IonCol, IonImg, IonList,
-  IonDatetime, IonDatetimeButton, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonIcon, AlertController
+  IonDatetime, IonDatetimeButton, IonHeader, IonToolbar, IonTitle, IonButtons, 
+  IonBackButton, IonIcon, AlertController,
+  IonCard, IonCardContent, IonItemDivider,
+  IonAccordion, IonAccordionGroup, IonCheckbox, IonSpinner
 } from '@ionic/angular/standalone';
+
 import { FirestoreService } from 'src/app/firebase/firestore';
 import { AuthenticationService } from 'src/app/firebase/authentication';
 import { Router } from '@angular/router';
 import { Models } from 'src/app/models/models';
 import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
-import {
-  IonAccordion,
-  IonAccordionGroup,
-  IonCheckbox
-} from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+import { 
+  cameraOutline, 
+  imageOutline, 
+  imagesOutline,
+  trashOutline, 
+  addOutline, 
+  cloudUploadOutline,
+  closeCircle
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-crear-mascota',
@@ -30,10 +40,12 @@ import {
     IonAccordionGroup,
     IonItem,
     IonLabel,
-    IonCheckbox,IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+    IonCheckbox,
+    IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
     IonContent, IonGrid, IonRow, IonCol,
-    IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption,
-    IonNote, IonButton, IonImg, IonModal, IonDatetimeButton, IonDatetime, IonIcon
+    IonList, IonInput, IonSelect, IonSelectOption,
+    IonNote, IonButton, IonImg, IonModal, IonDatetimeButton, IonDatetime, IonIcon,
+    IonCard, IonCardContent, IonItemDivider, IonSpinner
   ]
 })
 export class CrearMascotasComponent implements OnInit {
@@ -42,8 +54,6 @@ export class CrearMascotasComponent implements OnInit {
   private authService = inject(AuthenticationService);
   private router = inject(Router);
   private alertCtrl = inject(AlertController);
-
-  @ViewChild('inputFecha',{ static: false}) inputFecha!: ElementRef<HTMLInputElement>;
 
   mascotaForm!: FormGroup;
   cargando = false;
@@ -60,7 +70,7 @@ export class CrearMascotasComponent implements OnInit {
   fechaFormateada: string = '';
   fechaActual: string = new Date().toISOString();
 
-  // comportamiento
+  // Comportamiento (Lista completa fusionada)
   comportamientoOptions = [
     { label: 'Tener cuidado con otros animales', value: 'cuidado_otros_animales' },
     { label: 'Tener cuidado con mujeres', value: 'cuidado_mujeres' },
@@ -68,41 +78,64 @@ export class CrearMascotasComponent implements OnInit {
     { label: 'Tener cuidado con niños', value: 'cuidado_ninos' },
     { label: 'Tener cuidado con su misma especie', value: 'cuidado_misma_especie' },
     { label: 'Necesita compañía constante', value: 'necesita_compania' },
-    { label: 'Es temeroso', value: 'temeroso' }
+    { label: 'Es temeroso', value: 'temeroso' },
+    { label: 'Es agresivo', value: 'agresivo' },
+    { label: 'Ninguno', value: 'ninguno' }
   ];
   comportamientoSelected: string[] = [];
 
+  constructor() {
+    addIcons({ 
+      cameraOutline, 
+      imageOutline, 
+      imagesOutline,
+      trashOutline, 
+      addOutline,
+      cloudUploadOutline,
+      closeCircle
+    });
+  }
+
   ngOnInit() {
     this.mascotaForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ ]{2,}( [A-Za-zÀ-ÖØ-öø-ÿ ]{2,})*$/)]], // palabras >2 chars y solo letras+espacios
-      numeroChip: ['', [Validators.required, Validators.pattern(/^[0-9]{15}$/)]],
-      edad: ['', [Validators.required, Validators.min(0), Validators.max(25)]],
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      numeroChip: [''], // Opcional
+      edad: ['', [Validators.required]],
       sexo: ['', Validators.required],
-      fechaNacimiento: [''], // opcional
+      fechaNacimiento: [''], 
       especie: ['', Validators.required],
-      color: ['', [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ ]+$/)]],
+      // Campos nuevos
+      tamano: ['', Validators.required], 
+      peso: ['', Validators.required],
+      // ---
+      color: ['', [Validators.required]],
       raza: ['', Validators.required],
       castrado: ['', Validators.required],
       procedencia: ['', Validators.required],
       senas: ['', Validators.required],
       notas: [''],
-      fotoUrl: [''] // principal (rellenado después)
+      fotoUrl: [''] 
+    });
+
+    // Debugging en consola
+    this.mascotaForm.statusChanges.subscribe(status => {
+      if (status === 'INVALID') {
+        console.log('Formulario inválido.');
+      }
     });
   }
 
-  // Helpers validación visual
   isInvalid(ctrl: string): boolean {
     const c = this.mascotaForm.get(ctrl);
     return !!(c && c.touched && c.invalid);
   }
 
-  // Imagen principal - acepta sólo imágenes
   async onImageSelected(event: any) {
     const file: File | undefined = event.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      await this.presentAlert('Sólo se permiten archivos de imagen (no videos)');
+      await this.presentAlert('Sólo se permiten archivos de imagen.');
       event.target.value = '';
       return;
     }
@@ -114,7 +147,6 @@ export class CrearMascotasComponent implements OnInit {
     event.target.value = '';
   }
 
-  // Galería múltiple - sólo imágenes
   async onImagesSelected(event: any) {
     const files: FileList = event.target.files;
     if (!files || !files.length) return;
@@ -122,7 +154,7 @@ export class CrearMascotasComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       const f = files[i];
       if (!f.type.startsWith('image/')) {
-        await this.presentAlert('Sólo se permiten archivos de imagen en la galería (no videos).');
+        await this.presentAlert('Sólo se permiten imágenes en la galería.');
         continue;
       }
       this.galeriaFiles.push(f);
@@ -158,7 +190,19 @@ export class CrearMascotasComponent implements OnInit {
 
   async guardarMascota() {
     this.mascotaForm.markAllAsTouched();
-    if (this.mascotaForm.invalid) return;
+    
+    // Validación con Alerta
+    if (this.mascotaForm.invalid) {
+      const invalidos = [];
+      for (const name in this.mascotaForm.controls) {
+        if (this.mascotaForm.controls[name].invalid) {
+            invalidos.push(name);
+        }
+      }
+      console.error('Campos inválidos:', invalidos);
+      await this.presentAlert(`Faltan completar los campos: ${invalidos.join(', ')}`);
+      return;
+    }
 
     this.cargando = true;
     const data = this.mascotaForm.value;
@@ -173,14 +217,12 @@ export class CrearMascotasComponent implements OnInit {
       const id = this.firestoreService.createId();
       const storage = getStorage();
 
-      // 1) Subir foto principal (si existe)
       if (this.imagenFile) {
         const refPrincipal = ref(storage, `mascotas/${user.uid}/${id}/principal-${Date.now()}-${this.imagenFile.name}`);
         await uploadBytes(refPrincipal, this.imagenFile);
         fotoUrl = await getDownloadURL(refPrincipal);
       }
 
-      // 2) Subir galería (0..n)
       if (this.galeriaFiles.length) {
         const uploads = this.galeriaFiles.map(async (file, idx) => {
           const refGaleria = ref(storage, `mascotas/${user.uid}/${id}/galeria/${Date.now()}-${idx}-${file.name}`);
@@ -190,47 +232,50 @@ export class CrearMascotasComponent implements OnInit {
         galeriaUrls = await Promise.all(uploads);
       }
 
-      // 3) Documento a Firestore (incluye nuevos campos)
+      // Objeto Mascota Completo
       const mascota: any = {
         id,
         uidUsuario: user.uid,
-        nombre: data.nombre,
-        numeroChip: data.numeroChip,
-        edad: data.edad,
-        sexo: data.sexo,
-        especie: data.especie,
-        color: data.color,
-        raza: data.raza,
-        castrado: data.castrado,
-        procedencia: data.procedencia,
-        senas: data.senas,
-        notas: data.notas || '',
-        indicadores: this.comportamientoSelected,
-        fotoUrl: fotoUrl || '',
-        galeria: galeriaUrls,
-        fechaNacimiento: data.fechaNacimiento || null,
+        creadoPor: user.uid, 
+        nombre: data.nombre ?? '',
+        numeroChip: data.numeroChip ?? '',
+        edad: data.edad ?? null,
+        sexo: data.sexo ?? '',
+        especie: data.especie ?? '',
+        // Nuevos campos
+        tamano: data.tamano ?? '',
+        peso: data.peso ?? null,
+        // ---
+        color: data.color ?? '',
+        raza: data.raza ?? '',
+        castrado: data.castrado ?? '',
+        procedencia: data.procedencia ?? '', 
+        senas: data.senas ?? '',
+        notas: data.notas ?? '',
+        indicadores: this.comportamientoSelected ?? [],
+        fotoUrl: fotoUrl ?? '',
+        galeria: galeriaUrls ?? [],
+        fechaNacimiento: data.fechaNacimiento ?? null,
         fechaRegistro: new Date().toISOString()
       };
 
       await this.firestoreService.createDocument(Models.Mascotas.PathMascotas, mascota, id);
 
-      // Reset y navegar
       this.mascotaForm.reset();
       this.imagenFile = null;
       this.imagenPreview = null;
       this.galeriaFiles = [];
       this.galeriaPreviews = [];
       this.comportamientoSelected = [];
-      this.router.navigate(['/tabs/home']);
+      this.router.navigate(['/tabs/listar-mascotas']); 
     } catch (err) {
       console.error('Error al guardar mascota: ', err);
-      await this.presentAlert('Ocurrió un error al guardar la mascota.');
+      await this.presentAlert('Ocurrió un error al guardar. Revisa la consola.');
     } finally {
       this.cargando = false;
     }
   }
 
-  // Alert helper
   async presentAlert(message: string) {
     const a = await this.alertCtrl.create({
       header: 'Atención',

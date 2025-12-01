@@ -22,13 +22,13 @@
             ></ion-img>
           </ion-item>
 
-          <!-- Inputs ocultos -->
+          <!-- Inputs ocultos para archivos -->
           <input #fileInput type="file" accept="image/*" (change)="onImageSelected($event)" hidden />
           <input #filesInputMulti type="file" accept="image/*" multiple (change)="onImagesSelected($event)" hidden />
 
           <div class="botones-imagenes">
             <ion-button class="btn-foto" size="small" fill="outline" (click)="fileInput.click()">
-              <ion-icon name="image-outline" slot="start"></ion-icon>
+              <ion-icon name="camera-outline" slot="start"></ion-icon>
               Foto principal
             </ion-button>
 
@@ -44,15 +44,13 @@
           <ion-item>
             <ion-label>Galería ({{ galeriaPreviews.length }})</ion-label>
           </ion-item>
-
           <ion-grid>
             <ion-row>
               <ion-col size="4" size-sm="3" size-md="2" *ngFor="let src of galeriaPreviews; let i = index">
                 <div class="preview-galeria-wrap">
                   <ion-img [src]="src" class="preview-galeria"></ion-img>
-                  <ion-button class="btn-close" size="small" fill="clear" color="danger"
-                    (click)="removeFromGaleria(i)">
-                    <ion-icon name="close-circle"></ion-icon>
+                  <ion-button class="btn-close" size="small" fill="clear" color="danger" (click)="removeFromGaleria(i)">
+                    <ion-icon name="trash-outline"></ion-icon>
                   </ion-button>
                 </div>
               </ion-col>
@@ -61,54 +59,27 @@
         </ion-list>
 
         <!-- FORMULARIO -->
-        <form  [formGroup]="mascotaForm" (ngSubmit)="guardarMascota()" novalidate>
+        <form [formGroup]="mascotaForm" (ngSubmit)="guardarMascota()" novalidate>
           <ion-list class="list" inset="true">
 
             <!-- Nombre -->
             <ion-item fill="solid" [class.is-invalid]="isInvalid('nombre')">
               <ion-label position="stacked">Nombre <span class="req">*</span></ion-label>
               <ion-input formControlName="nombre" placeholder="Nombre de la mascota" clearInput></ion-input>
-
-              <ion-note class="error-note" *ngIf="isInvalid('nombre')">
-                {{
-                  mascotaForm.get('nombre')?.hasError('required')
-                    ? 'El nombre es obligatorio.'
-                    : mascotaForm.get('nombre')?.hasError('pattern')
-                    ? 'Solo letras y espacios, mínimo 2 caracteres por palabra.'
-                    : ''
-                }}
-              </ion-note>
+              <ion-note color="danger" *ngIf="isInvalid('nombre')">Requerido (mín. 2 caracteres).</ion-note>
             </ion-item>
 
-            <!-- Chip -->
+            <!-- Chip (AHORA OPCIONAL) -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('numeroChip')">
-              <ion-label position="stacked">Número de chip</ion-label>
+              <!-- 👇 CAMBIO: Quitamos el asterisco y ponemos (opcional) -->
+              <ion-label position="stacked">Número de chip (opcional)</ion-label>
               <ion-input type="text" formControlName="numeroChip" placeholder="15 dígitos" clearInput></ion-input>
-
-              <ion-note class="error-note" *ngIf="isInvalid('numeroChip')">
-                {{
-                  mascotaForm.get('numeroChip')?.hasError('pattern')
-                    ? 'El número de chip debe tener exactamente 15 dígitos numéricos.'
-                    : ''
-                }}
-              </ion-note>
             </ion-item>
 
             <!-- Edad -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('edad')">
-              <ion-label position="stacked">Edad <span class="req">*</span></ion-label>
+              <ion-label position="stacked">Edad (años) <span class="req">*</span></ion-label>
               <ion-input type="number" formControlName="edad" placeholder="Ej: 2" clearInput></ion-input>
-
-              <ion-note class="error-note" *ngIf="isInvalid('edad')">
-                {{
-                  mascotaForm.get('edad')?.hasError('required')
-                    ? 'La edad es obligatoria.'
-                    : mascotaForm.get('edad')?.hasError('min') ||
-                      mascotaForm.get('edad')?.hasError('max')
-                    ? 'La edad debe estar entre 0 y 25 años.'
-                    : ''
-                }}
-              </ion-note>
             </ion-item>
 
             <!-- Sexo -->
@@ -119,17 +90,12 @@
                 <ion-select-option value="Hembra">Hembra</ion-select-option>
                 <ion-select-option value="Otro">Otro</ion-select-option>
               </ion-select>
-
-              <ion-note class="error-note" *ngIf="isInvalid('sexo')">
-                Selecciona el sexo.
-              </ion-note>
             </ion-item>
 
             <!-- Fecha nacimiento -->
             <ion-item class="ion-margin-top" fill="solid">
               <ion-label position="stacked">Fecha de nacimiento</ion-label>
               <ion-datetime-button datetime="picker-fecha"></ion-datetime-button>
-
               <ion-modal [keepContentsMounted]="true">
                 <ng-template>
                   <ion-datetime id="picker-fecha" presentation="date"
@@ -137,7 +103,6 @@
                   </ion-datetime>
                 </ng-template>
               </ion-modal>
-
               <ion-note slot="end" color="medium">
                 {{ fechaFormateada || 'Sin seleccionar' }}
               </ion-note>
@@ -146,38 +111,42 @@
             <!-- Especie -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('especie')">
               <ion-label position="stacked">Especie <span class="req">*</span></ion-label>
-              <ion-select formControlName="especie" placeholder="Perro, Gato, Otro">
+              <ion-select formControlName="especie" placeholder="Selecciona especie">
                 <ion-select-option value="Perro">Perro</ion-select-option>
                 <ion-select-option value="Gato">Gato</ion-select-option>
                 <ion-select-option value="Otro">Otro</ion-select-option>
               </ion-select>
+            </ion-item>
 
-              <ion-note class="error-note" *ngIf="isInvalid('especie')">
-                Selecciona la especie.
-              </ion-note>
+            <!-- Tamaño (Nuevo) -->
+            <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('tamano')">
+              <ion-label position="stacked">Tamaño <span class="req">*</span></ion-label>
+              <ion-select formControlName="tamano" placeholder="Seleccione tamaño">
+                <ion-select-option value="Chico">Chico</ion-select-option>
+                <ion-select-option value="Mediano">Mediano</ion-select-option>
+                <ion-select-option value="Grande">Grande</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <!-- Peso (Nuevo) -->
+            <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('peso')">
+              <ion-label position="stacked">Peso (kg) <span class="req">*</span></ion-label>
+              <ion-input type="number" inputmode="decimal" formControlName="peso" placeholder="Ej: 10.5" clearInput></ion-input>
             </ion-item>
 
             <!-- Color -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('color')">
               <ion-label position="stacked">Color <span class="req">*</span></ion-label>
               <ion-input formControlName="color" placeholder="Ej: Marrón" clearInput></ion-input>
-
-              <ion-note class="error-note" *ngIf="isInvalid('color')">
-                El color es obligatorio.
-              </ion-note>
             </ion-item>
 
             <!-- Raza -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('raza')">
               <ion-label position="stacked">Raza <span class="req">*</span></ion-label>
               <ion-input formControlName="raza" placeholder="Ej: Labrador" clearInput></ion-input>
-
-              <ion-note class="error-note" *ngIf="isInvalid('raza')">
-                La raza es obligatoria.
-              </ion-note>
             </ion-item>
 
-            <!-- Castrado/esterilizado -->
+            <!-- Castrado -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('castrado')">
               <ion-label position="stacked">Castrado / Esterilizado <span class="req">*</span></ion-label>
               <ion-select formControlName="castrado" placeholder="Selecciona opción">
@@ -185,20 +154,23 @@
                 <ion-select-option value="No">No</ion-select-option>
                 <ion-select-option value="Desconocido">Desconocido</ion-select-option>
               </ion-select>
+            </ion-item>
 
-              <ion-note class="error-note" *ngIf="isInvalid('castrado')">
-                Selecciona una opción.
-              </ion-note>
+            <!-- Procedencia -->
+            <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('procedencia')">
+              <ion-label position="stacked">Procedencia <span class="req">*</span></ion-label>
+              <ion-select formControlName="procedencia" placeholder="Selecciona origen">
+                <ion-select-option value="Adopcion">Adopción</ion-select-option>
+                <ion-select-option value="Compra">Compra</ion-select-option>
+                <ion-select-option value="Regalo">Regalo</ion-select-option>
+                <ion-select-option value="Rescatado">Rescatado</ion-select-option>
+              </ion-select>
             </ion-item>
 
             <!-- Señas -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('senas')">
               <ion-label position="stacked">Señas particulares <span class="req">*</span></ion-label>
               <ion-input formControlName="senas" placeholder="Descripción breve" clearInput></ion-input>
-
-              <ion-note class="error-note" *ngIf="isInvalid('senas')">
-                Ingresa una seña.
-              </ion-note>
             </ion-item>
 
             <!-- Notas -->
@@ -213,10 +185,10 @@
                 <ion-item slot="header">
                   <ion-label>Indicadores de comportamiento</ion-label>
                 </ion-item>
-
                 <div slot="content" class="comportamiento-grid">
+                  <!-- Bucle dinámico -->
                   <ion-item lines="none" *ngFor="let opt of comportamientoOptions">
-                    <ion-label>{{ opt.label }}</ion-label>
+                    <ion-label class="ion-text-wrap">{{ opt.label }}</ion-label>
                     <ion-checkbox slot="end"
                       [checked]="comportamientoSelected.includes(opt.value)"
                       (ionChange)="toggleComportamiento(opt.value, $event)">
@@ -228,8 +200,10 @@
 
           </ion-list>
 
+          <!-- Botón de Guardar -->
           <ion-button type="submit" expand="block" shape="round"
-            class="btn-guardar" [disabled]="cargando || mascotaForm.invalid">
+            class="btn-guardar ion-margin-top" [disabled]="cargando">
+            <ion-spinner *ngIf="cargando" name="crescent" slot="start"></ion-spinner>
             {{ cargando ? 'Guardando...' : 'Guardar Mascota' }}
           </ion-button>
 
