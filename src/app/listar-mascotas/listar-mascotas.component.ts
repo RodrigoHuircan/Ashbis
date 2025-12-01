@@ -5,27 +5,27 @@ import {
   IonRefresher, IonRefresherContent,
   IonList, IonItem, IonAvatar, IonSkeletonText,
   IonButton, IonLabel, IonIcon, 
-  IonFab, IonFabButton // Importar componentes FAB
+  IonFab, IonFabButton 
 } from '@ionic/angular/standalone';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { Auth, authState } from '@angular/fire/auth';
 import { of, take } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { FirestoreService, Mascota } from '../firebase/firestore';
-import { Router, RouterLink } from '@angular/router'; // Importar RouterLink
+import { Router, RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { add, qrCodeOutline } from 'ionicons/icons'; // Importar iconos
+import { add, qrCodeOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-mis-mascotas',
   standalone: true,
   imports: [
-    NgIf, NgFor, RouterLink, // Añadir RouterLink a imports
+    NgIf, NgFor, RouterLink, 
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonRefresher, IonRefresherContent,
     IonList, IonItem, IonAvatar, IonSkeletonText,
     IonButton, IonLabel, IonIcon,
-    IonFab, IonFabButton // Añadir FABs a imports
+    IonFab, IonFabButton 
   ],
   templateUrl: './listar-mascotas.component.html',
   providers: [DatePipe],
@@ -40,7 +40,6 @@ export class ListarMascotasComponent implements OnInit, OnDestroy {
   usuarioUid = signal<string | null>(null);
 
   constructor() {
-    // Registrar los iconos
     addIcons({ add, qrCodeOutline });
 
     authState(this.auth)
@@ -89,20 +88,23 @@ export class ListarMascotasComponent implements OnInit, OnDestroy {
   }
 
   // Navega al perfil (solo lectura)
-  goPerfil(m: Mascota) {
+  goPerfil(m: Mascota, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.router.navigate(['/tabs/perfil-mascota', m.id], { state: { mascota: m } });
   }
 
   // Navega al dashboard de edición
-  goEditar(m: Mascota) {
-    // Ruta corregida: 'mascota-editar/:id' (sin /editar al final, según tus rutas actuales)
-    this.router.navigate(['/tabs/mascota-editar', m.id], { state: { mascota: m } });
-  }
+goEditar(m: Mascota) {
+  this.router.navigate(['/tabs/mascota-editar', m.id, 'editar'], { state: { mascota: m } });
+}
 
   // Función para ir al QR específico de la mascota
-  // Acepta el evento para detener la propagación del clic
-  verQrMascota(m: Mascota, event: Event) {
-    event.stopPropagation(); // Evita que se abra el perfil al hacer clic en el QR
+  verQrMascota(m: Mascota, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.router.navigate(['/tabs/mascota-qr'], { 
       queryParams: { mascotaId: m.id } 
     });

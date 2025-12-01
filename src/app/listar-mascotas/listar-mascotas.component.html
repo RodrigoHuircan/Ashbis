@@ -19,7 +19,6 @@
         <h3><ion-skeleton-text animated style="width:60%"></ion-skeleton-text></h3>
         <p><ion-skeleton-text animated style="width:40%"></ion-skeleton-text></p>
       </ion-label>
-      <ion-button slot="end" size="small" fill="outline" color="danger" disabled>Ver perfil</ion-button>
     </ion-item>
   </ion-list>
 
@@ -45,22 +44,25 @@
               <ion-icon slot="icon-only" name="qr-code-outline"></ion-icon>
             </ion-button>
 
-            <!-- Botón VER PERFIL (Original) -->
+            <!-- Botón Ver Perfil (Original) -->
             <ion-button
               size="small"
               color="secondary"
               fill="outline"
-              (click)="goPerfil(m)">
+              (click)="goPerfil(m, $event)">
               Ver
             </ion-button>
 
-            <!-- Botón EDITAR (Original) -->
-            <ion-button
-              size="small"
-              color="danger"
-              (click)="goEditar(m)">
-              Editar
-            </ion-button>
+            <!-- Botón Editar (Original) -->
+<!-- Botón Editar -->
+        <ion-button
+          slot="end"
+          size="small"
+          color="danger"
+          (click)="goEditar(m)"
+        >
+          Editar Perfil
+        </ion-button>
           </div>
 
         </ion-item>
