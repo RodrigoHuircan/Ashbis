@@ -85,7 +85,12 @@
             <!-- Sexo -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('sexo')">
               <ion-label position="stacked">Sexo <span class="req">*</span></ion-label>
-              <ion-select formControlName="sexo" placeholder="Selecciona sexo">
+              <ion-select 
+                formControlName="sexo" 
+                placeholder="Selecciona sexo"
+                interface="popover"
+                cancelText=""
+                okText="">
                 <ion-select-option value="Macho">Macho</ion-select-option>
                 <ion-select-option value="Hembra">Hembra</ion-select-option>
                 <ion-select-option value="Otro">Otro</ion-select-option>
@@ -111,7 +116,12 @@
             <!-- Especie -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('especie')">
               <ion-label position="stacked">Especie <span class="req">*</span></ion-label>
-              <ion-select formControlName="especie" placeholder="Selecciona especie">
+              <ion-select 
+                formControlName="especie" 
+                placeholder="Selecciona especie"
+                interface="popover"
+                cancelText=""
+                okText="">
                 <ion-select-option value="Perro">Perro</ion-select-option>
                 <ion-select-option value="Gato">Gato</ion-select-option>
                 <ion-select-option value="Otro">Otro</ion-select-option>
@@ -121,7 +131,12 @@
             <!-- Tamaño (Nuevo) -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('tamano')">
               <ion-label position="stacked">Tamaño <span class="req">*</span></ion-label>
-              <ion-select formControlName="tamano" placeholder="Seleccione tamaño">
+              <ion-select 
+                formControlName="tamano" 
+                placeholder="Seleccione tamaño"
+                interface="popover"
+                cancelText=""
+                okText="">
                 <ion-select-option value="Chico">Chico</ion-select-option>
                 <ion-select-option value="Mediano">Mediano</ion-select-option>
                 <ion-select-option value="Grande">Grande</ion-select-option>
@@ -149,7 +164,12 @@
             <!-- Castrado -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('castrado')">
               <ion-label position="stacked">Castrado / Esterilizado <span class="req">*</span></ion-label>
-              <ion-select formControlName="castrado" placeholder="Selecciona opción">
+              <ion-select 
+                formControlName="castrado" 
+                placeholder="Selecciona opción"
+                interface="popover"
+                cancelText=""
+                okText="">
                 <ion-select-option value="Sí">Sí</ion-select-option>
                 <ion-select-option value="No">No</ion-select-option>
                 <ion-select-option value="Desconocido">Desconocido</ion-select-option>
@@ -159,7 +179,12 @@
             <!-- Procedencia -->
             <ion-item class="ion-margin-top" fill="solid" [class.is-invalid]="isInvalid('procedencia')">
               <ion-label position="stacked">Procedencia <span class="req">*</span></ion-label>
-              <ion-select formControlName="procedencia" placeholder="Selecciona origen">
+              <ion-select 
+                formControlName="procedencia" 
+                placeholder="Selecciona origen"
+                interface="popover"
+                cancelText=""
+                okText="">
                 <ion-select-option value="Adopcion">Adopción</ion-select-option>
                 <ion-select-option value="Compra">Compra</ion-select-option>
                 <ion-select-option value="Regalo">Regalo</ion-select-option>
