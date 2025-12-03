@@ -14,6 +14,10 @@ export const routes: Routes = [
       import('./auth/pages/registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('./auth/pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
+  }, 
+  {
     path: 'tabs',
     component: TabsComponent,
     canActivate: [authGuard],

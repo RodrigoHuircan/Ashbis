@@ -103,4 +103,8 @@ export class LoginComponent implements OnInit {
   irARegistro() {
     this.router.navigate(['/registro'], { replaceUrl: true });
   }
+
+  irARecuperarPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
 }

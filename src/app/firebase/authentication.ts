@@ -6,7 +6,8 @@ import {
   signOut,
   authState,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  sendPasswordResetEmail
 } from '@angular/fire/auth';
 
 @Injectable({
@@ -33,6 +34,10 @@ export class AuthenticationService {
   async loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(this.auth, provider);
+  }
+
+  async resetPassword(email: string) {
+    return sendPasswordResetEmail(this.auth, email);
   }
 
   logout() {
