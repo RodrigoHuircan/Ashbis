@@ -144,3 +144,32 @@ ion-button.btn-ver[fill="outline"]::part(button) {
   background: transparent !important;
   color: #ffffff !important;
 }
+
+
+
+/* ============================
+AVATAR MASCOTAS – BORDE ROJO
+============================ */
+
+.avatar-mascota {
+width: 48px !important;
+height: 48px !important;
+}
+
+.avatar-mascota img {
+width: 100% !important;
+height: 100% !important;
+object-fit: cover !important;
+border-radius: 50% !important;
+border: 3px solid #b30000 !important; /* Rojo intenso */
+display: block !important;
+}
+
+/* Skeleton dentro del avatar */
+.avatar-mascota ion-skeleton-text {
+width: 100% !important;
+height: 100% !important;
+border-radius: 50% !important;
+border: 3px solid #b30000 !important;
+}
+

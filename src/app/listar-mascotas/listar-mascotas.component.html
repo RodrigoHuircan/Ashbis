@@ -12,7 +12,7 @@
   <!-- Loading -->  
   <ion-list *ngIf="loading(); else loaded">
     <ion-item *ngFor="let i of [1,2,3]">
-      <ion-avatar slot="start">
+      <ion-avatar  slot="start">
         <ion-skeleton-text animated style="width:40px;height:40px;"></ion-skeleton-text>
       </ion-avatar>
       <ion-label>
@@ -85,7 +85,7 @@
   
   <!-- Botón Flotante para AÑADIR -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button [routerLink]="['/tabs/crear-mascotas']">
+    <ion-fab-button color="danger" [routerLink]="['/tabs/crear-mascotas']">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
