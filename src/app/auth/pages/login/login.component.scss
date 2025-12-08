@@ -1,213 +1,202 @@
 /* ============================
-   FONDO GENERAL
+   AJUSTE GENERAL RESPONSIVE
 ============================ */
 ion-content {
   --background: #070707;
   color: #ffffff;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 40px; /* baja todo el contenido para que el logo no tape */
 }
 
-/* Centrado general */
-ion-grid, ion-row, ion-col {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Logo */
-ion-thumbnail {
-  --size: 140px;
-  margin: 20px auto;
-  border-radius: 30px;
-  overflow: hidden;
-}
-
-/* Título */
-.titulo {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-/* Wrapper de inputs */
-.form-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Evita que el contenido quede pegado a los bordes del celular */
+.page-wrapper {
   width: 100%;
-}
-
-/* Contenedor individual del input */
-.input-container {
-  width: 90%;
-  max-width: 350px;
-  margin: 12px auto;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* ============================
-   INPUTS ESTILO REGISTRO
+   LOGO AJUSTADO
 ============================ */
-ion-item {
-  --background: transparent !important;
-  --border-color: transparent;
-  --highlight-color-focused: #d30000;
-  --highlight-color-valid: #d30000;
-  --highlight-color-invalid: #d30000;
-
-  color: #ffffff;
-  padding-left: 0;
-  padding-right: 0;
-
-  width: 100%;
-  margin: 0 auto;
+ion-thumbnail {
+  --size: 120px;       /* más pequeño para que no se corte */
+  margin: 10px auto 25px auto;
+  margin-top: 35px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-/* Línea roja */
-ion-item::part(native) {
-  border-bottom: 2px solid #d30000 !important;
-  width: 80%;
-  margin: 20px auto;
+/* ============================
+   TÍTULO
+============================ */
+.titulo {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* ============================
+   INPUTS
+============================ */
+
+/* contenedor */
+.input-container {
+  width: 100%;
+  max-width: 350px;
+}
+
+/* ion-item */
+ion-item {
+  --background: transparent !important;
+  --highlight-color-focused: #d30000 !important;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-/* Label */
+/* Línea roja más corta y centrada */
+ion-item::part(native) {
+  border-bottom: 2px solid #d30000 !important;
+  width: 90%;           /* antes 100%, ahora más corto */
+  margin: 5px auto;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/* label y texto */
 ion-label {
   color: #ffffff !important;
   font-size: 14px;
 }
 
-/* Texto */
-ion-input {
-  color: #ffffff !important;
-}
-
-/* Placeholder */
 ion-input::part(input) {
-  color: #bbbbbb !important;
+  color: #ffffff;
 }
 
 /* ============================
    MENSAJES DE ERROR
 ============================ */
+/* ======= Mensajes de error (ALINEADOS CON LA LÍNEA ROJA) ======= */
 ion-text[color="danger"] {
-  color: #ff4d4d !important;
   display: block;
-  width: 80%;
-  margin: -10px auto 10px auto;   /* Pegados al input */
+  width: 90%;                       /* coincide con la anchura de la línea roja */
+  margin: -8px auto 10px auto;
   font-size: 12px;
-  text-align: left;
-  line-height: 1.3;
+  box-sizing: border-box;
+
+  /* Esto alinea el texto con el inicio de la línea roja:
+     - la línea roja tiene width:90% y está centrada,
+     - por tanto hay un hueco lateral = (100% - 90%) / 2 = 5% a cada lado.
+     Sumamos además el padding interno de la línea roja (6px) para que coincida exactamente. */
+  padding-left: calc(5% + 6px);
+  color: #d50d0d;                   /* aseguro color de error */
 }
+
+/* evitar márgenes inesperados del <p> y forzar alineación a la izquierda */
+ion-text[color="danger"] p {
+  margin: 10;
+  padding: 0;
+  text-align: left;
+  line-height: 1.2;
+}
+
 
 /* ============================
    BOTONES
 ============================ */
 
-/* Botón INGRESAR */
+/* Botón ingresar */
 ion-button[color="danger"] {
   --background: #d30000;
   --background-hover: #b80000;
-  --border-radius: 30px !important;
-  margin-top: 25px;
-  height: 45px;
-  font-weight: bold;
-
+  --border-radius: 30px;
   width: 90%;
-  max-width: 350px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 320px;
+  height: 43px;
+  margin: 18px auto;
+  font-weight: bold;
+  font-size: 15px;
 }
 
-/* OLVIDÉ MI CONTRASEÑA */
+/* Botón Google */
+.google-btn {
+  width: 90%;
+  max-width: 320px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 25px;
+  margin: 15px auto;
+  color: #070707;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.google-btn img {
+  width: 26px;
+  height: 26px;
+}
+
+/* Link olvidar contraseña */
 .btn-olvido {
-  text-transform: none !important;
-  --color: #ffffff !important;
   font-size: 13px;
-  margin-top: 10px;
-
-  display: block;
+  margin-top: 0px;
   text-align: center;
+  display: block;
+  color: #ffffff;
 }
 
-/* Botón CREAR */
+/* Botón crear */
 ion-button[color="medium"] {
   --background: #d30000;
   --color: #ffffff;
-  --border-radius: 30px !important;
-  margin-top: 20px;
-  height: 45px;
-  font-weight: bold;
-
+  --border-radius: 30px;
   width: 90%;
-  max-width: 350px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 320px;
+  height: 43px;
+  margin: 18px auto 10px auto;
+  font-weight: bold;
 }
 
 /* Texto inferior */
 small {
-  color: #ffffff !important;
-  display: block;
   text-align: center;
-  margin-top: 12px;
-}
-
-/* Enlace inferior */
-.enlace {
-  --background: transparent !important;
-  --color: #ffffff !important;
-  --border-width: 0 !important;
-  --ripple-color: transparent !important;
-
-  font-size: 14px;
-  margin-top: 25px;
-  text-transform: none;
-
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 8px;
 }
 
-/* ====== BOTÓN GOOGLE ====== */
-.google-btn {
+/* ============================
+   LINK www.ashbis.com
+============================ */
+.enlace {
+   display: block;
+  text-align: center !important;
+  color: #ffffff;
+  margin: 10px auto 0 auto;
+  font-size: 10px;
   width: 100%;
-  max-width: 350px;
-  margin: 10px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  background-color: #ffffff;
-  color: #3c4043;
-  border: 1px solid #dadce0;
-  border-radius: 25px;
-
-  padding: 5px 15px;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-
-  img {
-    width: 40px;
-    height: 40px;
-  }
-
-  &:hover {
-    background-color: #f7f7f7;
-  }
-
-  &:active {
-    background-color: #ececec;
-  }
+  
 }
+
+.enlace::part(native) {
+  justify-content: center;
+  padding: 0;
+}
+
+
+/* Lo subimos un poco para evitar que quede detrás del menú inferior */
+.safe-bottom-space {
+  height: 40px;
+}
+
 
 
