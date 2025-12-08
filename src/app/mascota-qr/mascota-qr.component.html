@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-header class="header">
+  <ion-toolbar class="header">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/listar-mascotas"></ion-back-button>
     </ion-buttons>
@@ -34,21 +34,32 @@
     <div *ngIf="misMascotas().length > 0">
       
       <!-- Selector de Mascota -->
-      <ion-item lines="none" class="mascota-selector ion-margin-bottom">
-        <ion-avatar slot="start">
-          <img [src]="mascotaSeleccionada()?.fotoUrl || 'assets/img/logo_ashbis.jpeg'" alt="avatar">
-        </ion-avatar>
-        <ion-label position="stacked">Selecciona tu mascota</ion-label>
-        <ion-select 
-          [value]="mascotaSeleccionada()?.id" 
-          (ionChange)="onMascotaChange($event)"
-          interface="popover"
-          placeholder="Elegir mascota">
-          <ion-select-option *ngFor="let m of misMascotas()" [value]="m.id">
-            {{ m.nombre }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+<ion-item lines="none" class="mascota-selector rojo ion-margin-bottom">
+  
+  <ion-avatar slot="start">
+    <img [src]="mascotaSeleccionada()?.fotoUrl || 'assets/img/logo_ashbis.jpeg'" alt="avatar">
+  </ion-avatar>
+
+  <ion-label position="stacked" class="rojo-label">
+    Selecciona tu mascota
+  </ion-label>
+
+  <ion-select 
+    [value]="mascotaSeleccionada()?.id" 
+    (ionChange)="onMascotaChange($event)"
+    interface="popover"
+    placeholder="Elegir mascota"
+    class="select-rojo"
+  >
+    <ion-select-option 
+      *ngFor="let m of misMascotas()" 
+      [value]="m.id">
+      {{ m.nombre }}
+    </ion-select-option>
+  </ion-select>
+
+</ion-item>
+
 
       <!-- Tarjeta del QR -->
       <div *ngIf="qrData; else faltanDatos" class="fade-in">
@@ -73,13 +84,14 @@
 
         <!-- Botones de Acción -->
         <div class="acciones ion-padding-top">
-          <ion-button expand="block" (click)="descargarPDF()" [disabled]="descargandoPDF">
+          <ion-button expand="block" (click)="descargarPDF()" [disabled]="descargandoPDF" 
+          color="danger">
             <ion-icon name="document-text-outline" slot="start"></ion-icon>
             <ion-spinner *ngIf="descargandoPDF" slot="start"></ion-spinner>
             {{ descargandoPDF ? 'Generando PDF...' : 'Descargar Ficha PDF' }}
           </ion-button>
 
-          <ion-button *ngIf="canShare" expand="block" fill="outline" class="ion-margin-top" (click)="compartirQR()" [disabled]="compartiendo">
+          <ion-button *ngIf="canShare" expand="block" fill="outline" class="compartir-btn ion-margin-top" (click)="compartirQR()" [disabled]="compartiendo">
             <ion-icon name="share-outline" slot="start"></ion-icon>
             {{ compartiendo ? 'Compartiendo...' : 'Compartir' }}
           </ion-button>

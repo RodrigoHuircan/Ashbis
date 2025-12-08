@@ -1,121 +1,183 @@
-/* -------------------------------
-   FORZAR ion-item COMO FLEX
---------------------------------*/
+/* ================================
+   TARJETA DE MASCOTA
+================================ */
 ion-item.pet-card,
 ion-item.pet-card::part(native) {
   display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 12px !important;
+  justify-content: center !important;
+  gap: 14px !important;
 
   margin: 10px 12px;
   border-radius: 16px;
-  background: #212121 !important;
-  padding: 12px !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35) !important;
+
+  background: rgba(0,0,0,0.70) !important;
   --background: transparent !important;
+
+  padding: 14px !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.45) !important;
+
+  --border-width: 0 !important;
+  --inner-border-width: 0 !important;
 }
 
-/* -------------------------------
-   AVATAR
---------------------------------*/
+/* ================================
+   AVATAR MÁS GRANDE Y PERFECTAMENTE REDONDO
+================================ */
 .pet-avatar {
   flex: 0 0 auto !important;
-  margin-right: 6px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .pet-avatar img {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #8b0808;
+  width: 100px !important;          /* ancho fijo */
+  height: 100px !important;         /* mismo que ancho */
+  border-radius: 50% !important;    /* redondo perfecto */
+  object-fit: cover !important;
+  border: 3px solid #ff2b2b !important;
+  box-sizing: border-box !important;
 }
 
-/* -------------------------------
-   INFO
---------------------------------*/
+/* Si el contenedor de Ionic afecta la forma, fuerza el tamaño */
+ion-avatar.pet-avatar,
+ion-avatar.pet-avatar::part(native) {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .pet-avatar img,
+  ion-avatar.pet-avatar,
+  ion-avatar.pet-avatar::part(native) {
+    width: 70px !important;
+    height: 70px !important;
+  }
+}
+
+
+/* ================================
+   INFORMACIÓN
+================================ */
 .pet-info {
-  flex: 1 1 auto !important;
-  overflow: hidden;
-  min-width: 0; /* IMPORTANTE */
+  text-align: center;
 }
 
 .pet-info h2 {
-  font-size: 1.05rem;
-  margin: 0;
+  font-size: 1.2rem;
+  margin: 0 0 4px;
   color: #fff;
-  font-weight: 600;
-
+  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .pet-info p {
-  font-size: 0.85rem;
-  margin: 4px 0 0;
-  opacity: 0.8;
-
+  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* -------------------------------
-   BOTONES A LA DERECHA
---------------------------------*/
+/* ================================
+   BOTONES PERSONALIZADOS
+================================ */
 .pet-actions {
-  display: flex !important;
-  flex-direction: row;
-  gap: 6px;
-
-  flex: 0 0 auto !important;
-  margin-left: 12px !important;   /* Separa los botones del texto */
-  justify-content: flex-end !important;
-  align-items: center !important;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
 }
 
-/* -------------------------------
-   BOTONES ESTILO
---------------------------------*/
-.btn-ver {
-  --background: transparent;
-  --color: #ffffff;
-  --border-color: #8b0808;
-  --border-width: 2px;
-  --border-style: solid;
-  --ripple-color: #8b0808;
+/* ESTILO BASE PARA TODOS LOS BOTONES */
+.btn {
+  flex: 1;                      /* Todos ocupan el mismo ancho */
+  height: 40px;                 /* Mismo alto */
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.2s ease all;
 }
 
-/* -------------------------------
-   RESPONSIVE (BOTONES ABAJO)
---------------------------------*/
-@media (max-width: 480px) {
+/* BOTÓN BLANCO CON BORDE ROJO */
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #ff2b2b;
+}
 
-  ion-item.pet-card,
-  ion-item.pet-card::part(native) {
-    flex-direction: column !important;
-    align-items: flex-start !important;
+.btn-outline:hover {
+  background: rgba(255, 43, 43, 0.15);
+}
+
+/* BOTÓN ROJO */
+.btn-red {
+  background: #ff2b2b;
+  color: #fff;
+  border: 2px solid #ff2b2b;
+}
+
+.btn-red:hover {
+  background: #d22020;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 520px) {
+  .btn {
+    height: 38px;
+    font-size: 13px;
   }
 
-  .pet-actions {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-top: 10px;
-    justify-content: space-between !important;
-  }
-
-  .pet-actions ion-button {
-    flex: 1;
+  .pet-avatar img {
+    width: 70px;
+    height: 70px;
   }
 }
 
-/* -------------------------------
-   QUITAR BORDES nativos
---------------------------------*/
-ion-item {
-  --border-width: 0 !important;
-  --border-color: transparent !important;
-  --inner-border-width: 0 !important;
+/* ================================
+   HEADER NEGRO
+================================ */
+ion-header, ion-toolbar {
+  --background: #000 !important;
+  background: #000 !important;
+}
+
+ion-title {
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+ion-back-button {
+  --color: #fff !important;
+}
+
+/* ================================
+   SKELETON
+================================ */
+ion-skeleton-text {
+  --background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.02) 0%,
+    rgba(255,255,255,0.04) 50%,
+    rgba(255,255,255,0.02) 100%
+  );
 }

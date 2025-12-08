@@ -1,12 +1,15 @@
 import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { NgIf, NgFor, DatePipe } from '@angular/common';
+
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonRefresher, IonRefresherContent,
   IonList, IonItem, IonAvatar, IonSkeletonText,
-  IonButton, IonLabel, IonIcon, 
-  IonFab, IonFabButton 
+  IonButton, IonLabel, IonIcon,
+  IonFab, IonFabButton,
+  IonButtons, IonBackButton   // ✅ IMPORTADOS
 } from '@ionic/angular/standalone';
+
 import { RefresherCustomEvent } from '@ionic/angular';
 import { Auth, authState } from '@angular/fire/auth';
 import { of, take } from 'rxjs';
@@ -20,17 +23,20 @@ import { add, qrCodeOutline } from 'ionicons/icons';
   selector: 'app-mis-mascotas',
   standalone: true,
   imports: [
-    NgIf, NgFor, RouterLink, 
+    NgIf, NgFor, RouterLink,
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonRefresher, IonRefresherContent,
     IonList, IonItem, IonAvatar, IonSkeletonText,
     IonButton, IonLabel, IonIcon,
-    IonFab, IonFabButton 
+    IonFab, IonFabButton,
+    IonButtons, IonBackButton   // 🔥 NECESARIOS PARA EVITAR EL ERROR
   ],
   templateUrl: './listar-mascotas.component.html',
+  styleUrls: ['./listar-mascotas.component.scss'],
   providers: [DatePipe],
 })
 export class ListarMascotasComponent implements OnInit, OnDestroy {
+
   private auth = inject(Auth);
   private fs = inject(FirestoreService);
   private router = inject(Router);
@@ -40,8 +46,10 @@ export class ListarMascotasComponent implements OnInit, OnDestroy {
   usuarioUid = signal<string | null>(null);
 
   constructor() {
+    // Registrar iconos
     addIcons({ add, qrCodeOutline });
 
+    // Obtener usuario + mascotas
     authState(this.auth)
       .pipe(
         switchMap(user => {
@@ -59,11 +67,12 @@ export class ListarMascotasComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
-    // Limpieza si fuera necesaria
+    // Limpieza si es necesaria
   }
 
   trackById = (_: number, m: Mascota) => m.id;
 
+  // Refrescar listado
   doRefresh(ev: Event): void {
     const refresher = ev as RefresherCustomEvent;
     const uid = this.usuarioUid();
@@ -74,6 +83,7 @@ export class ListarMascotasComponent implements OnInit, OnDestroy {
     }
 
     this.loading.set(true);
+
     this.fs.getUserPets(uid).pipe(take(1)).subscribe({
       next: pets => {
         this.mascotas.set(pets ?? []);
@@ -87,26 +97,30 @@ export class ListarMascotasComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Navega al perfil (solo lectura)
+  // Navegar a perfil de mascota
   goPerfil(m: Mascota, event?: Event) {
-    if (event) {
-      event.stopPropagation();
-    }
-    this.router.navigate(['/tabs/perfil-mascota', m.id], { state: { mascota: m } });
+    if (event) event.stopPropagation();
+
+    this.router.navigate(['/tabs/perfil-mascota', m.id], {
+      state: { mascota: m }
+    });
   }
 
-  // Navega al dashboard de edición
-goEditar(m: Mascota) {
-  this.router.navigate(['/tabs/mascota-editar', m.id, 'editar'], { state: { mascota: m } });
-}
+  // Navegar a edición
+  goEditar(m: Mascota) {
+    this.router.navigate(
+      ['/tabs/mascota-editar', m.id, 'editar'],
+      { state: { mascota: m } }
+    );
+  }
 
-  // Función para ir al QR específico de la mascota
+  // Ver QR de la mascota
   verQrMascota(m: Mascota, event?: Event) {
-    if (event) {
-      event.stopPropagation();
-    }
-    this.router.navigate(['/tabs/mascota-qr'], { 
-      queryParams: { mascotaId: m.id } 
-    });
+    if (event) event.stopPropagation();
+    
+    this.router.navigate(
+      ['/tabs/mascota-qr'],
+      { queryParams: { mascotaId: m.id } }
+    );
   }
 }

@@ -1,5 +1,10 @@
 <ion-header translucent="true">
   <ion-toolbar>
+    <!-- Back button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+
     <ion-title>Mis Mascotas</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -39,18 +44,21 @@
             <p>{{ m.especie }} • {{ m.raza || '—' }}</p>
           </ion-label>
 
-          <!-- BOTONES -->
-          <div class="pet-actions">
-            <ion-button class="btn-ver" size="small" fill="outline" (click)="verQrMascota(m, $event)">
-              QR
-            </ion-button>
-            <ion-button class="btn-ver" size="small" fill="outline" (click)="goPerfil(m, $event)">
-              Ver Perfil
-            </ion-button>
+          <!-- BOTONES PERSONALIZADOS -->
+          <div class="pet-actions" (click)="$event.stopPropagation()">
 
-            <ion-button size="small" color="danger" (click)="goEditar(m)">
+            <button class="btn btn-outline" (click)="verQrMascota(m, $event)">
+              QR
+            </button>
+
+            <button class="btn btn-outline" (click)="goPerfil(m, $event)">
+              Ver Perfil
+            </button>
+
+            <button class="btn btn-red" (click)="goEditar(m)">
               Ficha Completa
-            </ion-button>
+            </button>
+
           </div>
 
         </ion-item>
