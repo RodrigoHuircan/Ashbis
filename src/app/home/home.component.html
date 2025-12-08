@@ -22,7 +22,7 @@
     </swiper-container>
   </div>
 
-    <div class="ion-text-center ion-margin-top">
+    <div class="ion-text-center ion-margin-top chat-ia-button">
       <ion-button expand="block" color="danger" shape="round" (click)="irAlChatIA()">
         <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
         Chat con IA
@@ -31,6 +31,17 @@
   <ion-card class="map-card-container ion-no-margin">
 
   <h2 class="map-title ion-text-center">Lugares para Mascotas</h2>
+
+  <p
+    *ngIf="!estaCargando && marcadoresEnMapa.length === 0"
+    class="ion-text-center ion-margin-top text-gray-600 p-2"
+  >
+    {{
+      userPositionMarker
+        ? 'No se encontraron lugares en 5km a la redonda.'
+        : 'Haz clic en un botón para cargar tu ubicación y buscar lugares cercanos.'
+    }}
+  </p>
 
   
   <div class="button-row">
@@ -112,15 +123,25 @@
     </ion-card-content>
   </ion-card>
 
-  <p
-    *ngIf="!estaCargando && marcadoresEnMapa.length === 0"
-    class="ion-text-center ion-margin-top text-gray-600 p-2"
-  >
-    {{
-      userPositionMarker
-        ? 'No se encontraron lugares en 5km a la redonda.'
-        : 'Haz clic en un botón para cargar tu ubicación y buscar lugares cercanos.'
-    }}
-  </p>
+    <!-- CARRUSEL INFERIOR (SWIPER ELEMENT; mismo enfoque que el carrusel superior) -->
+  <div class="carrusel-inferior-wrapper">
+    <swiper-container
+      slides-per-view="2.2"
+      space-between="12"
+      loop="true"
+      autoplay-delay="3000"
+      autoplay-disable-on-interaction="false"
+      pagination="false"
+    >
+      <swiper-slide *ngFor="let img of imagenesCarruselInferior">
+        <div class="slide-content-inferior">
+          <img [src]="img.src" [alt]="img.titulo || 'slide'" />
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+
+      
 
 </ion-content>

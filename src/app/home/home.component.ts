@@ -278,4 +278,12 @@ async guardarVeterinariaFavorita() {
   this.presentToast('Veterinaria añadida a favoritos 🐾', 'success');
 }
 
+
+imagenesCarruselInferior = [
+  { src: 'assets/img/9.jpg', titulo: 'Evento 1' },
+  { src: 'assets/img/12.jpg', titulo: 'Evento 2' },
+  { src: 'assets/img/11.jpg', titulo: 'Evento 3' },
+  { src: 'assets/img/10.jpg', titulo: 'Evento 4' }
+];
+
 }
