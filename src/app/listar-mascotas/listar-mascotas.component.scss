@@ -1,31 +1,121 @@
+/* -------------------------------
+   FORZAR ion-item COMO FLEX
+--------------------------------*/
+ion-item.pet-card,
+ion-item.pet-card::part(native) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
 
-.btn-add {
-  --background: transparent;
-  --color: #8b0808;
+  margin: 10px 12px;
+  border-radius: 16px;
+  background: #212121 !important;
+  padding: 12px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35) !important;
+  --background: transparent !important;
+}
+
+/* -------------------------------
+   AVATAR
+--------------------------------*/
+.pet-avatar {
+  flex: 0 0 auto !important;
+  margin-right: 6px;
+}
+
+.pet-avatar img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
   border: 2px solid #8b0808;
 }
-/* Botones QR y Ver Perfil */
+
+/* -------------------------------
+   INFO
+--------------------------------*/
+.pet-info {
+  flex: 1 1 auto !important;
+  overflow: hidden;
+  min-width: 0; /* IMPORTANTE */
+}
+
+.pet-info h2 {
+  font-size: 1.05rem;
+  margin: 0;
+  color: #fff;
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pet-info p {
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+  opacity: 0.8;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* -------------------------------
+   BOTONES A LA DERECHA
+--------------------------------*/
+.pet-actions {
+  display: flex !important;
+  flex-direction: row;
+  gap: 6px;
+
+  flex: 0 0 auto !important;
+  margin-left: 12px !important;   /* Separa los botones del texto */
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+/* -------------------------------
+   BOTONES ESTILO
+--------------------------------*/
 .btn-ver {
-  --background: transparent !important;   /* Fondo transparente */
-  --color: #ffffff !important;            /* Texto blanco */
-  --border-color: #8b0808 !important;     /* Borde rojo */
-  --border-width: 2px !important;         /* Grosor borde */
-  --border-style: solid !important;
-  --ripple-color: #8b0808 !important;     /* Efecto toque rojo */
+  --background: transparent;
+  --color: #ffffff;
+  --border-color: #8b0808;
+  --border-width: 2px;
+  --border-style: solid;
+  --ripple-color: #8b0808;
 }
 
+/* -------------------------------
+   RESPONSIVE (BOTONES ABAJO)
+--------------------------------*/
+@media (max-width: 480px) {
+
+  ion-item.pet-card,
+  ion-item.pet-card::part(native) {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .pet-actions {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 10px;
+    justify-content: space-between !important;
+  }
+
+  .pet-actions ion-button {
+    flex: 1;
+  }
+}
+
+/* -------------------------------
+   QUITAR BORDES nativos
+--------------------------------*/
 ion-item {
+  --border-width: 0 !important;
   --border-color: transparent !important;
-  --inner-border-width: 0px !important;
-  --border-width: 0px !important;
-}
-
-ion-item::part(native) {
-  border: none !important;
-  box-shadow: none !important;
-}
-
-ion-input::part(native) {
-  border-bottom: none !important;
-  box-shadow: none !important;
+  --inner-border-width: 0 !important;
 }
